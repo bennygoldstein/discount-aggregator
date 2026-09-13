@@ -40,8 +40,9 @@ Static site (GitHub Pages) + a daily GitHub Actions robot that re-reads every pr
 3. `regex` — deterministic pattern with a named group `v`, converted with `unit` (`per_second`, `per_clip`,
    `credits_per_second`, `credits_per_clip`, `per_minute`) plus `credit_usd`, `clip_s`, `fixed_per_clip`.
    Used for Runware's `schema.json` pricing text, Replicate's embedded `billingConfig`, Kie.ai's `pricingDesc`.
-4. `llm` — Claude (`claude-opus-5`) reads the page text and reports the exact tier via a strict tool.
-   If nothing is found and `allow_research: true`, Claude may search/fetch the provider's own site.
+4. `llm` — the page reader (Gemini free tier by default, or Claude `claude-opus-5` when `ANTHROPIC_API_KEY` is set)
+   reads the page text and reports the exact tier as strict JSON. If nothing is found and `allow_research: true`,
+   it may search/fetch the provider's own site (Gemini URL context, Claude web tools, or the Tavily fallback).
    Every deterministic recipe also falls back to this path (`fallback_url`) when it returns nothing.
 5. `manual` — never auto-refreshed (kept as verified by hand).
 
@@ -73,12 +74,16 @@ returns the same strict JSON; the 0.2×–5× sanity band applies to all of them
 
 ### Secrets (GitHub → Settings → Secrets and variables → Actions)
 
-| Secret | Effect if set |
-|---|---|
-| `ANTHROPIC_API_KEY` | Enables Claude-based extraction and research fallback (recommended; a few cents per day) |
-| `ATLASCLOUD_API_KEY` | Enables live Atlas quotes through `/api/v1/model/calculate` |
+| Secret | Effect if set | Cost |
+|---|---|---|
+| `GEMINI_API_KEY` | **Recommended.** Gemini 3.5 Flash-Lite reads the pages the recipes cannot parse (see table above) | $0 |
+| `TAVILY_API_KEY` | Free search so a reader without a web tool can find a page that moved | $0 |
+| `MISTRAL_API_KEY` / `OPENROUTER_API_KEY` / `GROQ_API_KEY` / `CEREBRAS_API_KEY` | Alternative free readers | $0 |
+| `ANTHROPIC_API_KEY` | Claude Opus 5 reads the pages instead (wins if set; best quality) | ≈ $3.50–4/day; Haiku ≈ $0.75/day via `PRICE_LLM_MODEL=claude-haiku-4-5` |
+| `ATLASCLOUD_API_KEY` | Sent to Atlas's quote endpoint (works without it) | $0 |
 
-Without any secret the robot still runs: regex recipes, sale-expiry, ranking, snapshots and rebuild.
+Without any secret the robot still runs: JSON-API / Atlas / regex recipes (52 quotes, 14 of 18 winners), sale-expiry,
+ranking, snapshots, spreadsheets and rebuild.
 
 ## Local
 
