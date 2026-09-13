@@ -130,6 +130,7 @@ td.model a{color:var(--link)}
 td.empty{color:var(--muted)}
 td.best{box-shadow:inset 0 0 0 2px var(--ink);border-radius:4px;font-weight:650}
 td.excluded{color:var(--muted)}
+#price-table td:nth-child(8){white-space:normal;max-width:230px;line-height:1.3}
 .flag{color:var(--warn);cursor:help}
 .foot{font-size:13px;color:var(--ink-2);margin-top:14px}
 .foot li{margin:3px 0}
@@ -178,6 +179,7 @@ td.excluded{color:var(--muted)}
 
 /* explainer */
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid2>*{min-width:0}
 @media (max-width:800px){.grid2{grid-template-columns:1fr}}
 .steps{counter-reset:s;list-style:none;padding:0;margin:8px 0}
 .steps li{position:relative;padding-left:40px;margin:10px 0;color:var(--ink-2)}
@@ -191,6 +193,107 @@ details{margin:6px 0}
 summary{cursor:pointer;color:var(--ink-2)}
 footer{border-top:1px solid var(--border);padding:26px 0 40px;color:var(--muted);font-size:13px;margin-top:30px}
 footer a{color:var(--ink-2)}
+
+/* filter bar, chips, sortable headers, badges */
+.filterbar{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin:4px 0 12px}
+.filterbar input[type=search]{flex:1 1 260px;min-width:200px;background:#101010;border:1px solid var(--border);color:var(--ink);border-radius:9px;padding:8px 12px;font:inherit;font-size:14px}
+.filterbar input[type=search]:focus{outline:none;border-color:rgba(57,135,229,.6);box-shadow:0 0 0 3px rgba(57,135,229,.15)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);background:rgba(255,255,255,.03);color:var(--ink-2);border-radius:999px;padding:4px 10px;font-size:13px;cursor:pointer;font:inherit;line-height:1.2}
+.chip:hover{color:var(--ink);border-color:var(--ink-2)}
+.chip[aria-pressed="true"]{color:var(--ink);background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.25)}
+.chip .swatch{margin-right:0}
+.filterbar .count{font-size:13px;color:var(--muted);margin-left:auto}
+th[data-sort]{cursor:pointer;user-select:none}
+th[data-sort]:hover{color:var(--ink)}
+th[data-sort]::after{content:" ↕";color:var(--baseline);font-size:11px}
+th[data-sort][aria-sort="ascending"]::after{content:" ▲";color:var(--ink)}
+th[data-sort][aria-sort="descending"]::after{content:" ▼";color:var(--ink)}
+tr.filtered-out,.mcard.filtered-out{display:none}
+.vbadge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--good);border:1px solid rgba(12,163,12,.45);border-radius:999px;padding:1px 8px;vertical-align:middle;cursor:help}
+.vbadge.sm{padding:0 5px;font-size:11px;margin-left:4px}
+.medal{font-size:15px}
+.pill-mini{display:inline-block;font-size:11px;font-weight:600;border-radius:999px;padding:1px 8px;border:1px solid var(--border);color:var(--ink-2);margin-left:6px;vertical-align:middle}
+.pill-mini.warn{color:var(--warn);border-color:rgba(250,178,25,.45)}
+
+/* model answer cards */
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:12px;margin-top:12px}
+.mcard{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.mcard:target{border-color:rgba(57,135,229,.6);box-shadow:0 0 0 3px rgba(57,135,229,.15)}
+.mcard-head{display:flex;align-items:center;gap:10px}
+.mcard-head h3{font-size:17px;flex:1;min-width:0}
+.rank-badge{font-size:14px;color:var(--muted);font-weight:600;min-width:28px}
+.mcard .answer{margin:0;color:var(--ink-2);font-size:14px;line-height:1.5}
+.mcard .answer .hi{color:var(--ink)}
+.mstats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.mstats .wide{grid-column:span 2}
+.mstats div{background:var(--surface-2);border:1px solid var(--border);border-radius:9px;padding:7px 8px;min-width:0}
+.mstats b{display:block;font-size:14px;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mstats .wide b{white-space:normal;overflow:visible;line-height:1.25}
+.mstats span{display:block;font-size:11px;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mgrid{grid-template-columns:repeat(auto-fill,minmax(min(360px,100%),1fr))}
+.qchips{display:flex;flex-wrap:wrap;gap:6px}
+.qchip{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--ink-2);border:1px solid var(--border);border-radius:999px;padding:3px 9px;background:rgba(255,255,255,.02)}
+.qchip b{color:var(--ink);font-variant-numeric:tabular-nums}
+.qchip.win{border-color:rgba(255,255,255,.45);background:rgba(255,255,255,.07)}
+.qchip.ex{opacity:.55}
+.qchip:hover{text-decoration:none;border-color:var(--ink-2)}
+.mlinks{font-size:12px;color:var(--muted);line-height:1.8}
+.mlinks code{font-size:11px}
+
+/* what moved tape */
+.moves{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:6px}
+.moves li{display:grid;grid-template-columns:18px 84px minmax(0,1fr);gap:8px;align-items:baseline;font-size:13px;color:var(--ink-2);padding:6px 0;border-bottom:1px solid var(--grid)}
+.moves .body{min-width:0;line-height:1.45}
+@media (max-width:520px){.moves li{grid-template-columns:18px minmax(0,1fr)}.moves .d{grid-column:2;font-size:11px}}
+.moves li:last-child{border-bottom:0}
+.moves .d{color:var(--muted);font-variant-numeric:tabular-nums;font-size:12px}
+.moves .mv{font-weight:700;font-size:12px}.moves .mv.up{color:var(--serious)}.moves .mv.down{color:var(--good)}.moves .mv.flat{color:var(--muted)}
+.moves .old{color:var(--muted);text-decoration:line-through}
+.moves .why{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+
+/* strip plot */
+.strip-note{font-size:12px;color:var(--muted);margin-top:6px}
+
+/* calculator */
+.calc{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:10px;margin:10px 0 6px}
+@media (max-width:760px){.calc{grid-template-columns:1fr 1fr}}
+.calc label{display:flex;flex-direction:column;gap:5px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);min-width:0}
+.calc select,.calc input{width:100%}
+.calc select,.calc input{background:#101010;border:1px solid var(--border);color:var(--ink);border-radius:9px;padding:9px 11px;font:inherit;font-size:14px;min-width:0}
+.calc select:focus,.calc input:focus{outline:none;border-color:rgba(57,135,229,.6);box-shadow:0 0 0 3px rgba(57,135,229,.15)}
+.worth{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:10px;margin:12px 0}
+@media (max-width:760px){.worth{grid-template-columns:1fr 1fr}.worth .tile.hero{grid-column:1/-1}}
+.worth .tile{min-height:96px}
+.worth .tile.hero .value{font-size:44px}
+.calc-table td.best-row,.calc-table tr.best td{font-weight:650}
+.calc-table tr.best{background:rgba(57,135,229,.10)}
+.calc-table .cheap-badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.08em;color:#0b0b0b;background:var(--blue-200);border-radius:999px;padding:1px 7px;margin-left:8px;vertical-align:middle}
+.calc-table .bar{display:inline-block;height:6px;border-radius:3px;background:var(--blue-400);vertical-align:middle;margin-right:8px}
+
+/* head-to-head */
+.h2h{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:end;margin:10px 0}
+.h2h .vs{color:var(--muted);font-size:13px;padding-bottom:10px}
+.h2h label{display:flex;flex-direction:column;gap:5px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);min-width:0}
+.h2h select{width:100%}
+@media (max-width:600px){.h2h{grid-template-columns:1fr}.h2h .vs{display:none}}
+.h2h select{background:#101010;border:1px solid var(--border);color:var(--ink);border-radius:9px;padding:9px 11px;font:inherit;font-size:14px}
+.h2h-summary{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0}
+.h2h-summary .tile{flex:1 1 180px;min-height:84px}
+.h2h-summary .tile .value{font-size:26px}
+td.winA{box-shadow:inset 3px 0 0 var(--blue-400)}
+td.winB{box-shadow:inset 3px 0 0 var(--s-fal)}
+
+/* banner */
+.banner{display:flex;gap:12px;align-items:flex-start;background:linear-gradient(90deg,rgba(250,178,25,.14),rgba(250,178,25,.03)),var(--surface);border:1px solid rgba(250,178,25,.4);border-radius:12px;padding:12px 16px;margin:12px 0;color:var(--ink-2);font-size:14px}
+.banner b{color:var(--ink)}
+.banner-ic{font-size:20px;line-height:1.2}
+
+/* index line */
+.index-row{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;margin-bottom:10px}
+.index-row .tile{flex:1 1 200px;min-height:88px}
+.index-row .tile .value{font-size:28px}
+#chart-index svg{display:block;width:100%;height:auto}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -201,8 +304,10 @@ footer a{color:var(--ink-2)}
     <a class="brand" href="#" aria-label="Discount Aggregator Aggregator — back to top"><i></i><span>Discount Aggregator Aggregator</span></a>
     <nav id="menu" aria-label="Sections">
       <a href="#top" data-sec="top">Prices</a>
+      <a href="#models" data-sec="models">Models</a>
       <a href="#charts" data-sec="charts">Charts</a>
       <a href="#matrix" data-sec="matrix">Every quote</a>
+      <a href="#calculator" data-sec="calculator">Calculator</a>
       <a href="#deals" data-sec="deals">Sales &amp; deadlines</a>
       <a href="#how" data-sec="how">How it works</a>
       <a href="#agents" data-sec="agents">For AI agents</a>
@@ -240,15 +345,20 @@ footer a{color:var(--ink-2)}
         <h2>AI aggregators Prices</h2>
         <span class="when">Updated {{CHECKED_HUMAN}} · cheapest verified quote per model · USD per minute</span>
       </div>
+      <div class="filterbar" id="filterbar">
+        <input type="search" id="search" placeholder="Search models or aggregators… (e.g. Seedance, Kie)" aria-label="Search models or aggregators" autocomplete="off">
+        <div class="chips" id="agg-chips" aria-label="Filter by winning aggregator"></div>
+        <span class="count" id="filter-count"></span>
+      </div>
       <div class="tablewrap">
         <table id="price-table">
-          <thead><tr><th></th><th>Engine / Model</th><th>Provider</th><th class="num">480p / minute</th><th class="num">720p / minute</th><th class="num">Max clip (s)</th><th>Audio</th><th>Sale / discount</th><th>Sale ends</th></tr></thead>
+          <thead><tr><th data-sort="num" aria-sort="ascending">#</th><th data-sort="text">Engine / Model</th><th data-sort="text">Provider</th><th class="num" data-sort="num">480p / minute</th><th class="num" data-sort="num">720p / minute</th><th class="num" data-sort="num">Max clip (s)</th><th data-sort="text">Audio</th><th data-sort="text">Sale / discount</th><th data-sort="text">Sale ends</th></tr></thead>
           <tbody>
 {{TABLE_ROWS}}
           </tbody>
         </table>
       </div>
-      <p class="caption">Sorted by 720p price. Model names link to the provider's page for that exact model. ⚑ marks a quote flagged for review (see tooltip). 480p is the rate at the selected 720p provider; blank = not offered or not verified.</p>
+      <p class="caption">Sorted by 720p price — click any column header to re-sort. Model names link to the provider's page for that exact model. ✓ = price and comparability re-checked by two independent verifiers. ⚑ = flagged for review (see tooltip). 480p is the rate at the selected 720p provider; blank = not offered or not verified.</p>
 
       <h3 style="margin-top:22px">AI aggregators we check ({{AGG_COUNT}})</h3>
       <div class="tablewrap" style="margin-top:8px">
@@ -267,12 +377,45 @@ footer a{color:var(--ink-2)}
   </div>
 </section>
 
+<!-- ============ MODEL CARDS ============ -->
+<section id="models">
+  <div class="wrap">
+    <div class="sec-head"><div><h2>Every model, answered in one sentence</h2><p>Cheapest verified rate, what a clip costs, the full range across aggregators, and every quote we hold — one card per model. The search box above filters these too.</p></div></div>
+    <div class="mgrid" id="mgrid">
+{{MODEL_CARDS}}
+    </div>
+    <p class="caption">Each card has its own link (<code>#model-&lt;id&gt;</code>) — paste it to an AI agent or a colleague. * = quote excluded from ranking.</p>
+  </div>
+</section>
+
 <!-- ============ GRAPHICAL VIEW ============ -->
 <section id="charts">
   <div class="wrap">
     <div class="sec-head"><div><h2>Today at a glance</h2><p>The same numbers as the table, drawn so the story is obvious.</p></div></div>
 
     <div class="kpis" id="kpis"></div>
+
+    <div class="card">
+      <div class="sec-head"><div><h3>The whole market on one line</h3><p class="muted" style="font-size:13px">Every 720p quote we hold, placed by price (log scale). Blue = the cheapest aggregator for that model; grey = everyone else. Hover a dot to identify it.</p></div></div>
+      <div class="chart" id="chart-strip"></div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <div class="sec-head"><div><h3>What moved</h3><p class="muted" style="font-size:13px">Price changes, new winners and sales that ended — newest first. Full log: <a href="data/changes.json">changes.json</a>.</p></div></div>
+        <ul class="moves" id="moves">
+{{MOVES}}
+        </ul>
+      </div>
+      <div class="card">
+        <div class="sec-head"><div><h3>Video price index</h3><p class="muted" style="font-size:13px">Median cheapest 720p rate across all tracked models — one reading per day.</p></div></div>
+        <div class="index-row">
+          <div class="tile"><div class="label">Index today</div><div class="value">{{INDEX_VALUE}}<small class="muted" style="font-size:13px;font-weight:500;margin-left:5px">/min</small></div><div class="sub">median of {{MODEL_COUNT}} cheapest rates</div></div>
+          <div class="tile"><div class="label">Biggest spread today</div><div class="value">{{SPREAD_MAX}}</div><div class="sub">{{SPREAD_MODEL}} — priciest vs cheapest aggregator</div></div>
+        </div>
+        <div id="chart-index"></div>
+      </div>
+    </div>
 
     <div class="card">
       <div class="sec-head"><div><h3>Cheapest price per model — 720p, USD per minute</h3><p class="muted" style="font-size:13px">Bar colour = the aggregator that wins that model today.</p></div></div>
@@ -293,6 +436,17 @@ footer a{color:var(--ink-2)}
       </div>
     </div>
 
+    <div class="card" id="h2h">
+      <div class="sec-head"><div><h3>Head-to-head — compare two aggregators</h3><p class="muted" style="font-size:13px">Pick any two. Every model both of them sell, side by side, with the winner marked.</p></div></div>
+      <div class="h2h">
+        <label>Aggregator A<select id="h2h-a"></select></label>
+        <span class="vs">vs</span>
+        <label>Aggregator B<select id="h2h-b"></select></label>
+      </div>
+      <div class="h2h-summary" id="h2h-summary"></div>
+      <div class="tablewrap"><table id="h2h-table"><thead><tr><th>Model</th><th class="num" id="h2h-ha">A</th><th class="num" id="h2h-hb">B</th><th class="num">Difference</th><th>Cheaper</th></tr></thead><tbody></tbody></table></div>
+    </div>
+
     <div class="card">
       <div class="sec-head"><div><h3>Same model, different bill — cheapest vs. priciest aggregator</h3><p class="muted" style="font-size:13px">Why an aggregator aggregator exists: the spread on one model can be 5× or more. Log scale.</p></div></div>
       <div class="legend"><span class="key"><i class="round" style="background:var(--blue-400)"></i>Cheapest aggregator</span><span class="key"><i class="round" style="background:var(--blue-200)"></i>Priciest aggregator</span></div>
@@ -306,10 +460,30 @@ footer a{color:var(--ink-2)}
   </div>
 </section>
 
+<!-- ============ CALCULATOR ============ -->
+<section id="calculator">
+  <div class="wrap">
+    <div class="sec-head"><div><h2>Cost calculator</h2><p>Set a model, resolution, clip length and monthly volume — every aggregator is re-ranked instantly, and you see what choosing the right one is worth.</p></div></div>
+    <div class="card">
+      <div class="calc">
+        <label>Model<select id="calc-model"></select></label>
+        <label>Resolution<select id="calc-res"><option value="720p">720p (or 768p)</option><option value="480p">480p</option></select></label>
+        <label>Clip length (seconds)<input type="number" id="calc-secs" min="1" max="120" step="1" value="10"></label>
+        <label>Clips per month<input type="number" id="calc-clips" min="1" max="100000" step="1" value="100"></label>
+      </div>
+      <p class="muted" style="font-size:13px;margin:0" id="calc-note"></p>
+      <div class="worth" id="calc-worth"></div>
+      <div class="tablewrap"><table class="calc-table" id="calc-table"><thead><tr><th>Aggregator</th><th>Audio</th><th class="num">$ / minute</th><th class="num">Per clip</th><th class="num">Per month</th><th>vs cheapest</th><th></th></tr></thead><tbody></tbody></table></div>
+      <p class="caption">Per-minute rates are the verified list prices at the chosen resolution; per-clip = rate × seconds ÷ 60. Clips longer than an endpoint's maximum are marked. Token-billed models are estimates for 16:9 output.</p>
+    </div>
+  </div>
+</section>
+
 <!-- ============ DEALS ============ -->
 <section id="deals">
   <div class="wrap">
     <div class="sec-head"><div><h2>Sales &amp; deadlines</h2><p>Limited-time offers we could verify on the provider's own page. Dated sales expire automatically the morning after their end date.</p></div></div>
+    {{ENDING_SOON}}
     <div class="card tight">
       <div class="tablewrap">
         <table><thead><tr><th>Model</th><th>Aggregator</th><th>Offer</th><th class="num">720p $/min now</th><th class="num">Regular</th><th>Deadline</th><th></th></tr></thead><tbody id="deals-body">
@@ -377,6 +551,7 @@ footer a{color:var(--ink-2)}
         <div class="endpoint"><code>GET {{SITE_URL}}data/history/index.json</code><span class="what">List of daily snapshots (then <code>history/YYYY-MM-DD.json</code>).</span></div>
         <div class="endpoint"><code>GET {{SITE_URL}}data/changes.json</code><span class="what">What changed, when, and why (price moves, sales that ended).</span></div>
         <div class="endpoint"><code>GET {{SITE_URL}}llms.txt</code><span class="what">Plain-text instructions for language models.</span></div>
+        <div class="endpoint"><code>{{SITE_URL}}#model-&lt;id&gt;</code><span class="what">Deep link to one model's answer card (e.g. <code>#model-mini</code>) — the plain-English sentence is in the HTML, no JavaScript needed.</span></div>
       </div>
       <p class="ink2">Everything is static JSON over HTTPS, no key, no rate limit beyond GitHub Pages' generosity, CORS-open. It refreshes once a day; cache it for an hour and you are fine.</p>
 
@@ -493,7 +668,7 @@ and the promo deadline if any. If the model is not in the feed, say so instead o
     root.innerHTML = `
       <div class="tile hero"><div class="label">Cheapest 720p video today</div><div class="value">${money(top.c.per_min_720p)}<small>per minute</small></div><div class="sub">${escT(top.m.name)} on ${escT(AGG[top.c.aggregator_id].name)}${top.c.promo?' · '+escT(top.c.promo.label):''}</div></div>
       <div class="tile"><div class="label">Models tracked</div><div class="value">${ranked.length}</div><div class="sub">with a verified 720p quote</div></div>
-      <div class="tile"><div class="label">Quotes compared</div><div class="value">${nQuotes}</div><div class="sub">across ${DATA.aggregators.length} aggregators</div></div>
+      <div class="tile"><div class="label">Quotes compared</div><div class="value">${nQuotes}</div><div class="sub">across ${DATA.aggregators.length} aggregators · ${DATA.quotes.filter(q=>q.verified&&q.verified.price&&q.verified.comparability).length} winners double-checked</div></div>
       <div class="tile"><div class="label">Average saving vs. priciest</div><div class="value">${isFinite(avgSave)?Math.round(avgSave)+'%':'—'}</div><div class="sub">on models sold by 2+ aggregators</div></div>
       <div class="tile"><div class="label">Limited-time sales live</div><div class="value">${promos.length}</div><div class="sub">${nearest? 'next deadline: '+escT(MODEL[nearest.d.model_id].name)+' in '+(nearest.days===0?'<1 day':nearest.days+' d') : 'none with a published end date'}</div></div>`;
   })();
@@ -636,6 +811,151 @@ and the promo deadline if any. If the model is not in the feed, say so instead o
   // ---- deals countdown badges + model ids ----
   (function extras(){
     document.getElementById('model-ids').textContent = DATA.models.filter(m=>DATA.cheapest[m.id]).map(m=>`${m.id} = ${m.name}`).join(' · ');
+  })();
+
+  const money2 = v => v==null ? '—' : '$'+Number(v).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const audioShort = s => { const t=String(s||'').toLowerCase(); if(!t) return ''; if(/may vary/.test(t)) return 'May vary'; if(/(unspecified|unknown|not separately|no (audio|sound|native-audio) (toggle|param|setting|option|control|flag)|check setting|not stated|n\/a)/.test(t)) return 'Check setting'; if(/^\s*(off|silent|no audio|none|false|disabled|without audio|audio off)/.test(t)) return 'Off'; if(/(included|native|with audio|audio on|^on\b|^on \(|^true|enabled|yes|default true|default on|synchron)/.test(t)) return 'Included'; if(/(\boff\b|silent|no audio|without audio|disabled|false)/.test(t)) return 'Off'; return 'Check setting'; };
+  const price720 = q => q && q.per_min ? (q.per_min['720p'] ?? q.per_min['768p'] ?? null) : null;
+
+  // ---- search box, aggregator chips, sortable columns ----
+  (function filters(){
+    const input = document.getElementById('search'), chipsEl = document.getElementById('agg-chips'), countEl = document.getElementById('filter-count');
+    if (!input) return;
+    const rows = [...document.querySelectorAll('#price-table tbody tr')];
+    const cards = [...document.querySelectorAll('#mgrid .mcard')];
+    const winners = DATA.aggregators.filter(a => rows.some(r => r.dataset.agg === a.id));
+    const active = new Set();
+    chipsEl.innerHTML = winners.map(a => `<button type="button" class="chip" data-agg="${escT(a.id)}" aria-pressed="false"><span class="swatch" data-agg="${escT(a.id)}"></span>${escT(a.name)} <span class="muted">${rows.filter(r=>r.dataset.agg===a.id).length}</span></button>`).join('');
+    function apply(){
+      const q = input.value.trim().toLowerCase();
+      let shown = 0;
+      const test = el => (!q || (el.dataset.text||'').includes(q)) && (!active.size || active.has(el.dataset.agg));
+      rows.forEach(r => { const ok = test(r); r.classList.toggle('filtered-out', !ok); if (ok) shown++; });
+      cards.forEach(c => c.classList.toggle('filtered-out', !test(c)));
+      countEl.textContent = (q || active.size) ? `${shown} of ${rows.length} models` : `${rows.length} models`;
+    }
+    input.addEventListener('input', apply);
+    chipsEl.addEventListener('click', e => { const b = e.target.closest('.chip'); if (!b) return; const id = b.dataset.agg; active.has(id) ? active.delete(id) : active.add(id); b.setAttribute('aria-pressed', String(active.has(id))); apply(); });
+    document.addEventListener('keydown', e => { if (e.key === '/' && !/input|textarea|select/i.test(document.activeElement.tagName)) { e.preventDefault(); input.focus(); input.select(); document.getElementById('top').scrollIntoView({block:'start'}); } });
+    apply();
+    const ths = [...document.querySelectorAll('#price-table thead th[data-sort]')];
+    ths.forEach((th, idx) => th.addEventListener('click', () => {
+      const type = th.dataset.sort, dir = th.getAttribute('aria-sort') === 'ascending' ? 'descending' : 'ascending';
+      ths.forEach(t => t.removeAttribute('aria-sort')); th.setAttribute('aria-sort', dir);
+      const tbody = document.querySelector('#price-table tbody');
+      const val = r => r.children[idx].dataset.v ?? r.children[idx].textContent.trim();
+      const sorted = [...tbody.querySelectorAll('tr')].sort((a,b) => {
+        const va = val(a), vb = val(b);
+        if (type === 'num'){ const ea = va==='', eb = vb===''; if (ea && eb) return 0; if (ea) return 1; if (eb) return -1; const c = Number(va) - Number(vb); return dir==='ascending' ? c : -c; }
+        const c = String(va).localeCompare(String(vb)); return dir==='ascending' ? c : -c;
+      });
+      sorted.forEach(r => tbody.appendChild(r));
+    }));
+  })();
+
+  // ---- strip plot: every quote on one log line (emphasis: winners blue, rest grey) ----
+  (function strip(){
+    const host = document.getElementById('chart-strip'); if (!host) return;
+    const tip = makeTip(host);
+    const pts = DATA.quotes.filter(q => price720(q) != null).map(q => ({ q, v: price720(q), win: DATA.cheapest[q.model_id] && DATA.cheapest[q.model_id].quote_id === q.id }));
+    if (!pts.length) return;
+    const W = Math.max(700, Math.min(1140, host.clientWidth||1000)), L = 28, R = 28, r = 5, gap = 2;
+    const lo = Math.min(...pts.map(p=>p.v))*0.8, hi = Math.max(...pts.map(p=>p.v))*1.25;
+    const x = v => L + (Math.log(v)-Math.log(lo))/(Math.log(hi)-Math.log(lo))*(W-L-R);
+    const sorted = pts.sort((a,b)=>a.v-b.v);
+    const placed = [];
+    sorted.forEach(p => { p.px = x(p.v); let lvl = 0; while (placed.some(o => o.level===lvl && Math.abs(o.px-p.px) < r*2+gap)) lvl++; p.level = lvl; placed.push({px:p.px, level:lvl}); });
+    const maxHalf = Math.ceil(Math.max(...sorted.map(p=>p.level))/2);
+    const cy = 44 + maxHalf*(r*2+gap), baseY = cy + maxHalf*(r*2+gap) + 16, H = baseY + 30;
+    sorted.forEach(p => { const k = Math.ceil(p.level/2); p.py = cy + (p.level % 2 ? -k : k) * (r*2+gap); });
+    const svg = el('svg', {viewBox:`0 0 ${W} ${H}`, role:'img', 'aria-label':'Every 720p quote placed by price on a log scale'}, host);
+    [0.25,0.5,1,2,5,10,20,50].filter(t=>t>=lo&&t<=hi).forEach(t => { el('line',{x1:x(t),x2:x(t),y1:28,y2:baseY,class:'grid'},svg); txt(svg, x(t), baseY+20, '$'+t, null, {'text-anchor':'middle'}); });
+    el('line',{x1:L,x2:W-R,y1:baseY,y2:baseY,class:'base'},svg);
+    const blue = css.getPropertyValue('--blue-400').trim(), grey = '#4d4c49', surf = css.getPropertyValue('--surface').trim();
+    sorted.forEach(p => {
+      const g = el('g', {}, svg);
+      el('circle', {cx:p.px, cy:p.py, r:r, fill:p.win?blue:grey, stroke:surf, 'stroke-width':2}, g);
+      const hit = el('circle', {cx:p.px, cy:p.py, r:12, class:'hit', tabindex:0, 'aria-label':`${MODEL[p.q.model_id]?.name} at ${AGG[p.q.aggregator_id]?.name}: ${money(p.v)} per minute`}, g);
+      const html = quoteTip(p.q) + (p.win ? '<div class="m">★ cheapest for this model</div>' : '');
+      hit.addEventListener('pointerenter', e=>tip.show(e, html)); hit.addEventListener('pointermove', e=>tip.move(e)); hit.addEventListener('pointerleave', ()=>tip.hide());
+      hit.addEventListener('focus', ()=>{ const b=host.getBoundingClientRect(); tip.show({clientX:b.left+p.px, clientY:b.top+p.py}, html); }); hit.addEventListener('blur', ()=>tip.hide());
+    });
+    // label the two extremes only
+    const lab = (p, anchor) => { const t = txt(svg, p.px, 16, `${MODEL[p.q.model_id]?.name} · ${AGG[p.q.aggregator_id]?.name} ${money(p.v)}`, 'val', {'text-anchor':anchor}); el('line',{x1:p.px,x2:p.px,y1:20,y2:p.py-r-2,class:'base'},svg); return t; };
+    lab(sorted[0], 'start'); lab(sorted[sorted.length-1], 'end');
+    const n = document.createElement('div'); n.className = 'strip-note'; n.textContent = `${sorted.length} quotes · ${sorted.filter(p=>p.win).length} winners · ${(sorted[sorted.length-1].v/sorted[0].v).toFixed(0)}× between the cheapest and the priciest quote on the board`; host.appendChild(n);
+  })();
+
+  // ---- price index history (median of cheapest rates per day) ----
+  (function index(){
+    const host = document.getElementById('chart-index'); if (!host) return;
+    const med = arr => { const s=[...arr].sort((a,b)=>a-b), n=s.length; return n ? (n%2 ? s[(n-1)/2] : (s[n/2-1]+s[n/2])/2) : null; };
+    const series = (HIST||[]).map(h => ({ d: h.date, v: med(Object.values(h.cheapest||{}).map(c=>c.per_min_720p).filter(v=>v!=null)) })).filter(p=>p.v!=null);
+    if (series.length < 2){ host.innerHTML = `<p class="muted" style="font-size:13px;margin:0">${series.length===1 ? 'First reading '+escT(series[0].d)+'. ' : ''}The index line appears with the second daily snapshot.</p>`; return; }
+    const W = Math.max(400, host.clientWidth||520), H = 140, L = 46, R = 16, T = 12, B = 26;
+    const vs = series.map(p=>p.v), lo = Math.min(...vs)*0.95, hi = Math.max(...vs)*1.05;
+    const x = i => L + i/(series.length-1)*(W-L-R), y = v => T + (1-(v-lo)/(hi-lo))*(H-T-B);
+    const svg = el('svg', {viewBox:`0 0 ${W} ${H}`, role:'img', 'aria-label':'Video price index over time'}, host);
+    const c1 = css.getPropertyValue('--blue-400').trim(), surf = css.getPropertyValue('--surface').trim();
+    [lo, (lo+hi)/2, hi].forEach(v => { el('line',{x1:L,x2:W-R,y1:y(v),y2:y(v),class:'grid'},svg); txt(svg, L-6, y(v)+4, money(v), null, {'text-anchor':'end'}); });
+    el('path', {d: series.map((p,i)=>(i?'L':'M')+x(i)+','+y(p.v)).join(' ') + ` L${x(series.length-1)},${H-B} L${x(0)},${H-B} Z`, fill:c1, opacity:0.1}, svg);
+    el('path', {d: series.map((p,i)=>(i?'L':'M')+x(i)+','+y(p.v)).join(' '), fill:'none', stroke:c1, 'stroke-width':2, 'stroke-linejoin':'round'}, svg);
+    el('circle', {cx:x(series.length-1), cy:y(series[series.length-1].v), r:4, fill:c1, stroke:surf, 'stroke-width':2}, svg);
+    txt(svg, x(0), H-8, series[0].d, null, {'text-anchor':'start'}); txt(svg, x(series.length-1), H-8, series[series.length-1].d, null, {'text-anchor':'end'});
+  })();
+
+  // ---- cost calculator ----
+  (function calc(){
+    const mSel = document.getElementById('calc-model'); if (!mSel) return;
+    const rSel = document.getElementById('calc-res'), secs = document.getElementById('calc-secs'), clips = document.getElementById('calc-clips');
+    const worth = document.getElementById('calc-worth'), tbody = document.querySelector('#calc-table tbody'), note = document.getElementById('calc-note');
+    mSel.innerHTML = ranked.map(r=>`<option value="${escT(r.m.id)}">${escT(r.m.name)}</option>`).join('');
+    const qs = new URLSearchParams((location.hash.split('?')[1]||''));
+    if (qs.get('model') && MODEL[qs.get('model')]) mSel.value = qs.get('model');
+    if (qs.get('res')==='480p') rSel.value = '480p';
+    const setSecsForModel = () => { const m = MODEL[mSel.value]; const c = DATA.cheapest[mSel.value]; secs.value = (c && c.max_clip_s) || (m && m.max_clip_s) || 10; };
+    if (qs.get('secs')) secs.value = qs.get('secs'); else setSecsForModel();
+    if (qs.get('clips')) clips.value = qs.get('clips');
+    function run(){
+      const mid = mSel.value, res = rSel.value, s = Math.max(1, Number(secs.value)||1), n = Math.max(1, Number(clips.value)||1), m = MODEL[mid];
+      const key = res === '720p' ? (['h3turbo','h3max'].includes(mid) ? '768p' : '720p') : '480p';
+      const rows = DATA.quotes.filter(q=>q.model_id===mid && q.per_min && q.per_min[key]!=null).map(q=>{ const pm=q.per_min[key], clip=pm*s/60; return {q, pm, clip, month: clip*n}; }).sort((a,b)=>a.pm-b.pm);
+      try { history.replaceState(null, '', `#calculator?model=${mid}&res=${res}&secs=${s}&clips=${n}`); } catch {}
+      if (!rows.length){ tbody.innerHTML = `<tr><td colspan="7" class="muted">No ${escT(res)} quote for ${escT(m.name)} yet — try 720p.</td></tr>`; worth.innerHTML = ''; note.textContent = ''; return; }
+      const best = rows[0], worst = rows[rows.length-1];
+      note.textContent = `${rows.length} aggregator${rows.length===1?'':'s'} quote ${m.name} at ${res}${rows.some(r=>r.q.ranked===false)?' (* excluded from ranking)':''} · ${s}s clips × ${n} per month · longest single clip on the winner: ${best.q.max_clip_s||m.max_clip_s||'?'}s`;
+      worth.innerHTML = `<div class="tile hero"><div class="label">What choosing the right aggregator is worth</div><div class="value">${money2(worst.month-best.month)}<small>/month</small></div><div class="sub">${money2(best.month)} on ${escT(AGG[best.q.aggregator_id].name)} vs ${money2(worst.month)} on ${escT(AGG[worst.q.aggregator_id].name)}${rows.length===1?' (only one aggregator quotes it)':''}</div></div>
+        <div class="tile"><div class="label">Cheapest per clip</div><div class="value">${money2(best.clip)}</div><div class="sub">${s}s on ${escT(AGG[best.q.aggregator_id].name)}</div></div>
+        <div class="tile"><div class="label">Most expensive per clip</div><div class="value">${money2(worst.clip)}</div><div class="sub">${s}s on ${escT(AGG[worst.q.aggregator_id].name)}</div></div>
+        <div class="tile"><div class="label">Spread</div><div class="value">${(worst.pm/best.pm).toFixed(1)}×</div><div class="sub">across ${rows.length} option${rows.length===1?'':'s'}</div></div>`;
+      tbody.innerHTML = rows.map((r,i)=>{ const over = r.q.max_clip_s && s > r.q.max_clip_s; const pct = i ? Math.round((r.pm/best.pm-1)*100) : 0; const w = Math.max(6, Math.round(70*best.pm/r.pm));
+        return `<tr class="${i===0?'best':''}"><td><span class="swatch" data-agg="${escT(r.q.aggregator_id)}"></span>${escT(AGG[r.q.aggregator_id].name)}${i===0?'<span class="cheap-badge">CHEAPEST</span>':''}${r.q.ranked===false?' *':''}</td><td>${escT(audioShort(r.q.audio))}</td><td class="num">${money(r.pm)}</td><td class="num">${money2(r.clip)}${over?` <span class="flag" title="max single clip ${r.q.max_clip_s}s — a ${s}s clip needs ${Math.ceil(s/r.q.max_clip_s)} generations">⚑</span>`:''}</td><td class="num strong">${money2(r.month)}</td><td><span class="bar" style="width:${w}px"></span>${i?'+'+pct+'%':'—'}</td><td><a href="${escT(r.q.model_page_url||r.q.source_url||AGG[r.q.aggregator_id].url)}" target="_blank" rel="noopener">source</a></td></tr>`; }).join('');
+    }
+    mSel.addEventListener('change', ()=>{ setSecsForModel(); run(); });
+    [rSel, secs, clips].forEach(e => e.addEventListener('input', run));
+    run();
+  })();
+
+  // ---- head-to-head: two aggregators ----
+  (function h2h(){
+    const A = document.getElementById('h2h-a'); if (!A) return;
+    const B = document.getElementById('h2h-b'), tbody = document.querySelector('#h2h-table tbody'), sum = document.getElementById('h2h-summary');
+    const opts = DATA.aggregators.map(a=>`<option value="${escT(a.id)}">${escT(a.name)}</option>`).join(''); A.innerHTML = opts; B.innerHTML = opts;
+    const wins = Object.values(DATA.cheapest).reduce((m,c)=>{ m[c.aggregator_id]=(m[c.aggregator_id]||0)+1; return m; }, {});
+    const top = Object.entries(wins).sort((a,b)=>b[1]-a[1]).map(x=>x[0]);
+    A.value = top[0] || 'atlas'; B.value = top[1] || 'kie';
+    function run(){
+      const a = A.value, b = B.value;
+      document.getElementById('h2h-ha').textContent = AGG[a].name; document.getElementById('h2h-hb').textContent = AGG[b].name;
+      const rows = DATA.models.map(m => { const qa = DATA.quotes.find(q=>q.model_id===m.id&&q.aggregator_id===a), qb = DATA.quotes.find(q=>q.model_id===m.id&&q.aggregator_id===b); return {m, pa:price720(qa), pb:price720(qb)}; }).filter(r=>r.pa!=null||r.pb!=null).sort((x,y)=>(x.pa??x.pb)-(y.pa??y.pb));
+      const both = rows.filter(r=>r.pa!=null&&r.pb!=null); let wa=0, wb=0, ties=0;
+      both.forEach(r=>{ if (Math.abs(r.pa-r.pb)<0.005) ties++; else if (r.pa<r.pb) wa++; else wb++; });
+      const avg = both.length ? both.reduce((s,r)=>s+(r.pb-r.pa)/Math.max(r.pa,r.pb),0)/both.length*100 : 0;
+      sum.innerHTML = `<div class="tile"><div class="label">${escT(AGG[a].name)} cheaper on</div><div class="value">${wa}</div><div class="sub">of ${both.length} models both sell</div></div><div class="tile"><div class="label">${escT(AGG[b].name)} cheaper on</div><div class="value">${wb}</div><div class="sub">of ${both.length}${ties?' · '+ties+' tie'+(ties>1?'s':''):''}</div></div><div class="tile"><div class="label">On average</div><div class="value">${both.length?Math.abs(avg).toFixed(0)+'%':'—'}</div><div class="sub">${both.length ? (avg>0?escT(AGG[a].name):escT(AGG[b].name))+' is cheaper on shared models' : 'no shared models'}</div></div>`;
+      tbody.innerHTML = rows.map(r => { const d = r.pa!=null&&r.pb!=null ? r.pb-r.pa : null; const tie = d!=null && Math.abs(d)<0.005; const who = d==null ? (r.pa!=null?AGG[a].name+' only':AGG[b].name+' only') : tie ? 'tie' : (d>0?AGG[a].name:AGG[b].name);
+        return `<tr><th class="model">${escT(r.m.name)}</th><td class="num${d!=null&&!tie&&d>0?' winA':''}">${money(r.pa)}</td><td class="num${d!=null&&!tie&&d<0?' winB':''}">${money(r.pb)}</td><td class="num">${d==null||tie?'—':money(Math.abs(d))+' ('+Math.round(Math.abs(d)/Math.max(r.pa,r.pb)*100)+'%)'}</td><td>${escT(who)}</td></tr>`; }).join('');
+    }
+    A.addEventListener('change', run); B.addEventListener('change', run); run();
   })();
 
   // ---- sticky menu: highlight the section in view ----

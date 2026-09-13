@@ -23,7 +23,11 @@
 - `data/prices.json`: full dataset — every quote across every aggregator (`quotes[]`), raw billing text,
   source URLs, verification verdicts, `cheapest{}`, `deals[]`, `changes` and footnotes.
 - `data/history/index.json` then `data/history/YYYY-MM-DD.json`: daily snapshots.
-- `data/changes.json`: dated log of price changes and expired sales.
+- `data/changes.json`: dated log of price changes, new winners and expired sales.
+- `index.html#model-<id>`: one "answer card" per model in plain HTML (sentence: cheapest verified rate, aggregator,
+  per-clip cost, range across aggregators, every quote held). `#calculator?model=<id>&res=720p&secs=15&clips=100`
+  opens the cost calculator pre-filled.
+- `cheapest.json` models also carry `change_pct` / `previous_usd_per_min_720p` once two daily snapshots exist.
 
 ## Field notes
 

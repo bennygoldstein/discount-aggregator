@@ -5,7 +5,7 @@
     "url": "https://bennygoldstein.github.io/discount-aggregator/",
     "owner": "Benny Goldstein"
   },
-  "generated_at": "2026-09-13T21:06:56.687Z",
+  "generated_at": "2026-09-13T22:08:29.984Z",
   "checked_at": "2026-09-13T19:58:50.374Z",
   "unit": "USD per minute of generated video (accumulated footage) at the 720p column basis",
   "how_to_use": "Look up your model by id or name, then call the aggregator listed under `aggregator` using `endpoint_id` at `api_base_url`. Prices are USD per minute of generated footage at the 720p column basis; multiply by clip_seconds/60 for a clip estimate. Re-fetch daily; check `promo.ends_at`.",

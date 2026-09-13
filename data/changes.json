@@ -1,0 +1,42 @@
+[
+  {
+    "date": "2026-09-13",
+    "quote_id": "wan3@replicate",
+    "model": "Wan 3.0",
+    "aggregator": "Replicate",
+    "field": "cheapest",
+    "old": "Atlas Cloud $4.80",
+    "new": "Replicate $3.00",
+    "note": "Live research read Replicate's billing block ($0.05/s); the page's stale '50% off' wording had kept it unranked"
+  },
+  {
+    "date": "2026-09-13",
+    "quote_id": "kling@kie",
+    "model": "Kling 3.0 Turbo",
+    "aggregator": "Kie.ai",
+    "field": "cheapest",
+    "old": "Atlas Cloud $5.71",
+    "new": "Kie.ai $5.40",
+    "note": "New quote: 18 credits/s at 720p"
+  },
+  {
+    "date": "2026-09-13",
+    "quote_id": "wan27@kie",
+    "model": "Wan 2.7",
+    "aggregator": "Kie.ai",
+    "field": "cheapest",
+    "old": "Atlas Cloud $6.00",
+    "new": "Kie.ai $4.80",
+    "note": "New quote: 16 credits/s at 720p"
+  },
+  {
+    "date": "2026-09-13",
+    "quote_id": "",
+    "model": "",
+    "aggregator": "",
+    "field": "tracking",
+    "old": "",
+    "new": "179 quotes across 10 aggregators",
+    "note": "Tracking started: first live edition built from a 59-agent research pass; every cheapest quote checked by two independent verifiers"
+  }
+]
