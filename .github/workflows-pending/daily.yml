@@ -39,7 +39,15 @@ jobs:
       - name: Research today's prices
         if: ${{ github.event.inputs.mode != 'rebuild' }}
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Page reader — set ONE of these as a repo secret. Free tiers first; Claude is the paid option.
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}           # Google AI Studio, free tier (recommended)
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}               # free tier
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}   # free ":free" models
+          MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}         # free experiment tier
+          CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}       # free tier
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}     # paid; wins if set
+          LLM_PROVIDER: ${{ vars.LLM_PROVIDER }}                  # optional override (gemini|groq|openrouter|mistral|cerebras|custom)
+          LLM_MODEL: ${{ vars.LLM_MODEL }}                        # optional model override
           ATLASCLOUD_API_KEY: ${{ secrets.ATLASCLOUD_API_KEY }}
           USE_BROWSER: "1"
         run: node scripts/refresh.mjs

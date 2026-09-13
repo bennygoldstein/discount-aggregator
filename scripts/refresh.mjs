@@ -5,7 +5,10 @@
 //   data/prices.json, data/cheapest.json, data/history/YYYY-MM-DD.json,
 //   data/history/index.json, data/changes.json, data/last-run.json
 //
-// Env:  ANTHROPIC_API_KEY  (optional) enables Claude-based extraction + research
+// Env:  ANTHROPIC_API_KEY  (optional, paid) Claude reads pages the recipes cannot parse
+//       GEMINI_API_KEY / GROQ_API_KEY / OPENROUTER_API_KEY / MISTRAL_API_KEY / CEREBRAS_API_KEY
+//                          (optional, FREE tiers) same job with a free model — see scripts/lib/llm.mjs
+//       LLM_PROVIDER / LLM_MODEL / LLM_BASE_URL / LLM_API_KEY  override or point at any OpenAI-compatible server
 //       ATLASCLOUD_API_KEY (optional) enables Atlas Cloud's free quote endpoint
 //       USE_BROWSER=1      (optional) render JS pages with Playwright/Chromium
 //       DRY_RUN=1          compute but do not write files
@@ -16,6 +19,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { fetchPage, postJson, closeBrowser } from "./lib/fetch.mjs";
 import { extractWithRegex, extractFromJsonApi, extractWithClaude, researchWithClaude } from "./lib/extract.mjs";
+import { pickProvider, extractWithLlm, researchWithLlm } from "./lib/llm.mjs";
 import { computeCheapest, computeDeals, buildCheapestFeed, col720, isoDate, promoExpired, promoKind, r4 } from "./lib/normalize.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -40,14 +44,18 @@ const changes = readJson(path.join(DATA, "changes.json"), []);
 const aggs = Object.fromEntries(data.aggregators.map((a) => [a.id, a]));
 const models = Object.fromEntries(data.models.map((m) => [m.id, m]));
 
-let client = null;
+// ---- which page reader? Claude (paid) if ANTHROPIC_API_KEY, else any free-tier key (Gemini, Groq, OpenRouter, Mistral, Cerebras, custom) ----
+let reader = null; // { name, extract(ctx, text, url), research(ctx, url) }
 if (process.env.ANTHROPIC_API_KEY) {
   const { default: Anthropic } = await import("@anthropic-ai/sdk");
-  client = new Anthropic();
-  console.log("Claude extraction: enabled");
+  const client = new Anthropic();
+  reader = { name: "anthropic", extract: (ctx, text, url) => extractWithClaude(client, ctx, text, url), research: (ctx, url) => researchWithClaude(client, ctx, url) };
 } else {
-  console.log("Claude extraction: disabled (no ANTHROPIC_API_KEY) — regex/Atlas-calc/expiry checks only");
+  const p = pickProvider();
+  if (p) reader = { name: `${p.name}:${p.model}`, extract: (ctx, text, url) => extractWithLlm(p, ctx, text, url), research: (ctx, url) => researchWithLlm(p, ctx, url) };
 }
+console.log(reader ? `Page reader: ${reader.name}` : "Page reader: none (no LLM key) — JSON-API / Atlas-calc / regex / expiry checks only");
+const client = reader; // legacy name used below
 
 const run = { date: today, started_at: now.toISOString(), checked: 0, updated: 0, unchanged: 0, not_found: 0, needs_review: 0, errors: 0, skipped: 0, log: [] };
 const say = (s) => {
@@ -180,7 +188,7 @@ async function refreshQuote(q) {
   if (page.status >= 400 || !page.text) {
     say(`  -- ${q.id}: HTTP ${page.status} / empty page`);
     if (client && recipe.allow_research !== false) {
-      const r = await researchWithClaude(client, { quote: q, model, aggregator, recipe }, url);
+      const r = await reader.research({ quote: q, model, aggregator, recipe }, url);
       return { ...r, method: "llm-research" };
     }
     return { found: false, notes: `HTTP ${page.status}` };
@@ -197,11 +205,11 @@ async function refreshQuote(q) {
 
   // 2) Claude reads the page
   if (client) {
-    const r = await extractWithClaude(client, { quote: q, model, aggregator, recipe }, page.text, page.url);
+    const r = await reader.extract({ quote: q, model, aggregator, recipe }, page.text, page.url);
     if (r.found) return { ...r, method: "llm" };
     say(`  -- ${q.id}: Claude found no exact price on page (${r.notes?.slice(0, 120) || ""})`);
     if (recipe.allow_research) {
-      const rr = await researchWithClaude(client, { quote: q, model, aggregator, recipe }, url);
+      const rr = await reader.research({ quote: q, model, aggregator, recipe }, url);
       if (rr.found) return { ...rr, method: "llm-research" };
       return { found: false, notes: rr.notes };
     }
@@ -279,7 +287,7 @@ data.generated_at = new Date().toISOString();
 if (run.updated + run.unchanged > 0) data.checked_at = data.generated_at;
 run.needs_review = data.quotes.filter((q) => q.needs_review).length;
 run.finished_at = new Date().toISOString();
-data.last_run = { date: run.date, checked: run.checked, updated: run.updated, unchanged: run.unchanged, not_found: run.not_found, needs_review: run.needs_review, errors: run.errors, claude: !!client, browser: process.env.USE_BROWSER === "1" };
+data.last_run = { date: run.date, checked: run.checked, updated: run.updated, unchanged: run.unchanged, not_found: run.not_found, needs_review: run.needs_review, errors: run.errors, reader: reader ? reader.name : null, browser: process.env.USE_BROWSER === "1" };
 
 writeJson(path.join(DATA, "prices.json"), data);
 writeJson(path.join(DATA, "cheapest.json"), buildCheapestFeed(data));

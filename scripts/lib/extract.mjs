@@ -221,7 +221,10 @@ const RECORD_TOOL = {
   },
 };
 
-function systemPrompt() {
+/** JSON schema of the record (shared by the Claude tool and the OpenAI-compatible / Gemini paths). */
+export const QUOTE_SCHEMA = RECORD_TOOL.input_schema;
+
+export function systemPrompt() {
   return `You are a meticulous pricing analyst for AI video-generation APIs. You read a provider's page and report the price for EXACTLY the requested model, tier (Turbo/Fast/Mini/Lite/Standard/Pro), input mode, audio setting and output resolution. Rules:
 - Never invent or estimate a number that is not on the page. If the exact tier/resolution is absent, set found=false and explain in notes.
 - Report the raw billing text verbatim (e.g. "8.2 credits/s", "$0.0242/s", "$1.12/M output tokens").
@@ -254,7 +257,7 @@ async function runTurn(client, params) {
   return response;
 }
 
-function normalizeLlm(input, recipe) {
+export function normalizeLlm(input, recipe) {
   const per_minute = {};
   for (const res of ["480p", "720p", "768p", "1080p"]) {
     const pm = input.per_minute_usd?.[res];
