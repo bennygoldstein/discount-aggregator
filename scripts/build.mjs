@@ -74,7 +74,7 @@ const tableRows = ranked
     if (q?.needs_review) flags.push("needs review");
     if (q?.stale_days > 7) flags.push(`last verified ${q.checked_at}`);
     if (q?.confidence === "low") flags.push("low confidence");
-    return `<tr data-model="${esc(m.id)}">
+    return `<tr data-model="${esc(m.id)}" id="m-${esc(m.id)}">
   <td class="rank">${i + 1}</td>
   <td class="model"><a href="${esc(c.model_page_url || a.url)}" target="_blank" rel="noopener">${esc(m.name)}</a>${flags.length ? ` <span class="flag" title="${esc(flags.join("; "))}">⚑</span>` : ""}</td>
   <td class="prov"><span class="swatch" data-agg="${esc(a.id)}"></span>${esc(a.name)}</td>
@@ -128,13 +128,70 @@ const candidateRows = (data.candidate_aggregators || [])
   .map((x) => `<tr><td><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.name)}</a></td><td>${esc(x.note || "")}</td><td class="num">${money(x.per_min_720p)}</td><td>${esc(x.model || "")}</td></tr>`)
   .join("\n");
 
-// ---- history series for the page ----
+// ---- history: make sure today has a snapshot, then load the series ----
 const histDir = path.join(DATA, "history");
-const dates = fs.existsSync(histDir) ? fs.readdirSync(histDir).filter((f) => /^\d{4}-\d{2}-\d{2}\.json$/.test(f)).map((f) => f.slice(0, 10)).sort().slice(-90) : [];
+fs.mkdirSync(histDir, { recursive: true });
+const today = new Date().toISOString().slice(0, 10);
+const snapPath = path.join(histDir, `${today}.json`);
+if (!fs.existsSync(snapPath)) {
+  fs.writeFileSync(
+    snapPath,
+    JSON.stringify({
+      date: today,
+      cheapest: Object.fromEntries(Object.entries(data.cheapest).map(([m, c]) => [m, { aggregator_id: c.aggregator_id, per_min_720p: c.per_min_720p }])),
+      quotes: Object.fromEntries(data.quotes.map((q) => [q.id, col720(q)])),
+    }, null, 2) + "\n"
+  );
+}
+const allDates = fs.readdirSync(histDir).filter((f) => /^\d{4}-\d{2}-\d{2}\.json$/.test(f)).map((f) => f.slice(0, 10)).sort();
+fs.writeFileSync(path.join(histDir, "index.json"), JSON.stringify({ dates: allDates }, null, 2) + "\n");
+const dates = allDates.slice(-90);
 const history = dates.map((d) => {
   const s = readJson(path.join(histDir, `${d}.json`), {});
   return { date: d, cheapest: s.cheapest || {} };
 });
+
+// ---- day-over-day change per model (vs the most recent earlier snapshot) ----
+const prevDate = allDates.filter((d) => d < today).slice(-1)[0] || null;
+const prevSnap = prevDate ? readJson(path.join(histDir, `${prevDate}.json`), {}) : null;
+const changes = {};
+for (const [mid, c] of Object.entries(data.cheapest)) {
+  const p = prevSnap?.cheapest?.[mid];
+  if (!p || p.per_min_720p == null) continue;
+  const pct = ((c.per_min_720p - p.per_min_720p) / p.per_min_720p) * 100;
+  changes[mid] = { previous_date: prevDate, previous_usd_per_min_720p: p.per_min_720p, previous_aggregator_id: p.aggregator_id, change_pct: Math.round(pct * 10) / 10, provider_changed: p.aggregator_id !== c.aggregator_id };
+}
+// expose the deltas in the agent feed too
+{
+  const feedPath = path.join(DATA, "cheapest.json");
+  const feed = readJson(feedPath);
+  if (feed) {
+    for (const [mid, ch] of Object.entries(changes)) if (feed.models[mid]) Object.assign(feed.models[mid], { previous_date: ch.previous_date, previous_usd_per_min_720p: ch.previous_usd_per_min_720p, change_pct: ch.change_pct, provider_changed: ch.provider_changed });
+    feed.history_days = allDates.length;
+    fs.writeFileSync(feedPath, JSON.stringify(feed, null, 2) + "\n");
+  }
+}
+
+// ---- ticker items (pre-rendered so the strip works without JavaScript) ----
+const tickerItems = ranked
+  .map(({ m, c }) => {
+    const ch = changes[m.id];
+    let delta = `<span class="delta flat" title="first day of tracking">•</span>`;
+    if (ch) {
+      const cls = ch.change_pct > 0.5 ? "up" : ch.change_pct < -0.5 ? "down" : "flat";
+      const arrow = cls === "up" ? "▲" : cls === "down" ? "▼" : "•";
+      delta = `<span class="delta ${cls}" title="vs ${ch.previous_date}: ${money(ch.previous_usd_per_min_720p)}">${arrow} ${Math.abs(ch.change_pct).toFixed(1)}%</span>`;
+    }
+    return `<a class="tk" href="#m-${esc(m.id)}"><span class="swatch" data-agg="${esc(c.aggregator_id)}"></span><b>${esc(m.name)}</b><span class="agg">${esc(aggs[c.aggregator_id]?.name || "")}</span><span class="price">${money(c.per_min_720p)}<small>/min</small></span>${delta}</a>`;
+  })
+  .concat(
+    data.deals.filter((d) => d.kind === "sale" && d.ends_at).map((d) => {
+      const days = daysUntil(d.ends_at);
+      const when = days == null ? "" : days <= 0 ? "ends today" : `${days} day${days === 1 ? "" : "s"} left`;
+      return `<a class="tk deal" href="#deals"><span class="swatch" data-agg="${esc(d.aggregator_id)}"></span><b>${esc(models[d.model_id]?.name)}</b><span class="agg">${esc(d.label)} · ${esc(aggs[d.aggregator_id]?.name)}</span><span class="price">${money(d.per_min_720p)}<small>/min</small></span><span class="delta warn">⏳ ${esc(when)}</span></a>`;
+    })
+  )
+  .join('<span class="sep">·</span>');
 
 // ---- footnotes ----
 const footnotes = (data.footnotes || []).map((f) => `<li>${esc(f)}</li>`).join("\n");
@@ -177,8 +234,12 @@ const fill = {
   CANDIDATE_ROWS: candidateRows || `<tr><td colspan="4" class="muted">None recorded yet.</td></tr>`,
   FOOTNOTES: footnotes,
   LAST_RUN: lastRunText,
+  TICKER_ITEMS: tickerItems,
+  HISTORY_DAYS: String(allDates.length),
+  HISTORY_DAYS_PLURAL: allDates.length === 1 ? "" : "s",
   DATA_JSON: jsonForScript(pageData),
   HISTORY_JSON: jsonForScript(history),
+  CHANGES_JSON: jsonForScript(changes),
 };
 html = html.replace(/\{\{([A-Z_]+)\}\}/g, (m, k) => (k in fill ? fill[k] : m));
 fs.writeFileSync(path.join(ROOT, "index.html"), html);
