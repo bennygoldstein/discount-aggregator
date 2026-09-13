@@ -5,7 +5,7 @@
     "url": "https://bennygoldstein.github.io/discount-aggregator/",
     "owner": "Benny Goldstein"
   },
-  "generated_at": "2026-09-13T20:00:56.057Z",
+  "generated_at": "2026-09-13T20:02:12.575Z",
   "checked_at": "2026-09-13T19:58:50.374Z",
   "unit": "USD per minute of generated video (accumulated footage) at the 720p column basis",
   "aggregators": [
@@ -9253,7 +9253,7 @@
       "endpoint_id": "kling/v3-turbo-text-to-video",
       "model_page_url": "https://kie.ai/kling-3-0-turbo",
       "audio": "no audio toggle in schema; page markets 'audio visual sync'; single rate",
-      "audio_short": "Off",
+      "audio_short": "Check setting",
       "max_clip_s": 15,
       "promo": null,
       "runner_up": {

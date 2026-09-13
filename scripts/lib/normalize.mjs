@@ -71,9 +71,9 @@ export function daysUntil(endsAt, now = new Date()) {
 export function shortAudio(s) {
   const t = String(s || "").toLowerCase();
   if (!t) return "";
-  if (/^\s*(off|silent|no audio|none|false|disabled|without audio|audio off)/.test(t)) return "Off";
   if (/may vary/.test(t)) return "May vary";
-  if (/(unspecified|unknown|not separately|no audio toggle|no native-audio|no sound param|check setting|not stated|n\/a)/.test(t)) return "Check setting";
+  if (/(unspecified|unknown|not separately|no (audio|sound|native-audio) (toggle|param|setting|option|control|flag)|check setting|not stated|n\/a)/.test(t)) return "Check setting";
+  if (/^\s*(off|silent|no audio|none|false|disabled|without audio|audio off)/.test(t)) return "Off";
   if (/(included|native|with audio|audio on|^on\b|^on \(|^true|enabled|yes|default true|default on|synchron)/.test(t)) return "Included";
   if (/(\boff\b|silent|no audio|without audio|disabled|false)/.test(t)) return "Off";
   return "Check setting";
