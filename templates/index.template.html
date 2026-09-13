@@ -294,8 +294,8 @@ footer a{color:var(--ink-2)}
         <h3>The daily research run</h3>
         <ol class="steps">
           <li><b>06:17 New York time</b>, a scheduled job wakes up (GitHub Actions, free).</li>
-          <li>For every model × aggregator pair it <b>re-opens the provider's own price page</b> — with a headless browser when the page needs JavaScript.</li>
-          <li>It reads the number with a <b>deterministic pattern first</b>, and falls back to <b>Claude reading the page</b> (and, if the page moved, searching the provider's site) so a redesign does not break the feed.</li>
+          <li>For every model × aggregator pair it <b>asks the provider's own machine-readable source first</b> — Atlas Cloud's free quote endpoint, fal.ai's and OpenRouter's model APIs, WaveSpeed's catalog, Runware's model schema, the price block embedded in Replicate and Kie.ai pages.</li>
+          <li>Where no such source exists it <b>opens the page</b> (with a headless browser when it needs JavaScript) and lets <b>Claude read the price</b> for exactly that model, tier, resolution and audio setting — and, if the page moved, search the provider's site — so a redesign does not break the feed.</li>
           <li>Every figure is normalized to $/min, <b>sanity-checked against yesterday</b> (a 5× jump is flagged, not published), and dated sales that ended are switched to the regular price.</li>
           <li>It recomputes the cheapest aggregator per model, writes a <b>dated snapshot</b> for the history charts, rebuilds this page and publishes it.</li>
         </ol>

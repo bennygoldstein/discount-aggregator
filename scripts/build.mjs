@@ -18,6 +18,9 @@ const data = readJson(path.join(DATA, "prices.json"));
 if (!data) throw new Error("data/prices.json missing");
 data.cheapest = computeCheapest(data);
 data.deals = computeDeals(data);
+data.generated_at = new Date().toISOString();
+// keep the published dataset self-consistent (cheapest + deals are derived fields)
+fs.writeFileSync(path.join(DATA, "prices.json"), JSON.stringify(data, null, 2) + "\n");
 fs.writeFileSync(path.join(DATA, "cheapest.json"), JSON.stringify(buildCheapestFeed(data), null, 2) + "\n");
 
 const aggs = Object.fromEntries(data.aggregators.map((a) => [a.id, a]));
@@ -50,6 +53,17 @@ const saleText = (q) => {
   return q.promo?.label && !q.promo.active ? "No dated sale verified" : "No dated sale verified";
 };
 const quoteById = Object.fromEntries(data.quotes.map((q) => [q.id, q]));
+// Short audio label for the table (the full provider wording stays in the tooltip/title).
+const audioLabel = (s) => {
+  const t = String(s || "").toLowerCase();
+  if (!t) return "";
+  if (/^(included|off|silent|check setting|may vary)$/.test(t)) return s.charAt(0).toUpperCase() + s.slice(1);
+  if (/^\s*(off|silent|no audio|none|false|disabled|without audio|audio off)/.test(t)) return "Off";
+  if (/(may vary|unspecified|unknown|not separately|no audio toggle|no native-audio|no sound param|check setting|not stated|n\/a)/.test(t)) return /may vary/.test(t) ? "May vary" : "Check setting";
+  if (/(included|native|with audio|audio on|^on\b|^on \(|^true|enabled|yes|default true|default on|synchron)/.test(t)) return "Included";
+  if (/(\boff\b|silent|no audio|without audio|disabled|false)/.test(t)) return "Off";
+  return "Check setting";
+};
 
 const tableRows = ranked
   .map(({ m, c }, i) => {
@@ -66,7 +80,7 @@ const tableRows = ranked
   <td class="num">${money(c.per_min_480p)}</td>
   <td class="num strong">${money(c.per_min_720p)}${c.resolution_basis === "768p" ? '<sup title="768p, not exact 720p">768p</sup>' : ""}</td>
   <td class="num">${c.max_clip_s ?? ""}</td>
-  <td>${esc(c.audio || "")}</td>
+  <td title="${esc(c.audio || "")}">${esc(audioLabel(c.audio))}</td>
   <td>${esc(saleText(q))}</td>
   <td>${esc(promoEnds(c))}</td>
 </tr>`;
@@ -86,7 +100,7 @@ const matrixRows = ranked
       .map((a) => {
         const q = data.quotes.find((x) => x.model_id === m.id && x.aggregator_id === a.id);
         const v = q ? col720(q) : null;
-        if (v == null) return `<td class="num empty">${q ? esc(q.unavailable_reason || "n/v") : "—"}</td>`;
+        if (v == null) return `<td class="num empty" title="${esc(q?.unavailable_reason || "not offered / no verifiable price")}">${q ? "n/v" : "—"}</td>`;
         const best = c.quote_id === q.id;
         return `<td class="num${best ? " best" : ""}${q.ranked === false ? " excluded" : ""}" title="${esc(q.raw_billing_text || "")}">${money(v)}${q.ranked === false ? "*" : ""}</td>`;
       })
@@ -133,6 +147,16 @@ const lastRunText = lr.date
 // ---- assemble ----
 let html = fs.readFileSync(path.join(ROOT, "templates", "index.template.html"), "utf8");
 const jsonForScript = (o) => JSON.stringify(o).replace(/<\//g, "<\\/").replace(/<!--/g, "<\\!--");
+// The page only needs what it draws; the research trail, scrape notes and long verdict texts stay in data/prices.json.
+const pageData = {
+  ...data,
+  quotes: data.quotes.map(({ research, verification, ...q }) => ({ ...q, ...(verification ? { verified: { price: !verification.price?.refuted, comparability: !verification.comparability?.refuted } } : {}) })),
+  aggregators: data.aggregators.map(({ research_notes, pricing_page_urls, ...a }) => a),
+  extra_models: (data.extra_models || []).map(({ note, ...x }) => x),
+};
+delete pageData.scrapeability;
+delete pageData.promo_status_check;
+delete pageData.last_run;
 const fill = {
   SITE_URL,
   CHECKED_HUMAN: checkedHuman,
@@ -152,7 +176,7 @@ const fill = {
   CANDIDATE_ROWS: candidateRows || `<tr><td colspan="4" class="muted">None recorded yet.</td></tr>`,
   FOOTNOTES: footnotes,
   LAST_RUN: lastRunText,
-  DATA_JSON: jsonForScript(data),
+  DATA_JSON: jsonForScript(pageData),
   HISTORY_JSON: jsonForScript(history),
 };
 html = html.replace(/\{\{([A-Z_]+)\}\}/g, (m, k) => (k in fill ? fill[k] : m));

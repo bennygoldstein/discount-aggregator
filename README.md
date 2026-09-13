@@ -25,15 +25,28 @@ Static site (GitHub Pages) + a daily GitHub Actions robot that re-reads every pr
 
 ## Daily robot
 
+> **Not yet armed:** the workflow file lives in `.github/workflows-pending/daily.yml` because the token used for the first
+> push lacked the `workflow` scope. Move it to `.github/workflows/daily.yml` (after `gh auth refresh -h github.com -s workflow`,
+> or via the GitHub web editor) and add the secrets below.
+
 `refresh.mjs` walks every quote in `data/prices.json`, looks up its recipe in `data/sources.json`, fetches the page
 (headless Chromium when `render: true` and `USE_BROWSER=1`), then:
 
-1. `regex` — deterministic pattern with a named group `v`, converted with `unit` (`per_second`, `per_clip`,
+1. `json-api` — a public JSON endpoint (`url`), the entry to pick (`list` + `match`), and per-resolution `fields`
+   (`path` + `formula`, or `path` + `regex` when the field is a pricing sentence, optional `factor_path` for a
+   discount percentage). Used for fal.ai (`/api/models`), OpenRouter (`/api/v1/videos/models`), WaveSpeed (`/api/models`).
+2. `atlas-calc` — POSTs exact `payloads` (model, duration, resolution, generate_audio) to Atlas Cloud's free quote
+   endpoint; no key needed (a key is sent when `ATLASCLOUD_API_KEY` is set).
+3. `regex` — deterministic pattern with a named group `v`, converted with `unit` (`per_second`, `per_clip`,
    `credits_per_second`, `credits_per_clip`, `per_minute`) plus `credit_usd`, `clip_s`, `fixed_per_clip`.
-2. `llm` — Claude (`claude-opus-5`) reads the page text and reports the exact tier via a strict tool.
+   Used for Runware's `schema.json` pricing text, Replicate's embedded `billingConfig`, Kie.ai's `pricingDesc`.
+4. `llm` — Claude (`claude-opus-5`) reads the page text and reports the exact tier via a strict tool.
    If nothing is found and `allow_research: true`, Claude may search/fetch the provider's own site.
-3. `atlas-calc` — POSTs the exact payloads to Atlas Cloud's free quote endpoint (needs `ATLASCLOUD_API_KEY`).
-4. `manual` — never auto-refreshed (kept as verified by hand).
+   Every deterministic recipe also falls back to this path (`fallback_url`) when it returns nothing.
+5. `manual` — never auto-refreshed (kept as verified by hand).
+
+Each deterministic recipe was validated on creation (`validated_on`, `validated_against`) by reproducing the
+published price live; if a provider changes its API shape the sanity band flags the quote instead of publishing junk.
 
 Every new figure is sanity-checked against the stored one (outside 0.2×–5× → flagged `needs_review`, old value kept).
 Dated promotions that have ended are switched to `promo.regular_per_min` (or flagged if unknown).

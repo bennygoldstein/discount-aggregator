@@ -1,0 +1,1918 @@
+{
+  "h3turbo@fal": {
+    "method": "json-api",
+    "url": "https://fal.ai/api/models?keywords=MiniMax%20H3",
+    "list": "items",
+    "match": {
+      "field": "id",
+      "equals": "minimax/h3-max-turbo/image-to-video"
+    },
+    "fields": {
+      "480p": {
+        "path": "pricingInfoOverride",
+        "regex": "\\$(?<v>[\\d.]+)\\*{0,2}\\s*(?:/|per)\\s*second(?: of (?:generated )?video)?\\*{0,2}[^.,]{0,25}?\\b(?:at|for)\\s*\\*{0,2}480p",
+        "unit": "per_second"
+      },
+      "768p": {
+        "path": "pricingInfoOverride",
+        "regex": "\\$(?<v>[\\d.]+)\\*{0,2}\\s*(?:/|per)\\s*second(?: of (?:generated )?video)?\\*{0,2}[^.,]{0,25}?\\b(?:at|for)\\s*\\*{0,2}768p",
+        "unit": "per_second"
+      },
+      "1080p": {
+        "path": "pricingInfoOverride",
+        "regex": "\\$(?<v>[\\d.]+)\\*{0,2}\\s*(?:/|per)\\s*second(?: of (?:generated )?video)?\\*{0,2}[^.,]{0,25}?\\b(?:at|for)\\s*\\*{0,2}1080p",
+        "unit": "per_second"
+      }
+    },
+    "fallback_url": "https://fal.ai/minimax-h3-max",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "480p": 0.375,
+      "768p": 0.6,
+      "1080p": 1.2
+    },
+    "clip_s": 15,
+    "allow_research": true
+  },
+  "h3turbo@atlas": {
+    "method": "atlas-calc",
+    "url": "https://api.atlascloud.ai/api/v1/model/calculate",
+    "payloads": {
+      "480p": {
+        "model": "minimax/h3-max-turbo/text-to-video",
+        "duration": 15,
+        "resolution": "480p",
+        "generate_audio": true
+      },
+      "768p": {
+        "model": "minimax/h3-max-turbo/text-to-video",
+        "duration": 15,
+        "resolution": "768p",
+        "generate_audio": true
+      }
+    },
+    "price_path": "data.price",
+    "discount_path": "data.discount",
+    "fallback_url": "https://www.atlascloud.ai/pricing/models",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "480p": 1.425,
+      "768p": 2.28
+    },
+    "allow_research": true
+  },
+  "h3turbo@runware": {
+    "method": "llm",
+    "url": "https://runware.ai/docs/models/minimax-h3-max-turbo",
+    "render": false,
+    "allow_research": true,
+    "clip_s": 15,
+    "note": "deterministic candidates failed: regex→{}; regex→{}; regex→{}; regex→{}; regex→{}; regex→{}; regex→{}; "
+  },
+  "vidu@atlas": {
+    "method": "atlas-calc",
+    "url": "https://api.atlascloud.ai/api/v1/model/calculate",
+    "payloads": {
+      "720p": {
+        "model": "vidu/q2-pro-fast/image-to-video",
+        "duration": 10,
+        "resolution": "720p",
+        "generate_audio": true
+      }
+    },
+    "price_path": "data.price",
+    "discount_path": "data.discount",
+    "fallback_url": "https://www.atlascloud.ai/pricing/models",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "720p": 0.663
+    },
+    "allow_research": true
+  },
+  "seed15@atlas": {
+    "method": "llm",
+    "url": "https://www.atlascloud.ai/pricing/models",
+    "render": true,
+    "allow_research": true,
+    "clip_s": 12,
+    "note": "deterministic candidates failed: atlas-calc→{}; atlas-calc→{}; "
+  },
+  "h3max@fal": {
+    "method": "json-api",
+    "url": "https://fal.ai/api/models?keywords=MiniMax%20H3",
+    "list": "items",
+    "match": {
+      "field": "id",
+      "equals": "minimax/h3-max/image-to-video"
+    },
+    "fields": {
+      "480p": {
+        "path": "pricingInfoOverride",
+        "regex": "\\$(?<v>[\\d.]+)\\*{0,2}\\s*(?:/|per)\\s*second(?: of (?:generated )?video)?\\*{0,2}[^.,]{0,25}?\\b(?:at|for)\\s*\\*{0,2}480p",
+        "unit": "per_second"
+      },
+      "768p": {
+        "path": "pricingInfoOverride",
+        "regex": "\\$(?<v>[\\d.]+)\\*{0,2}\\s*(?:/|per)\\s*second(?: of (?:generated )?video)?\\*{0,2}[^.,]{0,25}?\\b(?:at|for)\\s*\\*{0,2}768p",
+        "unit": "per_second"
+      },
+      "1080p": {
+        "path": "pricingInfoOverride",
+        "regex": "\\$(?<v>[\\d.]+)\\*{0,2}\\s*(?:/|per)\\s*second(?: of (?:generated )?video)?\\*{0,2}[^.,]{0,25}?\\b(?:at|for)\\s*\\*{0,2}1080p",
+        "unit": "per_second"
+      }
+    },
+    "fallback_url": "https://fal.ai/minimax-h3-max",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "480p": 0.75,
+      "768p": 1.2,
+      "1080p": 2.4
+    },
+    "clip_s": 15,
+    "allow_research": true
+  },
+  "mini@atlas": {
+    "method": "atlas-calc",
+    "url": "https://api.atlascloud.ai/api/v1/model/calculate",
+    "payloads": {
+      "480p": {
+        "model": "bytedance/seedance-2.0-mini/text-to-video",
+        "duration": 15,
+        "resolution": "480p",
+        "generate_audio": true
+      },
+      "720p": {
+        "model": "bytedance/seedance-2.0-mini/text-to-video",
+        "duration": 15,
+        "resolution": "720p",
+        "generate_audio": true
+      }
+    },
+    "price_path": "data.price",
+    "discount_path": "data.discount",
+    "fallback_url": "https://www.atlascloud.ai/models/explore/seedance-2-lowest-price",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "480p": 0.675,
+      "720p": 1.452
+    },
+    "allow_research": true
+  },
+  "mini@kie": {
+    "method": "regex",
+    "url": "https://kie.ai/seedance-2-0-mini",
+    "unit": "per_second",
+    "credit_usd": 0.005,
+    "regex": {
+      "480p": "480p[^\"]{0,160}?\\(\\$(?<v>[\\d.]+)/s, no video\\)",
+      "720p": "720p[^\"]{0,160}?\\(\\$(?<v>[\\d.]+)/s, no video\\)"
+    },
+    "fallback_url": "https://kie.ai/seedance-2-0-mini",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "480p": 1.14,
+      "720p": 2.46
+    },
+    "clip_s": 15,
+    "allow_research": true
+  },
+  "mini@runware": {
+    "method": "regex",
+    "url": "https://runware.ai/docs/models/bytedance-seedance-2-0-mini/schema.json",
+    "unit": "per_second",
+    "regex": {
+      "480p": "\\$(?<v>[\\d.]+) per second of video at 480p",
+      "720p": "\\$(?<v>[\\d.]+) per second of video at 720p"
+    },
+    "fallback_url": "https://runware.ai/docs/models/bytedance-seedance-2-0-mini",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "480p": 2.16,
+      "720p": 4.86
+    },
+    "clip_s": 15,
+    "allow_research": true
+  },
+  "mini@wavespeed": {
+    "method": "json-api",
+    "url": "https://wavespeed.ai/api/models?page=1&page_size=200",
+    "list": "items",
+    "match": {
+      "field": "model_uuid",
+      "equals": "bytedance/seedance-2.0-mini/image-to-video"
+    },
+    "fields": {
+      "480p": {
+        "path": "base_price",
+        "factor_path": "discount_rate",
+        "formula": "v/1000000/5*60*0.5"
+      },
+      "720p": {
+        "path": "base_price",
+        "factor_path": "discount_rate",
+        "formula": "v/1000000/5*60*1"
+      },
+      "1080p": {
+        "path": "base_price",
+        "factor_path": "discount_rate",
+        "formula": "v/1000000/5*60*1"
+      }
+    },
+    "promo": {
+      "path": "discount_rate",
+      "formula": "100-v",
+      "label": "{pct}% off on WaveSpeed"
+    },
+    "fallback_url": "https://wavespeed.ai/models/bytedance/seedance-2.0-mini/image-to-video",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "480p": 3.6,
+      "720p": 7.2,
+      "1080p": 18
+    },
+    "clip_s": 15,
+    "allow_research": true
+  },
+  "mini@piapi": {
+    "method": "llm",
+    "url": "https://piapi.ai/seedance-2-0",
+    "render": true,
+    "allow_research": true,
+    "clip_s": 15,
+    "note": "no deterministic recipe for this aggregator"
+  },
+  "mini@fal": {
+    "method": "json-api",
+    "url": "https://fal.ai/api/models?keywords=Seedance%202.0",
+    "list": "items",
+    "match": {
+      "field": "id",
+      "equals": "bytedance/seedance-2.0/mini/image-to-video"
+    },
+    "fields": {
+      "480p": {
+        "path": "pricingInfoOverride",
+        "regex": "\\$(?<v>[\\d.]+)\\*{0,2}\\s*(?:/|per)\\s*second(?: of (?:generated )?video)?\\*{0,2}[^.,]{0,25}?\\b(?:at|for)\\s*\\*{0,2}480p",
+        "unit": "per_second"
+      },
+      "720p": {
+        "path": "pricingInfoOverride",
+        "regex": "\\$(?<v>[\\d.]+)\\*{0,2}\\s*(?:/|per)\\s*second(?: of (?:generated )?video)?\\*{0,2}[^.,]{0,25}?\\b(?:at|for)\\s*\\*{0,2}720p",
+        "unit": "per_second"
+      }
+    },
+    "fallback_url": "https://fal.ai/models/bytedance/seedance-2.0/mini/reference-to-video",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "480p": 4.326,
+      "720p": 9.282
+    },
+    "clip_s": 15,
+    "allow_research": true
+  },
+  "wanflash@atlas": {
+    "method": "atlas-calc",
+    "url": "https://api.atlascloud.ai/api/v1/model/calculate",
+    "payloads": {
+      "720p": {
+        "model": "alibaba/wan-2.6/image-to-video-flash",
+        "duration": 15,
+        "resolution": "720p",
+        "generate_audio": true
+      }
+    },
+    "price_path": "data.price",
+    "discount_path": "data.discount",
+    "fallback_url": "https://www.atlascloud.ai/pricing/models",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "720p": 2.1
+    },
+    "allow_research": true
+  },
+  "wanflash@runware": {
+    "method": "regex",
+    "url": "https://runware.ai/docs/models/alibaba-wan2-6-flash/schema.json",
+    "unit": "per_second",
+    "regex": {
+      "720p": "\\$(?<v>[\\d.]+) \\(audio\\)[^.\\n]{0,20}?at 720p",
+      "1080p": "\\$(?<v>[\\d.]+) \\(audio\\)[^.\\n]{0,20}?at 1080p"
+    },
+    "fallback_url": "https://runware.ai/docs/models/alibaba-wan2-6-flash",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "720p": 3,
+      "1080p": 4.5
+    },
+    "clip_s": 15,
+    "allow_research": true
+  },
+  "wansilent@runware": {
+    "method": "llm",
+    "url": "https://runware.ai/docs/models/alibaba-wan2-6-flash",
+    "render": false,
+    "allow_research": true,
+    "clip_s": 15,
+    "note": "deterministic candidates failed: regex→{}; regex→{}; regex→{}; regex→{}; regex→{}; "
+  },
+  "grok@atlas": {
+    "method": "atlas-calc",
+    "url": "https://api.atlascloud.ai/api/v1/model/calculate",
+    "payloads": {
+      "480p": {
+        "model": "xai/grok-imagine-video-v1.5-developer/text-to-video",
+        "duration": 15,
+        "resolution": "480p",
+        "generate_audio": true
+      },
+      "720p": {
+        "model": "xai/grok-imagine-video-v1.5-developer/text-to-video",
+        "duration": 15,
+        "resolution": "720p",
+        "generate_audio": true
+      }
+    },
+    "price_path": "data.price",
+    "discount_path": "data.discount",
+    "fallback_url": "https://www.atlascloud.ai/pricing/models",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "480p": 1.68,
+      "720p": 2.94
+    },
+    "allow_research": true
+  },
+  "veolite@atlas": {
+    "method": "atlas-calc",
+    "url": "https://api.atlascloud.ai/api/v1/model/calculate",
+    "payloads": {
+      "720p": {
+        "model": "google/veo3.1-lite/text-to-video",
+        "duration": 8,
+        "resolution": "720p",
+        "generate_audio": true
+      }
+    },
+    "price_path": "data.price",
+    "discount_path": "data.discount",
+    "fallback_url": "https://www.atlascloud.ai/pricing/models",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "720p": 3
+    },
+    "allow_research": true
+  },
+  "veolite@runware": {
+    "method": "llm",
+    "url": "https://runware.ai/docs/models/google-veo-3-1-lite",
+    "render": false,
+    "allow_research": true,
+    "clip_s": 8,
+    "note": "deterministic candidates failed: regex→{}; regex→{}; regex→{}; regex→{}; regex→{}; regex→{}; regex→{}; "
+  },
+  "kielite@kie": {
+    "method": "regex",
+    "url": "https://kie.ai/veo-3-1",
+    "unit": "per_clip",
+    "credit_usd": 0.005,
+    "regex": {
+      "720p": "Lite mode[^\"]{0,160}?720p[^\"]{0,40}?\\$\\s?(?<v>[\\d.]+)\\)? per video",
+      "1080p": "Lite mode[^\"]{0,160}?1080p[^\"]{0,40}?\\$\\s?(?<v>[\\d.]+)\\)? per video"
+    },
+    "fallback_url": "https://kie.ai/veo-3-1",
+    "clip_s": 8,
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "720p": 1.125,
+      "1080p": 1.3125
+    },
+    "allow_research": true
+  },
+  "fast@atlas": {
+    "method": "atlas-calc",
+    "url": "https://api.atlascloud.ai/api/v1/model/calculate",
+    "payloads": {
+      "480p": {
+        "model": "bytedance/seedance-2.0-fast/text-to-video",
+        "duration": 15,
+        "resolution": "480p",
+        "generate_audio": true
+      },
+      "720p": {
+        "model": "bytedance/seedance-2.0-fast/text-to-video",
+        "duration": 15,
+        "resolution": "720p",
+        "generate_audio": true
+      }
+    },
+    "price_path": "data.price",
+    "discount_path": "data.discount",
+    "fallback_url": "https://www.atlascloud.ai/models/explore/seedance-2-lowest-price",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "480p": 1.6199,
+      "720p": 3.486
+    },
+    "allow_research": true
+  },
+  "fast@kie": {
+    "method": "regex",
+    "url": "https://kie.ai/seedance-2-0",
+    "unit": "per_second",
+    "credit_usd": 0.005,
+    "regex": {
+      "480p": "480p[^\"]{0,160}?\\(\\$(?<v>[\\d.]+)/s, no video\\)",
+      "720p": "720p[^\"]{0,160}?\\(\\$(?<v>[\\d.]+)/s, no video\\)"
+    },
+    "fallback_url": "https://kie.ai/seedance-2-0",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "480p": 3.51,
+      "720p": 7.44
+    },
+    "clip_s": 15,
+    "allow_research": true
+  },
+  "fast@runware": {
+    "method": "regex",
+    "url": "https://runware.ai/docs/models/bytedance-seedance-2-0-fast/schema.json",
+    "unit": "per_second",
+    "regex": {
+      "480p": "480p[^.\\n$]{0,40}?\\$(?<v>[\\d.]+)\\s*(?:/|per)\\s*s",
+      "720p": "720p[^.\\n$]{0,40}?\\$(?<v>[\\d.]+)\\s*(?:/|per)\\s*s"
+    },
+    "fallback_url": "https://runware.ai/docs/models/bytedance-seedance-2-0-fast",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "480p": 3.6,
+      "720p": 7.8
+    },
+    "clip_s": 15,
+    "allow_research": true
+  },
+  "fast@piapi": {
+    "method": "llm",
+    "url": "https://piapi.ai/seedance-2-0",
+    "render": true,
+    "allow_research": true,
+    "clip_s": 15,
+    "note": "no deterministic recipe for this aggregator"
+  },
+  "fast@fal": {
+    "method": "json-api",
+    "url": "https://fal.ai/api/models?keywords=Seedance%202.0",
+    "list": "items",
+    "match": {
+      "field": "id",
+      "equals": "bytedance/seedance-2.0/fast/image-to-video"
+    },
+    "fields": {
+      "720p": {
+        "path": "pricingInfoOverride",
+        "regex": "second of 720p video[^$]{0,80}?\\$(?<v>[\\d.]+)",
+        "unit": "per_second"
+      },
+      "480p": {
+        "path": "pricingInfoOverride",
+        "regex": "second of 480p video[^$]{0,80}?\\$(?<v>[\\d.]+)",
+        "unit": "per_second"
+      }
+    },
+    "fallback_url": "https://fal.ai/models/bytedance/seedance-2.0/fast/image-to-video",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "720p": 14.514,
+      "480p": 6.75
+    },
+    "clip_s": 15,
+    "allow_research": true
+  },
+  "kling@atlas": {
+    "method": "atlas-calc",
+    "url": "https://api.atlascloud.ai/api/v1/model/calculate",
+    "payloads": {
+      "720p": {
+        "model": "kwaivgi/kling-v3.0-turbo/text-to-video",
+        "duration": 15,
+        "resolution": "720p",
+        "generate_audio": true
+      }
+    },
+    "price_path": "data.price",
+    "discount_path": "data.discount",
+    "fallback_url": "https://www.atlascloud.ai/pricing/models",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "720p": 5.712
+    },
+    "allow_research": true
+  },
+  "kling@runware": {
+    "method": "regex",
+    "url": "https://runware.ai/docs/models/klingai-video-3-0-turbo/schema.json",
+    "unit": "per_second",
+    "regex": {
+      "720p": "\\$(?<v>[\\d.]+) per second of video at 720p",
+      "1080p": "\\$(?<v>[\\d.]+) per second of video at 1080p"
+    },
+    "fallback_url": "https://runware.ai/docs/models/klingai-video-3-0-turbo",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "720p": 6.72,
+      "1080p": 8.4
+    },
+    "clip_s": 15,
+    "allow_research": true
+  },
+  "s25@atlas": {
+    "method": "atlas-calc",
+    "url": "https://api.atlascloud.ai/api/v1/model/calculate",
+    "payloads": {
+      "480p": {
+        "model": "bytedance/seedance-2.5/text-to-video",
+        "duration": 30,
+        "resolution": "480p",
+        "generate_audio": true
+      },
+      "720p": {
+        "model": "bytedance/seedance-2.5/text-to-video",
+        "duration": 30,
+        "resolution": "720p",
+        "generate_audio": true
+      }
+    },
+    "price_path": "data.price",
+    "discount_path": "data.discount",
+    "fallback_url": "https://api.atlascloud.ai/api/v1/model/calculate",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "480p": 8.3944,
+      "720p": 18.0524
+    },
+    "allow_research": true
+  },
+  "s25@kie": {
+    "method": "regex",
+    "url": "https://kie.ai/seedance-2-5",
+    "unit": "per_second",
+    "credit_usd": 0.005,
+    "regex": {
+      "480p": "480p[^\"]{0,160}?\\(\\$(?<v>[\\d.]+)/s, no video\\)",
+      "720p": "720p[^\"]{0,160}?\\(\\$(?<v>[\\d.]+)/s, no video\\)",
+      "1080p": "1080p[^\"]{0,160}?\\(\\$(?<v>[\\d.]+)/s, no video\\)"
+    },
+    "fallback_url": "https://kie.ai/seedance-2-5",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "480p": 8.4,
+      "720p": 18.9,
+      "1080p": 34.2
+    },
+    "clip_s": 30,
+    "allow_research": true
+  },
+  "s25@wavespeed": {
+    "method": "json-api",
+    "url": "https://wavespeed.ai/api/models?page=1&page_size=200",
+    "list": "items",
+    "match": {
+      "field": "model_uuid",
+      "equals": "bytedance/seedance-2.5/image-to-video"
+    },
+    "fields": {
+      "480p": {
+        "path": "base_price",
+        "factor_path": "discount_rate",
+        "formula": "v/1000000/5*60*1"
+      },
+      "720p": {
+        "path": "base_price",
+        "factor_path": "discount_rate",
+        "formula": "v/1000000/5*60*2"
+      },
+      "1080p": {
+        "path": "base_price",
+        "factor_path": "discount_rate",
+        "formula": "v/1000000/5*60*2"
+      }
+    },
+    "promo": {
+      "path": "discount_rate",
+      "formula": "100-v",
+      "label": "{pct}% off on WaveSpeed"
+    },
+    "fallback_url": "https://wavespeed.ai/models/bytedance/seedance-2.5/image-to-video",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "480p": 9.72,
+      "720p": 19.44,
+      "1080p": 48.6
+    },
+    "clip_s": 30,
+    "allow_research": true
+  },
+  "s25@fal": {
+    "method": "json-api",
+    "url": "https://fal.ai/api/models?keywords=Seedance%202.5",
+    "list": "items",
+    "match": {
+      "field": "id",
+      "equals": "bytedance/seedance-2.5/image-to-video"
+    },
+    "fields": {
+      "480p": {
+        "path": "pricingInfoOverride",
+        "regex": "(?:for|at)\\s*\\*{0,2}480p\\*{0,2},?[^$]{0,80}?\\$(?<v>[\\d.]+)",
+        "unit": "per_second"
+      },
+      "720p": {
+        "path": "pricingInfoOverride",
+        "regex": "(?:for|at)\\s*\\*{0,2}720p\\*{0,2},?[^$]{0,80}?\\$(?<v>[\\d.]+)",
+        "unit": "per_second"
+      },
+      "1080p": {
+        "path": "pricingInfoOverride",
+        "regex": "(?:for|at)\\s*\\*{0,2}1080p\\*{0,2},?[^$]{0,80}?\\$(?<v>[\\d.]+)",
+        "unit": "per_second"
+      }
+    },
+    "fallback_url": "https://fal.ai/models/bytedance/seedance-2.5/image-to-video",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "480p": 13.23,
+      "720p": 28.38,
+      "1080p": 69.84
+    },
+    "clip_s": 30,
+    "allow_research": true
+  },
+  "pix@kie": {
+    "method": "regex",
+    "url": "https://kie.ai/pixverse-v6",
+    "unit": "per_second",
+    "credit_usd": 0.005,
+    "regex": {
+      "720p": "720p[^\"]{0,200}?\\(\\$(?<v>[\\d.]+)/s, with audio\\)",
+      "1080p": "1080p[^\"]{0,200}?\\(\\$(?<v>[\\d.]+)/s, with audio\\)"
+    },
+    "fallback_url": "https://kie.ai/pixverse-v6",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "720p": 2.88,
+      "1080p": 5.52
+    },
+    "clip_s": 15,
+    "allow_research": true
+  },
+  "pix@atlas": {
+    "method": "atlas-calc",
+    "url": "https://api.atlascloud.ai/api/v1/model/calculate",
+    "payloads": {
+      "720p": {
+        "model": "pixverse/v6/image-to-video",
+        "duration": 15,
+        "resolution": "720p",
+        "generate_audio": true
+      }
+    },
+    "price_path": "data.price",
+    "discount_path": "data.discount",
+    "fallback_url": "https://www.atlascloud.ai/pricing/models",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "720p": 3.6
+    },
+    "allow_research": true
+  },
+  "pix@runware": {
+    "method": "llm",
+    "url": "https://runware.ai/docs/models/pixverse-v6",
+    "render": false,
+    "allow_research": true,
+    "clip_s": 15,
+    "note": "deterministic candidates failed: regex→{}; regex→{}; regex→{}; regex→{}; regex→{}; regex→{}; regex→{}; "
+  },
+  "pixsilent@kie": {
+    "method": "regex",
+    "url": "https://kie.ai/pixverse-v6",
+    "unit": "per_second",
+    "credit_usd": 0.005,
+    "regex": {
+      "720p": "720p[^\"]{0,100}?\\(\\$(?<v>[\\d.]+)/s, no audio\\)",
+      "1080p": "1080p[^\"]{0,100}?\\(\\$(?<v>[\\d.]+)/s, no audio\\)"
+    },
+    "fallback_url": "https://kie.ai/pixverse-v6",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "720p": 2.16,
+      "1080p": 4.32
+    },
+    "clip_s": 15,
+    "allow_research": true
+  },
+  "pixsilent@runware": {
+    "method": "llm",
+    "url": "https://runware.ai/docs/models/pixverse-v6",
+    "render": false,
+    "allow_research": true,
+    "clip_s": 15,
+    "note": "deterministic candidates failed: regex→{}; regex→{}; regex→{}; regex→{}; regex→{}; "
+  },
+  "wan3@atlas": {
+    "method": "atlas-calc",
+    "url": "https://api.atlascloud.ai/api/v1/model/calculate",
+    "payloads": {
+      "480p": {
+        "model": "alibaba/wan-3.0/text-to-video",
+        "duration": 30,
+        "resolution": "480p",
+        "generate_audio": true
+      },
+      "720p": {
+        "model": "alibaba/wan-3.0/text-to-video",
+        "duration": 30,
+        "resolution": "720p",
+        "generate_audio": true
+      }
+    },
+    "price_path": "data.price",
+    "discount_path": "data.discount",
+    "fallback_url": "https://www.atlascloud.ai/pricing/models",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "480p": 2.4,
+      "720p": 4.8
+    },
+    "allow_research": true
+  },
+  "wan3@replicate": {
+    "method": "regex",
+    "url": "https://replicate.com/alibaba/wan-3",
+    "unit": "per_second",
+    "regex": {
+      "480p": "\"description\": \"480p resolution\", \"prices\": \\[\\{[^\\]]*?\"price\": \"\\$(?<v>[\\d.]+)\"",
+      "720p": "\"description\": \"720p resolution\", \"prices\": \\[\\{[^\\]]*?\"price\": \"\\$(?<v>[\\d.]+)\"",
+      "1080p": "\"description\": \"1080p resolution\", \"prices\": \\[\\{[^\\]]*?\"price\": \"\\$(?<v>[\\d.]+)\""
+    },
+    "fallback_url": "https://replicate.com/alibaba/wan-3",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "480p": 1.5,
+      "720p": 3,
+      "1080p": 6
+    },
+    "clip_s": 30,
+    "allow_research": true
+  },
+  "wan27@atlas": {
+    "method": "atlas-calc",
+    "url": "https://api.atlascloud.ai/api/v1/model/calculate",
+    "payloads": {
+      "720p": {
+        "model": "alibaba/wan-2.7/image-to-video",
+        "duration": 15,
+        "resolution": "720p",
+        "generate_audio": true
+      }
+    },
+    "price_path": "data.price",
+    "discount_path": "data.discount",
+    "fallback_url": "https://www.atlascloud.ai/pricing/models",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "720p": 6
+    },
+    "allow_research": true
+  },
+  "wan27@novita": {
+    "method": "llm",
+    "url": "https://novita.ai/models",
+    "render": true,
+    "allow_research": true,
+    "clip_s": 15,
+    "note": "no deterministic recipe for this aggregator"
+  },
+  "veofast@kie": {
+    "method": "regex",
+    "url": "https://kie.ai/veo-3-1",
+    "unit": "per_clip",
+    "credit_usd": 0.005,
+    "regex": {
+      "720p": "Fast mode[^\"]{0,160}?720p[^\"]{0,40}?\\$\\s?(?<v>[\\d.]+)\\)? per video",
+      "1080p": "Fast mode[^\"]{0,160}?1080p[^\"]{0,40}?\\$\\s?(?<v>[\\d.]+)\\)? per video"
+    },
+    "fallback_url": "https://kie.ai/veo-3-1",
+    "clip_s": 8,
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "720p": 2.25,
+      "1080p": 2.4375
+    },
+    "allow_research": true
+  },
+  "veofast@atlas": {
+    "method": "atlas-calc",
+    "url": "https://api.atlascloud.ai/api/v1/model/calculate",
+    "payloads": {
+      "720p": {
+        "model": "google/veo3.1-fast/text-to-video",
+        "duration": 8,
+        "resolution": "720p",
+        "generate_audio": true
+      }
+    },
+    "price_path": "data.price",
+    "discount_path": "data.discount",
+    "fallback_url": "https://www.atlascloud.ai/pricing/models",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "720p": 5.76
+    },
+    "allow_research": true
+  },
+  "s25@runware": {
+    "method": "llm",
+    "url": "https://runware.ai/seedance-2-5",
+    "render": false,
+    "allow_research": true,
+    "clip_s": 30,
+    "note": "no deterministic recipe for this aggregator"
+  },
+  "s25@openrouter": {
+    "method": "json-api",
+    "url": "https://openrouter.ai/api/v1/videos/models",
+    "list": "data",
+    "match": {
+      "field": "id",
+      "equals": "bytedance/seedance-2.5"
+    },
+    "fields": {
+      "480p": {
+        "path": "pricing_skus.video_tokens",
+        "formula": "v*583200"
+      },
+      "720p": {
+        "path": "pricing_skus.video_tokens",
+        "formula": "v*1296000"
+      },
+      "1080p": {
+        "path": "pricing_skus.video_tokens",
+        "formula": "v*2916000"
+      }
+    },
+    "fallback_url": "https://openrouter.ai/bytedance/seedance-2.5",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "480p": 6.168,
+      "720p": 13.866,
+      "1080p": 31.2012
+    },
+    "clip_s": 30,
+    "allow_research": true
+  },
+  "s25@piapi": {
+    "method": "llm",
+    "url": "https://app.piapi.ai/seedance-2-5",
+    "render": true,
+    "allow_research": true,
+    "clip_s": 30,
+    "note": "no deterministic recipe for this aggregator"
+  },
+  "s25@replicate": {
+    "method": "llm",
+    "url": "https://replicate.com/bytedance/seedance-2.5",
+    "render": false,
+    "allow_research": true,
+    "clip_s": 30,
+    "note": "deterministic candidates failed: regex→{}; "
+  },
+  "s25@novita": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "s25@huggingface": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "h3max@atlas": {
+    "method": "llm",
+    "url": "https://api.atlascloud.ai/api/v1/model/calculate",
+    "render": true,
+    "allow_research": true,
+    "note": "deterministic candidates failed: atlas-calc→{\"480p\":2.85}; atlas-calc→{\"480p\":2.85}; "
+  },
+  "wansilent@atlas": {
+    "method": "atlas-calc",
+    "url": "https://api.atlascloud.ai/api/v1/model/calculate",
+    "payloads": {
+      "720p": {
+        "model": "alibaba/wan-2.6/image-to-video-flash",
+        "duration": 15,
+        "resolution": "720p"
+      }
+    },
+    "price_path": "data.price",
+    "discount_path": "data.discount",
+    "fallback_url": "https://www.atlascloud.ai/models/alibaba/wan-2.6/image-to-video-flash",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "720p": 2.1
+    },
+    "allow_research": true
+  },
+  "pixsilent@atlas": {
+    "method": "atlas-calc",
+    "url": "https://api.atlascloud.ai/api/v1/model/calculate",
+    "payloads": {
+      "720p": {
+        "model": "pixverse/v6/image-to-video",
+        "duration": 15,
+        "resolution": "720p"
+      }
+    },
+    "price_path": "data.price",
+    "discount_path": "data.discount",
+    "fallback_url": "https://www.atlascloud.ai/models/pixverse/v6/text-to-video",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "720p": 2.7
+    },
+    "allow_research": true
+  },
+  "wanflash@fal": {
+    "method": "json-api",
+    "url": "https://fal.ai/api/models?keywords=Wan%202.6",
+    "list": "items",
+    "match": {
+      "field": "id",
+      "equals": "wan/v2.6/image-to-video/flash"
+    },
+    "fields": {
+      "720p": {
+        "path": "pricingInfoOverride",
+        "regex": "\\$(?<v>[\\d.]+)\\*{0,2}\\s*(?:/|per)\\s*second(?: of (?:generated )?video)?\\*{0,2}[^.,]{0,25}?\\b(?:at|for)\\s*\\*{0,2}720p",
+        "unit": "per_second"
+      },
+      "1080p": {
+        "path": "pricingInfoOverride",
+        "regex": "\\$(?<v>[\\d.]+)\\*{0,2}\\s*(?:/|per)\\s*second(?: of (?:generated )?video)?\\*{0,2}[^.,]{0,25}?\\b(?:at|for)\\s*\\*{0,2}1080p",
+        "unit": "per_second"
+      }
+    },
+    "fallback_url": "https://fal.ai/models/wan/v2.6/image-to-video/flash",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "720p": 3,
+      "1080p": 4.5
+    },
+    "allow_research": true
+  },
+  "wansilent@fal": {
+    "method": "llm",
+    "url": "https://fal.ai/models/wan/v2.6/image-to-video/flash",
+    "render": false,
+    "allow_research": true,
+    "note": "deterministic candidates failed: json-api→{\"720p\":3,\"1080p\":4.5}; json-api→{\"720p\":4.5}; json-api→{}; json-api→{}; json-api→{}; json-api→{\"720p\":6,\"1080p\":9}; json-api→{\"720p\":9}; json-api→{}; json-api→{}; json-api→{}; "
+  },
+  "pix@fal": {
+    "method": "llm",
+    "url": "https://fal.ai/models/fal-ai/pixverse/v6/image-to-video",
+    "render": false,
+    "allow_research": true,
+    "note": "deterministic candidates failed: json-api→{}; json-api→{}; json-api→{}; json-api→{}; json-api→{}; json-api→{}; json-api→{\"720p\":2.7,\"1080p\":5.4}; json-api→{}; json-api→{}; json-api→{}; "
+  },
+  "pixsilent@fal": {
+    "method": "json-api",
+    "url": "https://fal.ai/api/models?keywords=PixVerse%20V6",
+    "list": "items",
+    "match": {
+      "field": "id",
+      "includes": "pixverse/v6"
+    },
+    "fields": {
+      "720p": {
+        "path": "pricingInfoOverride",
+        "regex": "(?:for|at)\\s*\\*{0,2}720p\\*{0,2},?[^$]{0,80}?\\$(?<v>[\\d.]+)",
+        "unit": "per_second"
+      },
+      "1080p": {
+        "path": "pricingInfoOverride",
+        "regex": "(?:for|at)\\s*\\*{0,2}1080p\\*{0,2},?[^$]{0,80}?\\$(?<v>[\\d.]+)",
+        "unit": "per_second"
+      }
+    },
+    "fallback_url": "https://fal.ai/models/fal-ai/pixverse/v6/image-to-video",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "720p": 2.7,
+      "1080p": 5.4
+    },
+    "allow_research": true
+  },
+  "veofast@fal": {
+    "method": "json-api",
+    "url": "https://fal.ai/api/models?keywords=Veo%203.1",
+    "list": "items",
+    "match": {
+      "field": "id",
+      "includes": "veo3.1/fast"
+    },
+    "fields": {
+      "720p": {
+        "path": "pricingInfoOverride",
+        "regex": "\\$(?<v>[\\d.]+)\\*{0,2}\\s*\\(audio on\\)",
+        "unit": "per_second"
+      },
+      "1080p": {
+        "path": "pricingInfoOverride",
+        "regex": "\\$(?<v>[\\d.]+)\\*{0,2}\\s*\\(audio on\\)",
+        "unit": "per_second"
+      }
+    },
+    "fallback_url": "https://fal.ai/models/fal-ai/veo3.1/fast/image-to-video",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "720p": 9,
+      "1080p": 9
+    },
+    "allow_research": true
+  },
+  "veolite@fal": {
+    "method": "json-api",
+    "url": "https://fal.ai/api/models?keywords=Veo%203.1",
+    "list": "items",
+    "match": {
+      "field": "id",
+      "includes": "veo3.1/lite"
+    },
+    "fields": {
+      "720p": {
+        "path": "pricingInfoOverride",
+        "regex": "charged\\s*\\*{0,2}\\$(?<v>[\\d.]+)",
+        "unit": "per_second"
+      },
+      "1080p": {
+        "path": "pricingInfoOverride",
+        "regex": "charged\\s*\\*{0,2}\\$(?<v>[\\d.]+)",
+        "unit": "per_second"
+      }
+    },
+    "fallback_url": "https://fal.ai/models/fal-ai/veo3.1/lite/image-to-video",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "720p": 3,
+      "1080p": 4.8
+    },
+    "allow_research": true
+  },
+  "wan3@fal": {
+    "method": "llm",
+    "url": "https://fal.ai/models/alibaba/wan-3.0/image-to-video",
+    "render": false,
+    "allow_research": true,
+    "note": "deterministic candidates failed: json-api→{}; json-api→{\"720p\":30}; json-api→{}; json-api→{}; json-api→{\"720p\":3,\"480p\":3,\"1080p\":3}; json-api→{}; json-api→{\"720p\":16.8,\"480p\":8.4,\"1080p\":42}; json-api→{}; json-api→{}; json-api→{\"720p\":4.08,\"480p\":4.08,\"1080p\":4.08}; "
+  },
+  "kling@fal": {
+    "method": "llm",
+    "url": "https://fal.ai/models/fal-ai/kling-video/v3/turbo/pro/image-to-video",
+    "render": false,
+    "allow_research": true,
+    "note": "deterministic candidates failed: json-api→{}; json-api→{}; json-api→{}; json-api→{}; json-api→{}; json-api→{}; json-api→{}; json-api→{}; json-api→{}; json-api→{\"1080p\":6.72}; "
+  },
+  "wan27@fal": {
+    "method": "llm",
+    "url": "https://fal.ai/models/fal-ai/wan/v2.7/image-to-video",
+    "render": false,
+    "allow_research": true,
+    "note": "deterministic candidates failed: json-api→{}; json-api→{}; json-api→{}; json-api→{}; json-api→{}; json-api→{}; json-api→{}; json-api→{}; json-api→{}; json-api→{}; "
+  },
+  "fast@replicate": {
+    "method": "llm",
+    "url": "https://replicate.com/bytedance/seedance-2.0-fast",
+    "render": false,
+    "allow_research": true,
+    "note": "deterministic candidates failed: regex→{}; "
+  },
+  "mini@replicate": {
+    "method": "llm",
+    "url": "https://replicate.com/bytedance/seedance-2.0-mini",
+    "render": false,
+    "allow_research": true,
+    "note": "deterministic candidates failed: regex→{}; "
+  },
+  "veofast@replicate": {
+    "method": "llm",
+    "url": "https://replicate.com/google/veo-3.1-fast",
+    "render": false,
+    "allow_research": true,
+    "note": "deterministic candidates failed: regex→{}; "
+  },
+  "veolite@replicate": {
+    "method": "llm",
+    "url": "https://replicate.com/google/veo-3.1-lite",
+    "render": false,
+    "allow_research": true,
+    "note": "deterministic candidates failed: regex→{}; "
+  },
+  "pix@replicate": {
+    "method": "llm",
+    "url": "https://replicate.com/pixverse/pixverse-v6",
+    "render": false,
+    "allow_research": true,
+    "note": "deterministic candidates failed: regex→{}; "
+  },
+  "pixsilent@replicate": {
+    "method": "llm",
+    "url": "https://replicate.com/pixverse/pixverse-v6",
+    "render": false,
+    "allow_research": true,
+    "note": "deterministic candidates failed: regex→{}; "
+  },
+  "wanflash@replicate": {
+    "method": "llm",
+    "url": "https://replicate.com/wan-video/wan2.6-i2v-flash",
+    "render": false,
+    "allow_research": true,
+    "note": "deterministic candidates failed: regex→{}; "
+  },
+  "wansilent@replicate": {
+    "method": "llm",
+    "url": "https://replicate.com/wan-video/wan2.6-i2v-flash",
+    "render": false,
+    "allow_research": true,
+    "note": "deterministic candidates failed: regex→{}; "
+  },
+  "wan27@replicate": {
+    "method": "regex",
+    "url": "https://replicate.com/wan-video/wan-2.7-i2v",
+    "unit": "per_second",
+    "regex": {
+      "720p": "\"description\": \"720p resolution\", \"prices\": \\[\\{[^\\]]*?\"price\": \"\\$(?<v>[\\d.]+)\"",
+      "1080p": "\"description\": \"1080p resolution\", \"prices\": \\[\\{[^\\]]*?\"price\": \"\\$(?<v>[\\d.]+)\""
+    },
+    "fallback_url": "https://replicate.com/wan-video/wan-2.7-i2v",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "720p": 6,
+      "1080p": 9
+    },
+    "allow_research": true
+  },
+  "fast@wavespeed": {
+    "method": "json-api",
+    "url": "https://wavespeed.ai/api/models?page=1&page_size=200",
+    "list": "items",
+    "match": {
+      "field": "model_uuid",
+      "equals": "bytedance/seedance-2.0-fast/image-to-video"
+    },
+    "fields": {
+      "720p": {
+        "path": "base_price",
+        "factor_path": "discount_rate",
+        "formula": "v/1000000/5*60*2"
+      },
+      "480p": {
+        "path": "base_price",
+        "factor_path": "discount_rate",
+        "formula": "v/1000000/5*60*1"
+      },
+      "1080p": {
+        "path": "base_price",
+        "factor_path": "discount_rate",
+        "formula": "v/1000000/5*60*2"
+      }
+    },
+    "promo": {
+      "path": "discount_rate",
+      "formula": "100-v",
+      "label": "{pct}% off on WaveSpeed"
+    },
+    "fallback_url": "https://wavespeed.ai/models/bytedance/seedance-2.0-fast/image-to-video",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "720p": 12,
+      "480p": 6,
+      "1080p": 30
+    },
+    "allow_research": true
+  },
+  "seed15@wavespeed": {
+    "method": "llm",
+    "url": "https://wavespeed.ai/models/bytedance/seedance-v1.5-pro/image-to-video-fast",
+    "render": true,
+    "allow_research": true,
+    "note": "deterministic candidates failed: json-api→{}; json-api→{}; json-api→{}; "
+  },
+  "wanflash@wavespeed": {
+    "method": "llm",
+    "url": "https://wavespeed.ai/models/alibaba/wan-2.6/image-to-video-flash",
+    "render": true,
+    "allow_research": true,
+    "note": "deterministic candidates failed: json-api→{}; json-api→{}; json-api→{}; "
+  },
+  "wansilent@wavespeed": {
+    "method": "llm",
+    "url": "https://wavespeed.ai/models/alibaba/wan-2.6/image-to-video-flash",
+    "render": true,
+    "allow_research": true,
+    "note": "deterministic candidates failed: json-api→{}; json-api→{}; json-api→{}; "
+  },
+  "wan27@wavespeed": {
+    "method": "json-api",
+    "url": "https://wavespeed.ai/api/models?page=1&page_size=200",
+    "list": "items",
+    "match": {
+      "field": "model_uuid",
+      "equals": "alibaba/wan-2.7/image-to-video"
+    },
+    "fields": {
+      "720p": {
+        "path": "base_price",
+        "factor_path": "discount_rate",
+        "formula": "v/1000000/5*60*1"
+      },
+      "1080p": {
+        "path": "base_price",
+        "factor_path": "discount_rate",
+        "formula": "v/1000000/5*60*1"
+      }
+    },
+    "promo": {
+      "path": "discount_rate",
+      "formula": "100-v",
+      "label": "{pct}% off on WaveSpeed"
+    },
+    "fallback_url": "https://wavespeed.ai/models/alibaba/wan-2.7/image-to-video",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "720p": 6,
+      "1080p": 9
+    },
+    "allow_research": true
+  },
+  "wan3@wavespeed": {
+    "method": "json-api",
+    "url": "https://wavespeed.ai/api/models?page=1&page_size=200",
+    "list": "items",
+    "match": {
+      "field": "model_uuid",
+      "equals": "alibaba/wan-3.0/image-to-video"
+    },
+    "fields": {
+      "720p": {
+        "path": "base_price",
+        "factor_path": "discount_rate",
+        "formula": "v/1000000/5*60*1"
+      },
+      "480p": {
+        "path": "base_price",
+        "factor_path": "discount_rate",
+        "formula": "v/1000000/5*60*0.5"
+      },
+      "1080p": {
+        "path": "base_price",
+        "factor_path": "discount_rate",
+        "formula": "v/1000000/5*60*1"
+      }
+    },
+    "promo": {
+      "path": "discount_rate",
+      "formula": "100-v",
+      "label": "{pct}% off on WaveSpeed"
+    },
+    "fallback_url": "https://wavespeed.ai/models/alibaba/wan-3.0/image-to-video",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "720p": 5.7,
+      "480p": 2.85,
+      "1080p": 11.4
+    },
+    "allow_research": true
+  },
+  "vidu@wavespeed": {
+    "method": "llm",
+    "url": "https://wavespeed.ai/models/vidu/q2-pro/image-to-video-fast",
+    "render": true,
+    "allow_research": true,
+    "note": "deterministic candidates failed: json-api→{}; json-api→{}; json-api→{}; "
+  },
+  "pix@wavespeed": {
+    "method": "llm",
+    "url": "https://wavespeed.ai/models/pixverse/pixverse-v6/image-to-video",
+    "render": true,
+    "allow_research": true,
+    "note": "deterministic candidates failed: json-api→{}; json-api→{}; json-api→{}; "
+  },
+  "pixsilent@wavespeed": {
+    "method": "llm",
+    "url": "https://wavespeed.ai/models/pixverse/pixverse-v6/image-to-video",
+    "render": true,
+    "allow_research": true,
+    "note": "deterministic candidates failed: json-api→{}; json-api→{}; json-api→{}; "
+  },
+  "veofast@wavespeed": {
+    "method": "llm",
+    "url": "https://wavespeed.ai/models/google/veo3.1-fast/image-to-video",
+    "render": true,
+    "allow_research": true,
+    "note": "deterministic candidates failed: json-api→{}; json-api→{}; json-api→{}; "
+  },
+  "veolite@wavespeed": {
+    "method": "llm",
+    "url": "https://wavespeed.ai/models/google/veo3.1-lite/image-to-video",
+    "render": true,
+    "allow_research": true,
+    "note": "deterministic candidates failed: json-api→{}; json-api→{}; json-api→{}; "
+  },
+  "h3max@runware": {
+    "method": "llm",
+    "url": "https://runware.ai/docs/models/minimax-h3-max",
+    "render": false,
+    "allow_research": true,
+    "note": "deterministic candidates failed: regex→{}; regex→{}; regex→{}; regex→{}; regex→{}; regex→{}; regex→{}; "
+  },
+  "veofast@runware": {
+    "method": "llm",
+    "url": "https://runware.ai/docs/models/google-veo-3-1-fast",
+    "render": false,
+    "allow_research": true,
+    "note": "deterministic candidates failed: regex→{}; regex→{}; regex→{}; regex→{}; regex→{\"1080p\":9}; regex→{\"1080p\":9}; regex→{}; "
+  },
+  "wan3@runware": {
+    "method": "llm",
+    "url": "https://runware.ai/docs/models/alibaba-wan3-0",
+    "render": false,
+    "allow_research": true,
+    "note": "deterministic candidates failed: regex→{}; regex→{}; regex→{}; regex→{}; regex→{}; regex→{}; regex→{}; "
+  },
+  "wan27@runware": {
+    "method": "regex",
+    "url": "https://runware.ai/docs/models/alibaba-wan2-7/schema.json",
+    "unit": "per_second",
+    "regex": {
+      "720p": "\\$(?<v>[\\d.]+) per second",
+      "1080p": "\\$(?<v>[\\d.]+) per second"
+    },
+    "fallback_url": "https://runware.ai/docs/models/alibaba-wan2-7",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "720p": 6,
+      "1080p": 9
+    },
+    "allow_research": true
+  },
+  "wan3@kie": {
+    "method": "regex",
+    "url": "https://kie.ai/wan3.0-video",
+    "unit": "per_second",
+    "credit_usd": 0.005,
+    "regex": {
+      "720p": "720p[^\"]{0,120}?\\$(?<v>[\\d.]+)/s",
+      "480p": "480p[^\"]{0,120}?\\$(?<v>[\\d.]+)/s",
+      "1080p": "1080p[^\"]{0,120}?\\$(?<v>[\\d.]+)/s"
+    },
+    "fallback_url": "https://kie.ai/wan3.0-video",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "720p": 4.8,
+      "480p": 2.4,
+      "1080p": 9.6
+    },
+    "allow_research": true
+  },
+  "kling@kie": {
+    "method": "regex",
+    "url": "https://kie.ai/kling-3-0-turbo",
+    "unit": "credits_per_second",
+    "credit_usd": 0.005,
+    "regex": {
+      "720p": "720p[^\"]{0,120}?(?<v>[\\d.]+) credits/s",
+      "1080p": "1080p[^\"]{0,120}?(?<v>[\\d.]+) credits/s"
+    },
+    "fallback_url": "https://kie.ai/kling-3-0-turbo",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "720p": 5.4,
+      "1080p": 6.75
+    },
+    "allow_research": true
+  },
+  "wan27@kie": {
+    "method": "llm",
+    "url": "https://kie.ai/wan-2-7-video",
+    "render": true,
+    "allow_research": true,
+    "credit_usd": 0.005,
+    "note": "deterministic candidates failed: regex→{}; regex→{}; regex→{}; regex→{}; regex→{}; "
+  },
+  "mini@openrouter": {
+    "method": "json-api",
+    "url": "https://openrouter.ai/api/v1/videos/models",
+    "list": "data",
+    "match": {
+      "field": "id",
+      "equals": "bytedance/seedance-2.0-mini"
+    },
+    "fields": {
+      "720p": {
+        "path": "pricing_skus.video_tokens",
+        "formula": "v*1296000"
+      },
+      "480p": {
+        "path": "pricing_skus.video_tokens",
+        "formula": "v*583200"
+      }
+    },
+    "fallback_url": "https://openrouter.ai/bytedance/seedance-2.0-mini",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "720p": 4.536,
+      "480p": 2.0177
+    },
+    "allow_research": true
+  },
+  "fast@openrouter": {
+    "method": "json-api",
+    "url": "https://openrouter.ai/api/v1/videos/models",
+    "list": "data",
+    "match": {
+      "field": "id",
+      "equals": "bytedance/seedance-2.0-fast"
+    },
+    "fields": {
+      "720p": {
+        "path": "pricing_skus.video_tokens",
+        "formula": "v*1296000"
+      },
+      "480p": {
+        "path": "pricing_skus.video_tokens",
+        "formula": "v*583200"
+      }
+    },
+    "fallback_url": "https://openrouter.ai/bytedance/seedance-2.0-fast",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "720p": 5.4432,
+      "480p": 2.4212
+    },
+    "allow_research": true
+  },
+  "wan3@openrouter": {
+    "method": "llm",
+    "url": "https://openrouter.ai/alibaba/wan-3.0",
+    "render": false,
+    "allow_research": true,
+    "note": "deterministic candidates failed: json-api→{\"720p\":6,\"480p\":3,\"1080p\":12}; "
+  },
+  "wan27@openrouter": {
+    "method": "json-api",
+    "url": "https://openrouter.ai/api/v1/videos/models",
+    "list": "data",
+    "match": {
+      "field": "id",
+      "equals": "alibaba/wan-2.7"
+    },
+    "fields": {
+      "720p": {
+        "path": "pricing_skus.duration_seconds",
+        "formula": "v*60"
+      }
+    },
+    "fallback_url": "https://openrouter.ai/alibaba/wan-2.7",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "720p": 6
+    },
+    "allow_research": true
+  },
+  "h3max@openrouter": {
+    "method": "json-api",
+    "url": "https://openrouter.ai/api/v1/videos/models",
+    "list": "data",
+    "match": {
+      "field": "id",
+      "equals": "minimax/hailuo-3-max"
+    },
+    "fields": {
+      "768p": {
+        "path": "pricing_skus.duration_seconds_768p",
+        "formula": "v*60"
+      },
+      "480p": {
+        "path": "pricing_skus.duration_seconds_480p",
+        "formula": "v*60"
+      }
+    },
+    "fallback_url": "https://openrouter.ai/minimax/hailuo-3-max",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "768p": 4.8,
+      "480p": 3
+    },
+    "allow_research": true
+  },
+  "veofast@openrouter": {
+    "method": "json-api",
+    "url": "https://openrouter.ai/api/v1/videos/models",
+    "list": "data",
+    "match": {
+      "field": "id",
+      "equals": "google/veo-3.1-fast"
+    },
+    "fields": {
+      "720p": {
+        "path": "pricing_skus.duration_seconds_with_audio_720p",
+        "formula": "v*60"
+      },
+      "1080p": {
+        "path": "pricing_skus.duration_seconds_with_audio",
+        "formula": "v*60"
+      }
+    },
+    "fallback_url": "https://openrouter.ai/google/veo-3.1-fast",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "720p": 6,
+      "1080p": 7.2
+    },
+    "allow_research": true
+  },
+  "veolite@openrouter": {
+    "method": "json-api",
+    "url": "https://openrouter.ai/api/v1/videos/models",
+    "list": "data",
+    "match": {
+      "field": "id",
+      "equals": "google/veo-3.1-lite"
+    },
+    "fields": {
+      "720p": {
+        "path": "pricing_skus.duration_seconds_with_audio_720p",
+        "formula": "v*60"
+      },
+      "1080p": {
+        "path": "pricing_skus.duration_seconds_with_audio",
+        "formula": "v*60"
+      }
+    },
+    "fallback_url": "https://openrouter.ai/google/veo-3.1-lite",
+    "validated_on": "2026-09-13",
+    "validated_against": {
+      "720p": 3,
+      "1080p": 4.8
+    },
+    "allow_research": true
+  },
+  "kling@piapi": {
+    "method": "llm",
+    "url": "https://piapi.ai/docs/kling-api/kling-3-api",
+    "render": true,
+    "allow_research": true,
+    "note": "no deterministic recipe for this aggregator"
+  },
+  "veofast@piapi": {
+    "method": "llm",
+    "url": "https://piapi.ai/docs/veo31-api/text-to-video",
+    "render": true,
+    "allow_research": true,
+    "note": "no deterministic recipe for this aggregator"
+  },
+  "kielite@atlas": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "kielite@fal": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "vidu@fal": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "seed15@fal": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "grok@fal": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "h3turbo@replicate": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "h3max@replicate": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "vidu@replicate": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "seed15@replicate": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "kielite@replicate": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "grok@replicate": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "kling@replicate": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "h3max@wavespeed": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "h3turbo@wavespeed": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "kielite@wavespeed": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "grok@wavespeed": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "vidu@runware": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "seed15@runware": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "kielite@runware": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "grok@runware": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "h3turbo@kie": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "h3max@kie": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "vidu@kie": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "seed15@kie": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "wansilent@kie": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "wanflash@kie": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "grok@kie": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "veolite@kie": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "h3turbo@huggingface": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "h3max@huggingface": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "vidu@huggingface": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "seed15@huggingface": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "kielite@huggingface": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "mini@huggingface": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "wansilent@huggingface": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "wanflash@huggingface": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "pixsilent@huggingface": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "veofast@huggingface": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "pix@huggingface": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "grok@huggingface": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "veolite@huggingface": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "fast@huggingface": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "wan3@huggingface": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "kling@huggingface": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "wan27@huggingface": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "h3turbo@openrouter": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "vidu@openrouter": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "seed15@openrouter": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "kielite@openrouter": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "wansilent@openrouter": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "wanflash@openrouter": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "pixsilent@openrouter": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "pix@openrouter": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "grok@openrouter": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "kling@openrouter": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "h3turbo@novita": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "h3max@novita": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "vidu@novita": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "seed15@novita": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "kielite@novita": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "mini@novita": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "wansilent@novita": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "wanflash@novita": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "pixsilent@novita": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "veofast@novita": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "pix@novita": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "grok@novita": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "veolite@novita": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "fast@novita": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "wan3@novita": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "kling@novita": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "h3max@piapi": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "h3turbo@piapi": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "vidu@piapi": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "seed15@piapi": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "kielite@piapi": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "wansilent@piapi": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "wanflash@piapi": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "pixsilent@piapi": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "pix@piapi": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "grok@piapi": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "veolite@piapi": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "wan3@piapi": {
+    "method": "manual",
+    "note": "no price to refresh"
+  },
+  "wan27@piapi": {
+    "method": "manual",
+    "note": "no price to refresh"
+  }
+}

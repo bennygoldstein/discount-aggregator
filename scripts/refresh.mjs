@@ -15,7 +15,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { fetchPage, postJson, closeBrowser } from "./lib/fetch.mjs";
-import { extractWithRegex, extractWithClaude, researchWithClaude } from "./lib/extract.mjs";
+import { extractWithRegex, extractFromJsonApi, extractWithClaude, researchWithClaude } from "./lib/extract.mjs";
 import { computeCheapest, computeDeals, buildCheapestFeed, col720, isoDate, promoExpired, promoKind, r4 } from "./lib/normalize.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -105,25 +105,51 @@ function applyPromo(q, promo) {
   };
 }
 
+const jsonCache = {};
+async function fetchJsonCached(url) {
+  try {
+    const page = await fetchPage(url, { render: false });
+    let json = null;
+    try {
+      json = JSON.parse(page.html);
+    } catch {
+      /* not JSON */
+    }
+    return { status: page.status, json };
+  } catch (e) {
+    return { status: 0, json: null, error: e.message };
+  }
+}
+
+/**
+ * Atlas Cloud's free quote endpoint (works without a key; a key is sent when present).
+ * recipe: { url, payloads: { "720p": {model, duration, resolution, ...}, "480p": {...} }, price_path?: "data.price", discount_path?: "data.discount" }
+ */
 async function refreshAtlasCalc(q, recipe) {
   const key = process.env.ATLASCLOUD_API_KEY;
-  if (!key) return { skipped: "no ATLASCLOUD_API_KEY" };
+  const headers = key ? { authorization: `Bearer ${key}` } : {};
   const perMinute = {};
   const raw = [];
+  let discountPaid = null;
   for (const [res, payload] of Object.entries(recipe.payloads || {})) {
-    const { status, json } = await postJson(recipe.url, payload, { authorization: `Bearer ${key}` });
+    const { status, json } = await postJson(recipe.url || "https://api.atlascloud.ai/api/v1/model/calculate", payload, headers);
     if (status !== 200 || !json) {
       raw.push(`${res}: HTTP ${status}`);
       continue;
     }
-    const price = recipe.price_path.split(".").reduce((o, k) => (o == null ? undefined : o[k]), json);
-    const seconds = payload[recipe.duration_field || "duration"];
-    if (typeof price === "number" && seconds) {
+    const pricePath = recipe.price_path || "data.price";
+    const price = Number(pricePath.split(".").reduce((o, k) => (o == null ? undefined : o[k]), json));
+    const seconds = Number(payload[recipe.duration_field || "duration"]);
+    if (!Number.isNaN(price) && seconds) {
       perMinute[res] = r4((price / seconds) * 60);
       raw.push(`${res}: ${seconds}s = $${price}`);
-    } else raw.push(`${res}: no price at ${recipe.price_path}`);
+      const d = Number((recipe.discount_path || "data.discount").split(".").reduce((o, k) => (o == null ? undefined : o[k]), json));
+      if (!Number.isNaN(d)) discountPaid = d;
+    } else raw.push(`${res}: no price at ${pricePath}`);
   }
-  return { found: Object.keys(perMinute).length > 0, per_minute: perMinute, raw_billing_text: `Atlas /calculate: ${raw.join("; ")}`, confidence: "high", method: "atlas-calc" };
+  const out = { found: Object.keys(perMinute).length > 0, per_minute: perMinute, raw_billing_text: `Atlas /calculate: ${raw.join("; ")}`, confidence: "high", method: "atlas-calc" };
+  if (discountPaid != null && discountPaid < 100 && q.promo?.label) out.promo = { ...q.promo, active: true, discount_pct: 100 - discountPaid };
+  return out;
 }
 
 async function refreshQuote(q) {
@@ -133,7 +159,23 @@ async function refreshQuote(q) {
   if (!recipe || recipe.method === "manual") return { skipped: "manual" };
   if (recipe.method === "atlas-calc") return refreshAtlasCalc(q, recipe);
 
-  const url = recipe.url || q.source_url;
+  // 0) public JSON API (deterministic, preferred where the provider exposes one)
+  if (recipe.method === "json-api") {
+    const cached = jsonCache[recipe.url] || (jsonCache[recipe.url] = await fetchJsonCached(recipe.url));
+    if (cached.json) {
+      const r = extractFromJsonApi(cached.json, recipe);
+      if (r.found) {
+        const res = { found: true, per_minute: r.per_minute, method: "json-api", confidence: "high", raw_billing_text: q.raw_billing_text };
+        if (r.discount_pct != null && recipe.promo?.label) res.promo = { active: r.discount_pct > 0, label: r.discount_pct > 0 ? recipe.promo.label.replace("{pct}", String(Math.round(r.discount_pct))) : "", discount_pct: r.discount_pct, ends_at: q.promo?.ends_at || "", regular_per_min: q.promo?.regular_per_min || null };
+        return res;
+      }
+      say(`  -- ${q.id}: json-api gave nothing (${r.raw.join(" | ")})`);
+    } else say(`  -- ${q.id}: json-api HTTP ${cached.status}`);
+    if (!recipe.fallback_url && !client) return { found: false, notes: "json-api failed, no fallback" };
+    // fall through to page + LLM using fallback_url
+  }
+
+  const url = recipe.fallback_url || (recipe.method === "json-api" ? q.model_page_url || q.source_url : recipe.url || q.source_url);
   const page = await fetchPage(url, { render: !!recipe.render });
   if (page.status >= 400 || !page.text) {
     say(`  -- ${q.id}: HTTP ${page.status} / empty page`);

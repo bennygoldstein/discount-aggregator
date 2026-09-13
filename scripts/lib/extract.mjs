@@ -45,7 +45,8 @@ export function extractWithRegex(text, recipe) {
       continue;
     }
     const m = text.match(re);
-    const v = m?.groups?.v ?? m?.[1];
+    // first participating capture group (named groups v, v2, v3… or numbered) — alternations leave the others undefined
+    const v = m ? (Object.values(m.groups || {}).find((x) => x != null) ?? m.slice(1).find((x) => x != null)) : null;
     if (v == null) continue;
     const num = Number(String(v).replace(/[,$\s]/g, ""));
     if (Number.isNaN(num)) continue;
@@ -64,6 +65,94 @@ export function extractWithRegex(text, recipe) {
       /* ignore */
     }
   }
+  return out;
+}
+
+// ---------------- JSON API extraction ----------------
+
+/** Get a nested value by dotted path; `a.b[0].c` and `a.b.0.c` both work. */
+export function getPath(obj, path) {
+  if (!path) return obj;
+  return path
+    .replace(/\[(\d+)\]/g, ".$1")
+    .split(".")
+    .filter(Boolean)
+    .reduce((o, k) => (o == null ? undefined : o[k]), obj);
+}
+
+/** Evaluate a tiny arithmetic formula in `v` (numbers, + - * / ( ) and v only). */
+export function applyFormula(v, formula) {
+  if (!formula) return v;
+  if (!/^[\d\s.+\-*/()ve]+$/.test(formula)) throw new Error(`unsafe formula: ${formula}`);
+  // eslint-disable-next-line no-new-func
+  return Function("v", `return (${formula});`)(v);
+}
+
+/**
+ * recipe.list: path to the array of entries (e.g. "data", "items"); "" for a top-level array.
+ * recipe.match: { field: "model", equals: "bytedance/seedance-2.0-mini/reference-to-video" }  (or `includes`)
+ * recipe.fields: { "720p": { path: "price.actual.base_price", formula: "v*60" }, "480p": {...} }
+ * recipe.promo: optional { path: "price.discount", formula: "100-v", label: "…" }
+ */
+export function extractFromJsonApi(json, recipe) {
+  const out = { found: false, per_minute: {}, raw: [] };
+  let list = recipe.list ? getPath(json, recipe.list) : json;
+  if (!Array.isArray(list)) {
+    // single object endpoint
+    list = [json];
+  }
+  const m = recipe.match || {};
+  const entry = list.find((e) => {
+    const val = getPath(e, m.field);
+    if (val == null) return false;
+    if (m.equals != null) return String(val) === String(m.equals);
+    if (m.includes != null) return String(val).includes(m.includes);
+    return false;
+  });
+  if (!entry) {
+    out.raw.push(`no entry where ${m.field} ${m.equals != null ? "=" : "includes"} ${m.equals ?? m.includes}`);
+    return out;
+  }
+  for (const [res, spec] of Object.entries(recipe.fields || {})) {
+    let v;
+    const raw = getPath(entry, spec.path);
+    if (spec.regex) {
+      // the field is a text blurb ("…charged **$0.1547**/second for 720p…"); pull the number out of it
+      const m = String(raw ?? "").match(new RegExp(spec.regex, "i"));
+      const cap = m ? (Object.values(m.groups || {}).find((x) => x != null) ?? m.slice(1).find((x) => x != null)) : null;
+      if (cap == null) {
+        out.raw.push(`${res}: regex did not match in ${spec.path}`);
+        continue;
+      }
+      v = Number(String(cap).replace(/[,$\s]/g, ""));
+      if (Number.isNaN(v)) continue;
+      const pm = toPerMinute(v, spec.unit || "per_second", { credit_usd: recipe.credit_usd, clip_s: spec.clip_s ?? recipe.clip_s, fixed_per_clip: spec.fixed_per_clip ?? recipe.fixed_per_clip });
+      if (pm == null || pm <= 0) continue;
+      out.per_minute[res] = pm;
+      out.raw.push(`${res}: "${m[0].slice(0, 60)}"`);
+      out.found = true;
+      continue;
+    }
+    v = Number(raw);
+    if (Number.isNaN(v)) {
+      out.raw.push(`${res}: nothing numeric at ${spec.path}`);
+      continue;
+    }
+    if (spec.factor_path) {
+      const f = Number(getPath(entry, spec.factor_path));
+      if (!Number.isNaN(f)) v = v * applyFormula(f, spec.factor_formula || "v/100");
+    }
+    const pm = r4(applyFormula(v, spec.formula || "v"));
+    if (pm == null || pm <= 0) continue;
+    out.per_minute[res] = pm;
+    out.raw.push(`${res}: ${spec.path}=${raw}`);
+    out.found = true;
+  }
+  if (recipe.promo?.path) {
+    const dv = Number(getPath(entry, recipe.promo.path));
+    if (!Number.isNaN(dv)) out.discount_pct = r4(applyFormula(dv, recipe.promo.formula || "v"));
+  }
+  out.entry_snapshot = Object.fromEntries(Object.entries(entry).filter(([k, v]) => typeof v !== "object" || k === "price" || k === "pricing_skus").slice(0, 12));
   return out;
 }
 
