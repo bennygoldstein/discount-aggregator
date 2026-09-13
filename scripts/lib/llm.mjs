@@ -29,7 +29,7 @@ const PROVIDERS = {
   // trimmed harder (maxChars) and calls are spaced a minute apart; ~30 pages/day fit. Fine as a backup, not first choice.
   groq: { keyEnv: "GROQ_API_KEY", base: "https://api.groq.com/openai/v1", model: "openai/gpt-oss-120b", json: "json_schema", minIntervalMs: 61000, maxChars: 18000 },
   openrouter: { keyEnv: "OPENROUTER_API_KEY", base: "https://openrouter.ai/api/v1", model: "nvidia/nemotron-3-super-120b-a12b:free", fallbacks: ["openrouter/free"], json: "json_schema", research: process.env.OPENROUTER_WEB === "1", minIntervalMs: 3500 },
-  mistral: { keyEnv: "MISTRAL_API_KEY", base: "https://api.mistral.ai/v1", model: "mistral-small-latest", json: "json_object", minIntervalMs: 1500 },
+  mistral: { keyEnv: "MISTRAL_API_KEY", base: "https://api.mistral.ai/v1", model: "mistral-small-latest", json: "json_schema", minIntervalMs: 1500 },
   cerebras: { keyEnv: "CEREBRAS_API_KEY", base: "https://api.cerebras.ai/v1", model: "llama-3.3-70b", json: "json_schema", minIntervalMs: 2500 },
   custom: { keyEnv: "LLM_API_KEY", base: process.env.LLM_BASE_URL || "", model: process.env.LLM_MODEL || "", json: "json_object", minIntervalMs: 0 },
 };
