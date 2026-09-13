@@ -17,14 +17,29 @@
 
 import { focusText, normalizeLlm, systemPrompt, QUOTE_SCHEMA } from "./extract.mjs";
 
+// minIntervalMs keeps a serial daily job under each free tier's per-minute cap.
+// OpenRouter's web plugin is NOT free even on ":free" models ($0.007/request) — research
+// mode there is opt-in with OPENROUTER_WEB=1; otherwise the Tavily fallback is used.
 const PROVIDERS = {
-  gemini: { keyEnv: "GEMINI_API_KEY", native: "gemini", model: "gemini-2.5-flash", research: true },
-  groq: { keyEnv: "GROQ_API_KEY", base: "https://api.groq.com/openai/v1", model: "llama-3.3-70b-versatile", json: "json_object" },
-  openrouter: { keyEnv: "OPENROUTER_API_KEY", base: "https://openrouter.ai/api/v1", model: "deepseek/deepseek-chat-v3-0324:free", json: "json_schema", research: true },
-  mistral: { keyEnv: "MISTRAL_API_KEY", base: "https://api.mistral.ai/v1", model: "mistral-small-latest", json: "json_object" },
-  cerebras: { keyEnv: "CEREBRAS_API_KEY", base: "https://api.cerebras.ai/v1", model: "llama-3.3-70b", json: "json_schema" },
-  custom: { keyEnv: "LLM_API_KEY", base: process.env.LLM_BASE_URL || "", model: process.env.LLM_MODEL || "", json: "json_object" },
+  // gemini-3.5-flash-lite: free of charge (input, output and URL-context tool), JSON-schema output, ~500 requests/day
+  // reported on the free tier; Google Search grounding is free only on the 2.5 models, so research mode uses
+  // url_context on 3.x and adds google_search when a 2.5 model is chosen.
+  gemini: { keyEnv: "GEMINI_API_KEY", native: "gemini", model: "gemini-3.5-flash-lite", research: true, minIntervalMs: 7000 },
+  // Groq free plan: 1,000 req/day but only 8K tokens/minute and 200K tokens/day on the text models — so pages are
+  // trimmed harder (maxChars) and calls are spaced a minute apart; ~30 pages/day fit. Fine as a backup, not first choice.
+  groq: { keyEnv: "GROQ_API_KEY", base: "https://api.groq.com/openai/v1", model: "openai/gpt-oss-120b", json: "json_schema", minIntervalMs: 61000, maxChars: 18000 },
+  openrouter: { keyEnv: "OPENROUTER_API_KEY", base: "https://openrouter.ai/api/v1", model: "nvidia/nemotron-3-super-120b-a12b:free", fallbacks: ["openrouter/free"], json: "json_schema", research: process.env.OPENROUTER_WEB === "1", minIntervalMs: 3500 },
+  mistral: { keyEnv: "MISTRAL_API_KEY", base: "https://api.mistral.ai/v1", model: "mistral-small-latest", json: "json_object", minIntervalMs: 1500 },
+  cerebras: { keyEnv: "CEREBRAS_API_KEY", base: "https://api.cerebras.ai/v1", model: "llama-3.3-70b", json: "json_schema", minIntervalMs: 2500 },
+  custom: { keyEnv: "LLM_API_KEY", base: process.env.LLM_BASE_URL || "", model: process.env.LLM_MODEL || "", json: "json_object", minIntervalMs: 0 },
 };
+
+let lastCallAt = 0;
+async function pace(p) {
+  const wait = lastCallAt + (p.minIntervalMs || 0) - Date.now();
+  if (wait > 0) await new Promise((r) => setTimeout(r, wait));
+  lastCallAt = Date.now();
+}
 
 /** Decide which free/paid reader to use from the environment. Returns null when no key is present. */
 export function pickProvider(env = process.env) {
@@ -39,7 +54,7 @@ export function pickProvider(env = process.env) {
   const model = env.LLM_MODEL || p.model;
   const base = env.LLM_BASE_URL || p.base;
   if (name === "custom" && !base) return null;
-  return { name, apiKey, model, base, native: p.native || null, json: p.json || "json_object", research: !!p.research };
+  return { name, apiKey, model, base, native: p.native || null, json: p.json || "json_object", research: !!p.research, minIntervalMs: Number(env.LLM_MIN_INTERVAL_MS) || p.minIntervalMs || 0, fallbacks: env.LLM_MODEL ? [] : p.fallbacks || [], maxChars: Number(env.LLM_MAX_CHARS) || p.maxChars || 36000 };
 }
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -87,7 +102,7 @@ function parseJsonLoose(text) {
 }
 
 // ---------- prompts (same wording as the Claude path, plus "answer with JSON only") ----------
-function userPrompt({ quote, model, aggregator, recipe }, pageText, url) {
+function userPrompt({ quote, model, aggregator, recipe }, pageText, url, maxChars = 36000) {
   const creditLine = recipe?.credit_usd ? `This provider bills in credits; 1 credit = $${recipe.credit_usd}.` : "";
   return `PROVIDER: ${aggregator.name} (${aggregator.url})
 PAGE URL: ${url}
@@ -98,7 +113,7 @@ Last known raw billing text (for orientation only; do NOT copy): "${quote.raw_bi
 
 PAGE TEXT (cleaned, may be truncated):
 """
-${focusText(pageText, 36000)}
+${focusText(pageText, maxChars)}
 """
 
 Report the current price for exactly this model/tier. Answer with ONE JSON object only, matching this schema (every key present; use null for unknown numbers, "" for unknown strings):
@@ -117,7 +132,9 @@ ${JSON.stringify(QUOTE_SCHEMA.properties, null, 0)}`;
 
 // ---------- OpenAI-compatible path (Groq, OpenRouter, Mistral, Cerebras, custom, Gemini-compat) ----------
 async function chatOpenAI(p, messages, { research = false } = {}) {
+  await pace(p);
   const body = { model: p.model, messages, temperature: 0, max_tokens: 1200 };
+  if (p.name === "openrouter" && p.fallbacks?.length) body.models = [p.model, ...p.fallbacks];
   if (p.json === "json_schema") body.response_format = { type: "json_schema", json_schema: { name: "quote", schema: QUOTE_SCHEMA, strict: true } };
   else body.response_format = { type: "json_object" };
   if (research && p.name === "openrouter") body.plugins = [{ id: "web", max_results: 5 }];
@@ -159,6 +176,7 @@ function geminiSchema(schema) {
 }
 
 async function chatGemini(p, systemText, userText, { research = false } = {}) {
+  await pace(p);
   const url = `${(process.env.GEMINI_API_BASE || "https://generativelanguage.googleapis.com/v1beta").replace(/\/$/, "")}/models/${encodeURIComponent(p.model)}:generateContent`;
   const body = {
     system_instruction: { parts: [{ text: systemText }] },
@@ -166,8 +184,9 @@ async function chatGemini(p, systemText, userText, { research = false } = {}) {
     generationConfig: { temperature: 0, maxOutputTokens: 1500 },
   };
   if (research) {
-    // tools and responseSchema cannot be combined; ask for JSON in the prompt instead and parse loosely
-    body.tools = [{ google_search: {} }, { url_context: {} }];
+    // tools and responseSchema cannot be combined; ask for JSON in the prompt instead and parse loosely.
+    // url_context is free on every free-tier model; google_search grounding is free only on gemini-2.5-*.
+    body.tools = /^gemini-2\.5/.test(p.model) ? [{ url_context: {} }, { google_search: {} }] : [{ url_context: {} }];
   } else {
     body.generationConfig.responseMimeType = "application/json";
     body.generationConfig.responseSchema = geminiSchema(QUOTE_SCHEMA);
@@ -181,14 +200,38 @@ async function chatGemini(p, systemText, userText, { research = false } = {}) {
 // ---------- public API (same return shape as extractWithClaude / researchWithClaude) ----------
 export async function extractWithLlm(p, ctx, pageText, url) {
   const sys = systemPrompt();
-  const user = userPrompt(ctx, pageText, url);
+  const user = userPrompt(ctx, pageText, url, p.maxChars);
   const obj = p.native === "gemini" ? await chatGemini(p, sys, user) : await chatOpenAI(p, [{ role: "system", content: sys }, { role: "user", content: user }]);
   if (!obj || typeof obj !== "object") return { found: false, notes: "model did not return JSON", per_minute: {} };
   return normalizeLlm(fillDefaults(obj), ctx.recipe);
 }
 
+/**
+ * Free search fallback for readers with no web tool (Groq, Mistral, Cerebras, custom):
+ * Tavily (1,000 free credits/month, no card) finds the provider's current page for the model,
+ * returns its cleaned text, and the reader extracts from that. Needs TAVILY_API_KEY.
+ */
+async function tavilyResearch(p, ctx, hintUrl) {
+  const key = process.env.TAVILY_API_KEY;
+  if (!key) return null;
+  const { model, aggregator } = ctx;
+  const host = new URL(aggregator.url).hostname.replace(/^www\./, "");
+  const body = { query: `${model.name} API pricing per second ${aggregator.name}`, max_results: 4, include_domains: [host], include_raw_content: true, search_depth: "basic", api_key: key };
+  const out = await postJsonRetry("https://api.tavily.com/search", body, { authorization: `Bearer ${key}` }, { tries: 2, timeoutMs: 60000 });
+  const hits = (out?.results || []).filter((r) => r.url && (r.raw_content || r.content));
+  for (const hit of hits.slice(0, 2)) {
+    const text = hit.raw_content || hit.content;
+    const r = await extractWithLlm(p, ctx, text, hit.url);
+    if (r.found) return { ...r, notes: `via Tavily → ${hit.url}. ${r.notes || ""}`.trim() };
+  }
+  return { found: false, notes: hits.length ? `Tavily found ${hits.length} page(s) on ${host} but none showed the exact tier` : `Tavily found nothing on ${host}`, per_minute: {} };
+}
+
 export async function researchWithLlm(p, ctx, hintUrl) {
-  if (!p.research) return { found: false, notes: `${p.name} has no web tool; research mode skipped`, per_minute: {} };
+  if (!p.research) {
+    const viaSearch = await tavilyResearch(p, ctx, hintUrl).catch((e) => ({ found: false, notes: `Tavily error: ${e.message}`, per_minute: {} }));
+    return viaSearch || { found: false, notes: `${p.name} has no web tool and TAVILY_API_KEY is not set; research mode skipped`, per_minute: {} };
+  }
   const sys = systemPrompt();
   const user = researchPrompt(ctx, hintUrl);
   const obj = p.native === "gemini" ? await chatGemini(p, sys, user, { research: true }) : await chatOpenAI(p, [{ role: "system", content: sys }, { role: "user", content: user }], { research: true });

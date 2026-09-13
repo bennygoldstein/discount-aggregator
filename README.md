@@ -51,6 +51,25 @@ published price live; if a provider changes its API shape the sanity band flags 
 Every new figure is sanity-checked against the stored one (outside 0.2×–5× → flagged `needs_review`, old value kept).
 Dated promotions that have ended are switched to `promo.regular_per_min` (or flagged if unknown).
 
+### Running the page reader for free
+
+Claude is optional. `scripts/lib/llm.mjs` lets any of these free tiers do the same job — set **one** key as a repo
+secret and the robot picks it up (Claude wins if `ANTHROPIC_API_KEY` is also set). Verified 2026-09-13:
+
+| Provider (secret) | Free tier, as published | Fit for ~45–70 page reads/day | Web tool for "page moved" | Notes |
+|---|---|---|---|---|
+| **Google Gemini** (`GEMINI_API_KEY`) — default model `gemini-3.5-flash-lite` | Input, output and the URL-context tool "free of charge"; ~500 requests/day reported; no card | **Yes** (recommended) | URL context free; Google Search grounding free only on `gemini-2.5-*` (500/day) | Free-tier prompts may be used to improve Google products — fine for public pricing pages. Key from Google AI Studio. |
+| **OpenRouter** (`OPENROUTER_API_KEY`) — `nvidia/nemotron-3-super-120b-a12b:free`, fallback `openrouter/free` | $0 tokens on `:free` models; **50 requests/day** (1,000/day after a one-time $10 credit purchase); 20/min | Borderline at 50/day | Web plugin costs $0.007/request even on free models → opt-in with `OPENROUTER_WEB=1`; otherwise Tavily fallback | Enable "allow training" for free models in your OpenRouter privacy settings or many free endpoints are skipped. |
+| **Groq** (`GROQ_API_KEY`) — `openai/gpt-oss-120b` | 1,000 requests/day but 8K tokens/min and 200K tokens/day; no card | ~30 pages/day (pages trimmed to 18K chars, one call/minute) | none built in for JSON mode → Tavily fallback | Backup only. No training on prompts. |
+| **Mistral** (`MISTRAL_API_KEY`), **Cerebras** (`CEREBRAS_API_KEY`), any OpenAI-compatible server (`LLM_PROVIDER=custom` + `LLM_API_KEY` + `LLM_BASE_URL` + `LLM_MODEL`) | see each provider's current free plan | varies | Tavily fallback | Supported by the same code path. |
+| ~~GitHub Models~~ | **Retired 2026-07-30** (endpoint returns HTTP 410) | no | — | Not an option any more. |
+
+Optional free search for readers without a web tool: **Tavily** (`TAVILY_API_KEY`, 1,000 credits/month, no card)
+finds the provider's current page and hands its text to the reader.
+
+Overrides: `LLM_PROVIDER`, `LLM_MODEL`, `LLM_MIN_INTERVAL_MS` (pacing), `LLM_MAX_CHARS` (page trim). Every reader
+returns the same strict JSON; the 0.2×–5× sanity band applies to all of them.
+
 ### Secrets (GitHub → Settings → Secrets and variables → Actions)
 
 | Secret | Effect if set |

@@ -48,6 +48,7 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}     # paid; wins if set
           LLM_PROVIDER: ${{ vars.LLM_PROVIDER }}                  # optional override (gemini|groq|openrouter|mistral|cerebras|custom)
           LLM_MODEL: ${{ vars.LLM_MODEL }}                        # optional model override
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}           # optional free search (1,000 credits/month) for readers without a web tool
           ATLASCLOUD_API_KEY: ${{ secrets.ATLASCLOUD_API_KEY }}
           USE_BROWSER: "1"
         run: node scripts/refresh.mjs
