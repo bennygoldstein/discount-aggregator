@@ -1,0 +1,830 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Discount Aggregator Aggregator — cheapest AI video model prices, checked daily</title>
+<meta name="description" content="Every day we check 10 AI video API aggregators and publish the cheapest price for each video model (Seedance, Kling, Veo, Wan, MiniMax, PixVerse, Vidu, Grok). Human dashboard plus a JSON feed your AI agent can read before it renders.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://bennygoldstein.github.io/discount-aggregator/">
+<link rel="alternate" type="application/json" title="Cheapest per model (JSON feed)" href="https://bennygoldstein.github.io/discount-aggregator/data/cheapest.json">
+<link rel="alternate" type="application/json" title="Full price matrix (JSON)" href="https://bennygoldstein.github.io/discount-aggregator/data/prices.json">
+<meta property="og:title" content="Discount Aggregator Aggregator">
+<meta property="og:description" content="The cheapest place to render every AI video model — 10 aggregators checked daily. Checked Sep 13, 2026.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://bennygoldstein.github.io/discount-aggregator/">
+<meta name="ai-feed" content="https://bennygoldstein.github.io/discount-aggregator/data/cheapest.json">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Dataset","name":"Discount Aggregator Aggregator — AI video model prices across API aggregators","description":"Daily-checked USD-per-minute prices for AI video generation models across 10 API aggregators, with the cheapest aggregator per model.","url":"https://bennygoldstein.github.io/discount-aggregator/","dateModified":"2026-09-13T15:50:00Z","license":"https://creativecommons.org/licenses/by/4.0/","distribution":[{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://bennygoldstein.github.io/discount-aggregator/data/cheapest.json"},{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://bennygoldstein.github.io/discount-aggregator/data/prices.json"}]}
+</script>
+<style>
+:root{
+  color-scheme:dark;
+  --plane:#0d0d0d;--surface:#1a1a19;--surface-2:#212120;--ink:#ffffff;--ink-2:#c3c2b7;--muted:#898781;
+  --grid:#2c2c2a;--baseline:#383835;--border:rgba(255,255,255,.10);--link:#7fb4f0;
+  --s-atlas:#3987e5;--s-fal:#d95926;--s-kie:#199e70;--s-runware:#c98500;--s-wavespeed:#d55181;--s-novita:#008300;--s-piapi:#9085e9;--s-replicate:#e66767;--s-other:#6b6a66;
+  --good:#0ca30c;--warn:#fab219;--serious:#ec835a;--critical:#d03b3b;
+  --blue-200:#9ec5f4;--blue-400:#3987e5;
+  --font:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{background:var(--plane)}
+body{margin:0;background:var(--plane);color:var(--ink);font:15px/1.5 var(--font);-webkit-font-smoothing:antialiased}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+h1,h2,h3{margin:0;font-weight:650;letter-spacing:-.01em}
+h2{font-size:22px;margin-bottom:6px}
+h3{font-size:16px}
+p{margin:.4em 0}
+.muted{color:var(--muted)}
+.ink2{color:var(--ink-2)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+sup{font-size:9px;color:var(--muted);margin-left:2px}
+code,kbd{font-family:var(--mono);font-size:.92em;background:var(--surface-2);padding:1px 5px;border-radius:4px;border:1px solid var(--border)}
+pre{font-family:var(--mono);font-size:13px;line-height:1.5;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:12px 14px;overflow-x:auto;margin:8px 0}
+pre code{background:none;border:0;padding:0}
+
+/* header */
+header{position:relative;padding:44px 0 26px;overflow:hidden;border-bottom:1px solid var(--border)}
+header::before{content:"";position:absolute;inset:-40% -10% auto;height:140%;background:radial-gradient(60% 50% at 20% 0%,rgba(57,135,229,.22),transparent 60%),radial-gradient(40% 40% at 90% 10%,rgba(217,89,38,.14),transparent 60%);pointer-events:none}
+header .wrap{position:relative}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);margin-bottom:8px}
+h1{font-size:clamp(28px,4.4vw,44px);line-height:1.08}
+.tagline{font-size:18px;color:var(--ink-2);max-width:760px;margin:12px 0 18px}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);background:rgba(255,255,255,.04);border-radius:999px;padding:5px 12px;font-size:13px;color:var(--ink-2)}
+.pill b{color:var(--ink);font-weight:600}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--good);box-shadow:0 0 0 3px rgba(12,163,12,.18)}
+nav.top{display:flex;flex-wrap:wrap;gap:14px;margin-top:22px;font-size:14px}
+nav.top a{color:var(--ink-2);border-bottom:1px solid transparent;padding-bottom:2px}
+nav.top a:hover{color:var(--ink);text-decoration:none;border-color:var(--ink-2)}
+
+/* sections & cards */
+section{padding:34px 0 8px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin:14px 0}
+.card.tight{padding:12px 14px}
+.sec-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px;margin-bottom:6px}
+.sec-head p{margin:0;color:var(--ink-2)}
+.legend{display:flex;flex-wrap:wrap;gap:12px 18px;font-size:13px;color:var(--ink-2);margin:10px 0 4px}
+.legend .key{display:inline-flex;align-items:center;gap:7px}
+.legend .key i{width:12px;height:12px;border-radius:3px;display:inline-block;background:var(--c,var(--s-other))}
+.legend .key i.round{border-radius:50%}
+.swatch{display:inline-block;width:9px;height:9px;border-radius:2px;background:var(--c,var(--s-other));margin-right:7px;vertical-align:1px}
+[data-agg="atlas"]{--c:var(--s-atlas)}[data-agg="fal"]{--c:var(--s-fal)}[data-agg="kie"]{--c:var(--s-kie)}[data-agg="runware"]{--c:var(--s-runware)}
+[data-agg="wavespeed"]{--c:var(--s-wavespeed)}[data-agg="novita"]{--c:var(--s-novita)}[data-agg="piapi"]{--c:var(--s-piapi)}[data-agg="replicate"]{--c:var(--s-replicate)}
+[data-agg="openrouter"],[data-agg="huggingface"]{--c:var(--s-other)}
+
+/* the sheet-style table */
+.sheet-title{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:10px}
+.sheet-title h2{font-size:20px}
+.sheet-title .when{color:var(--ink-2);font-size:14px}
+.tablewrap{overflow-x:auto;border:1px solid var(--border);border-radius:10px;background:#141413}
+table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}
+thead th{position:sticky;top:0;background:#101010;color:var(--ink-2);font-weight:600;text-align:left;padding:10px 12px;border-bottom:1px solid var(--baseline);white-space:nowrap;font-size:13px}
+tbody td,tbody th{padding:8px 12px;border-bottom:1px solid var(--grid);vertical-align:middle;white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:rgba(255,255,255,.03)}
+td.num,th.num{text-align:center}
+td.strong{font-weight:650;color:var(--ink)}
+td.rank{color:var(--muted);width:34px;text-align:right}
+td.model a{color:var(--link)}
+td.empty{color:var(--muted)}
+td.best{box-shadow:inset 0 0 0 2px var(--ink);border-radius:4px;font-weight:650}
+td.excluded{color:var(--muted)}
+.flag{color:var(--warn);cursor:help}
+.foot{font-size:13px;color:var(--ink-2);margin-top:14px}
+.foot li{margin:3px 0}
+
+/* KPI row */
+.kpis{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:12px;margin:12px 0}
+.tile{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px;min-height:112px;display:flex;flex-direction:column;justify-content:space-between}
+.tile .label{font-size:13px;color:var(--ink-2)}
+.tile .value{font-size:30px;font-weight:650;line-height:1.1;margin-top:8px}
+.tile .sub{font-size:13px;color:var(--muted);margin-top:6px}
+.tile.hero{background:linear-gradient(135deg,rgba(57,135,229,.16),rgba(57,135,229,.02)),var(--surface)}
+.tile.hero .value{font-size:52px;letter-spacing:-.02em}
+.tile.hero .value small{font-size:18px;color:var(--ink-2);font-weight:500;margin-left:6px}
+@media (max-width:900px){.kpis{grid-template-columns:1fr 1fr}.tile.hero{grid-column:1/-1}}
+
+/* charts */
+.chart{position:relative;margin-top:6px}
+.chart svg{display:block;width:100%;height:auto;font-family:var(--font)}
+.chart .scroll{overflow-x:auto}
+.chart text{fill:var(--ink-2);font-size:12px}
+.chart text.lbl{fill:var(--ink);font-size:13px}
+.chart text.val{fill:var(--ink);font-size:12px;font-weight:600}
+.chart line.grid{stroke:var(--grid);stroke-width:1}
+.chart line.base{stroke:var(--baseline);stroke-width:1}
+.chart .bar{transition:opacity .12s}
+.chart .hit{fill:transparent;cursor:pointer}
+.chart .hit:focus{outline:none}
+.tip{position:absolute;z-index:5;pointer-events:none;background:#0b0b0b;color:var(--ink);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;line-height:1.4;max-width:280px;box-shadow:0 8px 24px rgba(0,0,0,.5);display:none}
+.tip b{font-size:15px}
+.tip .k{display:inline-block;width:10px;height:3px;border-radius:2px;background:var(--c,var(--s-other));margin-right:6px;vertical-align:middle}
+.tip .m{color:var(--ink-2)}
+.toggle{display:inline-flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;font-size:13px}
+.toggle button{background:transparent;color:var(--ink-2);border:0;padding:6px 12px;cursor:pointer;font:inherit}
+.toggle button[aria-pressed="true"]{background:rgba(255,255,255,.08);color:var(--ink)}
+.caption{font-size:13px;color:var(--muted);margin-top:8px}
+.hidden{display:none!important}
+.smalls{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-top:10px}
+.small{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
+.small .n{font-size:13px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.small .v{font-size:20px;font-weight:650;margin-top:2px}
+.small svg{width:100%;height:44px;display:block;margin-top:6px}
+
+/* deals */
+.deal-badge{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:600;border:1px solid var(--border)}
+.deal-badge.soon{color:var(--warn)}.deal-badge.ok{color:var(--good)}.deal-badge.gone{color:var(--muted)}
+
+/* explainer */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:800px){.grid2{grid-template-columns:1fr}}
+.steps{counter-reset:s;list-style:none;padding:0;margin:8px 0}
+.steps li{position:relative;padding-left:40px;margin:10px 0;color:var(--ink-2)}
+.steps li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:1px;width:26px;height:26px;border-radius:50%;background:rgba(57,135,229,.18);color:var(--ink);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:650;border:1px solid rgba(57,135,229,.5)}
+.steps li b{color:var(--ink)}
+.endpoints{display:grid;grid-template-columns:1fr;gap:8px;margin:8px 0}
+.endpoint{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
+.endpoint code{font-size:13px}
+.endpoint .what{color:var(--ink-2);font-size:13px}
+details{margin:6px 0}
+summary{cursor:pointer;color:var(--ink-2)}
+footer{border-top:1px solid var(--border);padding:26px 0 40px;color:var(--muted);font-size:13px;margin-top:30px}
+footer a{color:var(--ink-2)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">Discount Aggregator Aggregator</div>
+    <h1>The cheapest place to render every AI video model.<br>Checked every day.</h1>
+    <p class="tagline">Ten API aggregators resell the same video models at very different prices. We read all of them daily, normalize everything to <b>dollars per minute of generated 720p video</b>, and show where each model is cheapest right now — for you, and for your AI agent.</p>
+    <div class="pills">
+      <span class="pill"><span class="dot"></span> Updated <b>September 13, 2026, 11:50 a.m. ET</b></span>
+      <span class="pill"><b>18</b> models</span>
+      <span class="pill"><b>10</b> aggregators</span>
+      <span class="pill"><b>44</b> live quotes compared</span>
+      <span class="pill">Feed for agents: <b><a href="data/cheapest.json">cheapest.json</a></b></span>
+    </div>
+    <nav class="top">
+      <a href="#top">Price table</a><a href="#charts">Charts</a><a href="#matrix">Every quote</a><a href="#deals">Sales &amp; deadlines</a><a href="#how">How it works</a><a href="#agents">For AI agents</a><a href="llms.txt">llms.txt</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ TOP VIEW: the sheet ============ -->
+<section id="top">
+  <div class="wrap">
+    <div class="card">
+      <div class="sheet-title">
+        <h2>AI aggregators Prices</h2>
+        <span class="when">Updated September 13, 2026, 11:50 a.m. ET · cheapest verified quote per model · USD per minute</span>
+      </div>
+      <div class="tablewrap">
+        <table id="price-table">
+          <thead><tr><th></th><th>Engine / Model</th><th>Provider</th><th class="num">480p / minute</th><th class="num">720p / minute</th><th class="num">Max clip (s)</th><th>Audio</th><th>Sale / discount</th><th>Sale ends</th></tr></thead>
+          <tbody>
+<tr data-model="h3turbo">
+  <td class="rank">1</td>
+  <td class="model"><a href="https://fal.ai/minimax-h3-max" target="_blank" rel="noopener">MiniMax H3 Max Turbo</a></td>
+  <td class="prov"><span class="swatch" data-agg="fal"></span>fal.ai</td>
+  <td class="num">$0.38</td>
+  <td class="num strong">$0.60<sup title="768p, not exact 720p">768p</sup></td>
+  <td class="num">15</td>
+  <td>Included</td>
+  <td>75% launch sale</td>
+  <td>2026-09-14</td>
+</tr>
+<tr data-model="vidu">
+  <td class="rank">2</td>
+  <td class="model"><a href="https://www.atlascloud.ai/pricing/models" target="_blank" rel="noopener">Vidu Q2 Pro Fast</a></td>
+  <td class="prov"><span class="swatch" data-agg="atlas"></span>Atlas Cloud</td>
+  <td class="num"></td>
+  <td class="num strong">$0.66</td>
+  <td class="num">10</td>
+  <td>Silent</td>
+  <td>15% vs official</td>
+  <td></td>
+</tr>
+<tr data-model="seed15">
+  <td class="rank">3</td>
+  <td class="model"><a href="https://www.atlascloud.ai/pricing/models" target="_blank" rel="noopener">Seedance 1.5 Pro Fast</a></td>
+  <td class="prov"><span class="swatch" data-agg="atlas"></span>Atlas Cloud</td>
+  <td class="num">$0.50</td>
+  <td class="num strong">$1.08</td>
+  <td class="num">12</td>
+  <td>Check setting</td>
+  <td>10% vs official</td>
+  <td></td>
+</tr>
+<tr data-model="kielite">
+  <td class="rank">4</td>
+  <td class="model"><a href="https://kie.ai/veo-3-1" target="_blank" rel="noopener">Veo 3.1 — Kie Lite mode</a></td>
+  <td class="prov"><span class="swatch" data-agg="kie"></span>Kie.ai</td>
+  <td class="num"></td>
+  <td class="num strong">$1.13</td>
+  <td class="num">8</td>
+  <td>May vary</td>
+  <td>No dated sale verified</td>
+  <td></td>
+</tr>
+<tr data-model="h3max">
+  <td class="rank">5</td>
+  <td class="model"><a href="https://fal.ai/minimax-h3-max" target="_blank" rel="noopener">MiniMax H3 Max</a></td>
+  <td class="prov"><span class="swatch" data-agg="fal"></span>fal.ai</td>
+  <td class="num">$0.75</td>
+  <td class="num strong">$1.20<sup title="768p, not exact 720p">768p</sup></td>
+  <td class="num">15</td>
+  <td>Included</td>
+  <td>75% launch sale</td>
+  <td>2026-09-14</td>
+</tr>
+<tr data-model="mini">
+  <td class="rank">6</td>
+  <td class="model"><a href="https://www.atlascloud.ai/models/explore/seedance-2-lowest-price" target="_blank" rel="noopener">Seedance 2.0 Mini</a></td>
+  <td class="prov"><span class="swatch" data-agg="atlas"></span>Atlas Cloud</td>
+  <td class="num">$0.68</td>
+  <td class="num strong">$1.45</td>
+  <td class="num">15</td>
+  <td>Included</td>
+  <td>80% off Atlas list; 68% below official</td>
+  <td></td>
+</tr>
+<tr data-model="wansilent">
+  <td class="rank">7</td>
+  <td class="model"><a href="https://runware.ai/docs/models/alibaba-wan2-6-flash" target="_blank" rel="noopener">Wan 2.6 Flash (silent)</a></td>
+  <td class="prov"><span class="swatch" data-agg="runware"></span>Runware</td>
+  <td class="num"></td>
+  <td class="num strong">$1.50</td>
+  <td class="num">15</td>
+  <td>Off</td>
+  <td>No dated sale verified</td>
+  <td></td>
+</tr>
+<tr data-model="wanflash">
+  <td class="rank">8</td>
+  <td class="model"><a href="https://www.atlascloud.ai/pricing/models" target="_blank" rel="noopener">Wan 2.6 Flash</a></td>
+  <td class="prov"><span class="swatch" data-agg="atlas"></span>Atlas Cloud</td>
+  <td class="num"></td>
+  <td class="num strong">$2.10</td>
+  <td class="num">15</td>
+  <td>Included</td>
+  <td>30% vs official</td>
+  <td></td>
+</tr>
+<tr data-model="pixsilent">
+  <td class="rank">9</td>
+  <td class="model"><a href="https://kie.ai/pixverse-v6" target="_blank" rel="noopener">PixVerse V6 (silent)</a></td>
+  <td class="prov"><span class="swatch" data-agg="kie"></span>Kie.ai</td>
+  <td class="num"></td>
+  <td class="num strong">$2.16</td>
+  <td class="num">15</td>
+  <td>Off</td>
+  <td>20% vs official</td>
+  <td></td>
+</tr>
+<tr data-model="veofast">
+  <td class="rank">10</td>
+  <td class="model"><a href="https://kie.ai/veo-3-1" target="_blank" rel="noopener">Veo 3.1 Fast</a></td>
+  <td class="prov"><span class="swatch" data-agg="kie"></span>Kie.ai</td>
+  <td class="num"></td>
+  <td class="num strong">$2.25</td>
+  <td class="num">8</td>
+  <td>May vary</td>
+  <td>No dated sale verified</td>
+  <td></td>
+</tr>
+<tr data-model="pix">
+  <td class="rank">11</td>
+  <td class="model"><a href="https://kie.ai/pixverse-v6" target="_blank" rel="noopener">PixVerse V6</a></td>
+  <td class="prov"><span class="swatch" data-agg="kie"></span>Kie.ai</td>
+  <td class="num"></td>
+  <td class="num strong">$2.88</td>
+  <td class="num">15</td>
+  <td>Included</td>
+  <td>20% vs official</td>
+  <td></td>
+</tr>
+<tr data-model="grok">
+  <td class="rank">12</td>
+  <td class="model"><a href="https://www.atlascloud.ai/pricing/models" target="_blank" rel="noopener">Grok Imagine 1.5 Developer</a></td>
+  <td class="prov"><span class="swatch" data-agg="atlas"></span>Atlas Cloud</td>
+  <td class="num">$1.68</td>
+  <td class="num strong">$2.94</td>
+  <td class="num">15</td>
+  <td>Check setting</td>
+  <td>65% vs official</td>
+  <td></td>
+</tr>
+<tr data-model="veolite">
+  <td class="rank">13</td>
+  <td class="model"><a href="https://www.atlascloud.ai/pricing/models" target="_blank" rel="noopener">Veo 3.1 Lite</a></td>
+  <td class="prov"><span class="swatch" data-agg="atlas"></span>Atlas Cloud</td>
+  <td class="num"></td>
+  <td class="num strong">$3.00</td>
+  <td class="num">8</td>
+  <td>Included</td>
+  <td>No dated sale verified</td>
+  <td></td>
+</tr>
+<tr data-model="fast">
+  <td class="rank">14</td>
+  <td class="model"><a href="https://www.atlascloud.ai/models/explore/seedance-2-lowest-price" target="_blank" rel="noopener">Seedance 2.0 Fast</a></td>
+  <td class="prov"><span class="swatch" data-agg="atlas"></span>Atlas Cloud</td>
+  <td class="num">$1.62</td>
+  <td class="num strong">$3.49</td>
+  <td class="num">15</td>
+  <td>Included</td>
+  <td>70% off Atlas list; 52% below official</td>
+  <td></td>
+</tr>
+<tr data-model="wan3">
+  <td class="rank">15</td>
+  <td class="model"><a href="https://www.atlascloud.ai/pricing/models" target="_blank" rel="noopener">Wan 3.0</a></td>
+  <td class="prov"><span class="swatch" data-agg="atlas"></span>Atlas Cloud</td>
+  <td class="num">$2.40</td>
+  <td class="num strong">$4.80</td>
+  <td class="num">30</td>
+  <td>Check setting</td>
+  <td>20% vs official</td>
+  <td></td>
+</tr>
+<tr data-model="kling">
+  <td class="rank">16</td>
+  <td class="model"><a href="https://www.atlascloud.ai/pricing/models" target="_blank" rel="noopener">Kling 3.0 Turbo</a></td>
+  <td class="prov"><span class="swatch" data-agg="atlas"></span>Atlas Cloud</td>
+  <td class="num"></td>
+  <td class="num strong">$5.71</td>
+  <td class="num">15</td>
+  <td>Check setting</td>
+  <td>15% vs official</td>
+  <td></td>
+</tr>
+<tr data-model="wan27">
+  <td class="rank">17</td>
+  <td class="model"><a href="https://www.atlascloud.ai/pricing/models" target="_blank" rel="noopener">Wan 2.7</a></td>
+  <td class="prov"><span class="swatch" data-agg="atlas"></span>Atlas Cloud</td>
+  <td class="num"></td>
+  <td class="num strong">$6.00</td>
+  <td class="num">15</td>
+  <td>Included</td>
+  <td>No dated sale verified</td>
+  <td></td>
+</tr>
+<tr data-model="s25">
+  <td class="rank">18</td>
+  <td class="model"><a href="https://runware.ai/seedance-2-5" target="_blank" rel="noopener">Seedance 2.5</a></td>
+  <td class="prov"><span class="swatch" data-agg="runware"></span>Runware</td>
+  <td class="num">$6.15</td>
+  <td class="num strong">$13.82</td>
+  <td class="num">30</td>
+  <td>Included</td>
+  <td>No dated sale verified</td>
+  <td></td>
+</tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="caption">Sorted by 720p price. Model names link to the provider's page for that exact model. ⚑ marks a quote flagged for review (see tooltip). 480p is the rate at the selected 720p provider; blank = not offered or not verified.</p>
+
+      <h3 style="margin-top:22px">AI aggregators we check (10)</h3>
+      <div class="tablewrap" style="margin-top:8px">
+        <table><thead><tr><th>Aggregator</th><th>Role in this comparison</th><th>Website</th></tr></thead><tbody>
+<tr><td><span class="swatch" data-agg="atlas"></span><a href="https://www.atlascloud.ai/" target="_blank" rel="noopener">Atlas Cloud</a></td><td class="muted">Current video supplier; broad discounted catalog</td><td><a class="muted" href="https://www.atlascloud.ai/" target="_blank" rel="noopener">https://www.atlascloud.ai/</a></td></tr>
+<tr><td><span class="swatch" data-agg="fal"></span><a href="https://fal.ai/" target="_blank" rel="noopener">fal.ai</a></td><td class="muted">Current video supplier; dated launch offers</td><td><a class="muted" href="https://fal.ai/" target="_blank" rel="noopener">https://fal.ai/</a></td></tr>
+<tr><td><span class="swatch" data-agg="replicate"></span><a href="https://replicate.com/" target="_blank" rel="noopener">Replicate</a></td><td class="muted">Broad model host</td><td><a class="muted" href="https://replicate.com/" target="_blank" rel="noopener">https://replicate.com/</a></td></tr>
+<tr><td><span class="swatch" data-agg="wavespeed"></span><a href="https://wavespeed.ai/" target="_blank" rel="noopener">WaveSpeedAI</a></td><td class="muted">Video/image API platform</td><td><a class="muted" href="https://wavespeed.ai/" target="_blank" rel="noopener">https://wavespeed.ai/</a></td></tr>
+<tr><td><span class="swatch" data-agg="runware"></span><a href="https://runware.ai/" target="_blank" rel="noopener">Runware</a></td><td class="muted">Media API platform; many exact tiers</td><td><a class="muted" href="https://runware.ai/" target="_blank" rel="noopener">https://runware.ai/</a></td></tr>
+<tr><td><span class="swatch" data-agg="kie"></span><a href="https://kie.ai/" target="_blank" rel="noopener">Kie.ai</a></td><td class="muted">Credit-based aggregator; provider-specific modes</td><td><a class="muted" href="https://kie.ai/" target="_blank" rel="noopener">https://kie.ai/</a></td></tr>
+<tr><td><span class="swatch" data-agg="huggingface"></span><a href="https://huggingface.co/docs/inference-providers/index" target="_blank" rel="noopener">Hugging Face</a></td><td class="muted">Partner inference routing</td><td><a class="muted" href="https://huggingface.co/docs/inference-providers/index" target="_blank" rel="noopener">https://huggingface.co/docs/inference-providers/index</a></td></tr>
+<tr><td><span class="swatch" data-agg="openrouter"></span><a href="https://openrouter.ai/" target="_blank" rel="noopener">OpenRouter</a></td><td class="muted">Unified router; few video models</td><td><a class="muted" href="https://openrouter.ai/" target="_blank" rel="noopener">https://openrouter.ai/</a></td></tr>
+<tr><td><span class="swatch" data-agg="novita"></span><a href="https://novita.ai/" target="_blank" rel="noopener">Novita AI</a></td><td class="muted">Multi-model API platform</td><td><a class="muted" href="https://novita.ai/" target="_blank" rel="noopener">https://novita.ai/</a></td></tr>
+<tr><td><span class="swatch" data-agg="piapi"></span><a href="https://piapi.ai/" target="_blank" rel="noopener">PiAPI</a></td><td class="muted">Multi-model API platform</td><td><a class="muted" href="https://piapi.ai/" target="_blank" rel="noopener">https://piapi.ai/</a></td></tr>
+        </tbody></table>
+      </div>
+
+      <div class="foot">
+        <b>Footnotes</b>
+        <ul>
+<li>480p is the rate at the selected 720p provider. Blank means unavailable or unverified; details are in the full quote matrix.</li>
+<li>One minute means accumulated generated footage. It does not imply a continuous 60-second clip. Vidu uses 10s clips. Kie Veo modes use 8s clips; shorter clips raise their effective per-minute cost.</li>
+<li>Seedance token-based rates are estimates. Audio, reference inputs and actual output dimensions can change a quote.</li>
+<li>Provider-specific Kie Lite and Atlas Grok Developer tiers are kept separate. Added options have not been quality-tested.</li>
+<li>Hugging Face routes participating providers at their rates; it is not a separate cheaper video quote. OpenRouter only lists a few video models.</li>
+<li>Prices are public list prices read on the check date. Sales expire automatically the morning after their published end date.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GRAPHICAL VIEW ============ -->
+<section id="charts">
+  <div class="wrap">
+    <div class="sec-head"><div><h2>Today at a glance</h2><p>The same numbers as the table, drawn so the story is obvious.</p></div></div>
+
+    <div class="kpis" id="kpis"></div>
+
+    <div class="card">
+      <div class="sec-head"><div><h3>Cheapest price per model — 720p, USD per minute</h3><p class="muted" style="font-size:13px">Bar colour = the aggregator that wins that model today.</p></div></div>
+      <div class="legend" id="legend-bars"></div>
+      <div class="chart" id="chart-bars"></div>
+    </div>
+
+    <div class="card" id="matrix">
+      <div class="sec-head">
+        <div><h3>Every quote we found — model × aggregator</h3><p class="muted" style="font-size:13px">Lighter = cheaper. The ringed cell is the winner in each row. “—” = model not offered or no verifiable price. * = quote excluded from ranking (conflicting notices).</p></div>
+        <div class="toggle" role="group" aria-label="View"><button type="button" id="btn-heat" aria-pressed="true">Heatmap</button><button type="button" id="btn-table" aria-pressed="false">Table</button></div>
+      </div>
+      <div class="chart" id="chart-heat"></div>
+      <div class="tablewrap hidden" id="matrix-table">
+        <table><thead><tr><th>Model</th><th>Atlas Cloud</th><th>fal.ai</th><th>Replicate</th><th>WaveSpeedAI</th><th>Runware</th><th>Kie.ai</th><th>Hugging Face</th><th>OpenRouter</th><th>Novita AI</th><th>PiAPI</th></tr></thead><tbody>
+<tr><th class="model">MiniMax H3 Max Turbo</th><td class="num" title="USD per output second">$2.28</td><td class="num best" title="USD per output second">$0.60</td><td class="num empty">—</td><td class="num empty">—</td><td class="num" title="USD per output second">$2.40</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td></tr>
+<tr><th class="model">Vidu Q2 Pro Fast</th><td class="num best" title="$0.0085/s + $0.0255/clip">$0.66</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td></tr>
+<tr><th class="model">Seedance 1.5 Pro Fast</th><td class="num best" title="Token-based provider estimate">$1.08</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td></tr>
+<tr><th class="model">Veo 3.1 — Kie Lite mode</th><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num best" title="30 credits = $0.15 per clip">$1.13</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td></tr>
+<tr><th class="model">MiniMax H3 Max</th><td class="num empty">—</td><td class="num best" title="USD per output second">$1.20</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td></tr>
+<tr><th class="model">Seedance 2.0 Mini</th><td class="num best" title="$1.12/M output tokens; estimated $/s">$1.45</td><td class="num" title="$0.007/1,000 tokens; provider $/s estimate">$9.28</td><td class="num empty">—</td><td class="num" title="USD per output second">$7.20</td><td class="num" title="USD per output second">$4.86</td><td class="num" title="480p 3.8 and 720p 8.2 credits/s; $0.005/credit">$2.46</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num" title="USD per output second">$8.40</td></tr>
+<tr><th class="model">Wan 2.6 Flash (silent)</th><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num best" title="USD per output second">$1.50</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td></tr>
+<tr><th class="model">Wan 2.6 Flash</th><td class="num best" title="USD per output second">$2.10</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num" title="USD per output second">$3.00</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td></tr>
+<tr><th class="model">PixVerse V6 (silent)</th><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num" title="USD per output second">$2.70</td><td class="num best" title="7.2 credits/s; $0.005/credit">$2.16</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td></tr>
+<tr><th class="model">Veo 3.1 Fast</th><td class="num" title="720p with audio $0.096/s">$5.76</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num best" title="60 credits = $0.30 per clip">$2.25</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td></tr>
+<tr><th class="model">PixVerse V6</th><td class="num" title="USD per output second">$3.60</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num" title="USD per output second">$3.60</td><td class="num best" title="9.6 credits/s; $0.005/credit">$2.88</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td></tr>
+<tr><th class="model">Grok Imagine 1.5 Developer</th><td class="num best" title="USD per output second">$2.94</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td></tr>
+<tr><th class="model">Veo 3.1 Lite</th><td class="num best" title="USD per output second">$3.00</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num" title="USD per output second">$3.00</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td></tr>
+<tr><th class="model">Seedance 2.0 Fast</th><td class="num best" title="$2.688/M output tokens; estimated $/s">$3.49</td><td class="num" title="$0.0112/1,000 tokens; provider $/s estimate">$14.51</td><td class="num empty">—</td><td class="num empty">—</td><td class="num" title="USD per output second">$7.80</td><td class="num" title="480p 11.7 and 720p 24.8 credits/s; $0.005/credit">$7.44</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num" title="USD per output second">$9.60</td></tr>
+<tr><th class="model">Wan 3.0</th><td class="num best" title="USD per output second">$4.80</td><td class="num empty">—</td><td class="num excluded" title="USD per output second">$6.00*</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td></tr>
+<tr><th class="model">Kling 3.0 Turbo</th><td class="num best" title="USD per output second">$5.71</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num" title="USD per output second">$6.72</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td></tr>
+<tr><th class="model">Wan 2.7</th><td class="num best" title="USD per output second">$6.00</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num empty">—</td><td class="num" title="USD per output second">$6.00</td><td class="num empty">—</td></tr>
+<tr><th class="model">Seedance 2.5</th><td class="num" title="Free API estimate for 30s; normalized to USD/s">$18.05</td><td class="num" title="$0.0214/1,000 tokens; provider $/s estimate">$28.38</td><td class="num empty">no price verified</td><td class="num" title="USD per output second">$19.44</td><td class="num best" title="$10.70/M tokens; published USD/s estimates">$13.82</td><td class="num" title="480p 28 and 720p 63 credits/s; $0.005/credit">$18.90</td><td class="num empty">no price verified</td><td class="num" title="$10.70/M tokens; published USD/s estimates">$13.87</td><td class="num empty">no price verified</td><td class="num" title="USD per output second, standard tier">$21.00</td></tr>
+        </tbody></table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="sec-head"><div><h3>Same model, different bill — cheapest vs. priciest aggregator</h3><p class="muted" style="font-size:13px">Why an aggregator aggregator exists: the spread on one model can be 5× or more. Log scale.</p></div></div>
+      <div class="legend"><span class="key"><i class="round" style="background:var(--blue-400)"></i>Cheapest aggregator</span><span class="key"><i class="round" style="background:var(--blue-200)"></i>Priciest aggregator</span></div>
+      <div class="chart" id="chart-spread"></div>
+    </div>
+
+    <div class="card">
+      <div class="sec-head"><div><h3>Price history — cheapest 720p rate per model</h3><p class="muted" style="font-size:13px">One snapshot per day. Sparklines appear once there are at least two days of history.</p></div></div>
+      <div id="chart-history"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DEALS ============ -->
+<section id="deals">
+  <div class="wrap">
+    <div class="sec-head"><div><h2>Sales &amp; deadlines</h2><p>Limited-time offers we could verify on the provider's own page. Dated sales expire automatically the morning after their end date.</p></div></div>
+    <div class="card tight">
+      <div class="tablewrap">
+        <table><thead><tr><th>Model</th><th>Aggregator</th><th>Offer</th><th class="num">720p $/min now</th><th class="num">Regular</th><th>Deadline</th><th></th></tr></thead><tbody id="deals-body">
+<tr><td>MiniMax H3 Max Turbo</td><td><span class="swatch" data-agg="fal"></span>fal.ai</td><td>75% launch sale</td><td class="num strong">$0.60</td><td class="num">$2.40</td><td>Ends 2026-09-14 (2 days left)</td><td><a href="https://fal.ai/minimax-h3-max" target="_blank" rel="noopener">source</a></td></tr>
+<tr><td>MiniMax H3 Max</td><td><span class="swatch" data-agg="fal"></span>fal.ai</td><td>75% launch sale</td><td class="num strong">$1.20</td><td class="num">$4.80</td><td>Ends 2026-09-14 (2 days left)</td><td><a href="https://fal.ai/minimax-h3-max" target="_blank" rel="noopener">source</a></td></tr>
+<tr><td>Seedance 2.0 Mini</td><td><span class="swatch" data-agg="kie"></span>Kie.ai</td><td>Limited-time reduced price</td><td class="num strong">$2.46</td><td class="num"></td><td>Ends 2026-10-07 (24 days left)</td><td><a href="https://kie.ai/seedance-2-0-mini" target="_blank" rel="noopener">source</a></td></tr>
+<tr><td>Seedance 2.0 Fast</td><td><span class="swatch" data-agg="kie"></span>Kie.ai</td><td>Limited-time reduced price</td><td class="num strong">$7.44</td><td class="num"></td><td>Ends 2026-10-07 (24 days left)</td><td><a href="https://kie.ai/seedance-2-0" target="_blank" rel="noopener">source</a></td></tr>
+        </tbody></table>
+      </div>
+    </div>
+    <details class="card tight"><summary>Standing discounts — permanent cuts and “X% below the official price” (no deadline)</summary>
+      <div class="tablewrap" style="margin-top:10px"><table><thead><tr><th>Model</th><th>Aggregator</th><th>Discount</th><th class="num">720p $/min</th><th class="num">Reference</th><th>Deadline</th><th></th></tr></thead><tbody>
+<tr><td>Vidu Q2 Pro Fast</td><td><span class="swatch" data-agg="atlas"></span>Atlas Cloud</td><td>15% vs official</td><td class="num strong">$0.66</td><td class="num">$0.78</td><td>No published end date</td><td><a href="https://www.atlascloud.ai/pricing/models" target="_blank" rel="noopener">source</a></td></tr>
+<tr><td>Seedance 1.5 Pro Fast</td><td><span class="swatch" data-agg="atlas"></span>Atlas Cloud</td><td>10% vs official</td><td class="num strong">$1.08</td><td class="num">$1.20</td><td>No published end date</td><td><a href="https://www.atlascloud.ai/pricing/models" target="_blank" rel="noopener">source</a></td></tr>
+<tr><td>Seedance 2.0 Mini</td><td><span class="swatch" data-agg="atlas"></span>Atlas Cloud</td><td>80% off Atlas list; 68% below official</td><td class="num strong">$1.45</td><td class="num">$7.26</td><td>No published end date</td><td><a href="https://www.atlascloud.ai/models/explore/seedance-2-lowest-price" target="_blank" rel="noopener">source</a></td></tr>
+<tr><td>Wan 2.6 Flash</td><td><span class="swatch" data-agg="atlas"></span>Atlas Cloud</td><td>30% vs official</td><td class="num strong">$2.10</td><td class="num">$3.00</td><td>No published end date</td><td><a href="https://www.atlascloud.ai/pricing/models" target="_blank" rel="noopener">source</a></td></tr>
+<tr><td>PixVerse V6 (silent)</td><td><span class="swatch" data-agg="kie"></span>Kie.ai</td><td>20% vs official</td><td class="num strong">$2.16</td><td class="num">$2.70</td><td>No published end date</td><td><a href="https://kie.ai/pixverse-v6" target="_blank" rel="noopener">source</a></td></tr>
+<tr><td>MiniMax H3 Max Turbo</td><td><span class="swatch" data-agg="atlas"></span>Atlas Cloud</td><td>5% vs official</td><td class="num strong">$2.28</td><td class="num">$2.40</td><td>No published end date</td><td><a href="https://www.atlascloud.ai/pricing/models" target="_blank" rel="noopener">source</a></td></tr>
+<tr><td>PixVerse V6</td><td><span class="swatch" data-agg="kie"></span>Kie.ai</td><td>20% vs official</td><td class="num strong">$2.88</td><td class="num">$3.60</td><td>No published end date</td><td><a href="https://kie.ai/pixverse-v6" target="_blank" rel="noopener">source</a></td></tr>
+<tr><td>Grok Imagine 1.5 Developer</td><td><span class="swatch" data-agg="atlas"></span>Atlas Cloud</td><td>65% vs official</td><td class="num strong">$2.94</td><td class="num">$8.40</td><td>No published end date</td><td><a href="https://www.atlascloud.ai/pricing/models" target="_blank" rel="noopener">source</a></td></tr>
+<tr><td>Seedance 2.0 Fast</td><td><span class="swatch" data-agg="atlas"></span>Atlas Cloud</td><td>70% off Atlas list; 52% below official</td><td class="num strong">$3.49</td><td class="num">$11.62</td><td>No published end date</td><td><a href="https://www.atlascloud.ai/models/explore/seedance-2-lowest-price" target="_blank" rel="noopener">source</a></td></tr>
+<tr><td>Wan 3.0</td><td><span class="swatch" data-agg="atlas"></span>Atlas Cloud</td><td>20% vs official</td><td class="num strong">$4.80</td><td class="num">$6.00</td><td>No published end date</td><td><a href="https://www.atlascloud.ai/pricing/models" target="_blank" rel="noopener">source</a></td></tr>
+<tr><td>Kling 3.0 Turbo</td><td><span class="swatch" data-agg="atlas"></span>Atlas Cloud</td><td>15% vs official</td><td class="num strong">$5.71</td><td class="num">$6.72</td><td>No published end date</td><td><a href="https://www.atlascloud.ai/pricing/models" target="_blank" rel="noopener">source</a></td></tr>
+<tr><td>Seedance 2.5</td><td><span class="swatch" data-agg="atlas"></span>Atlas Cloud</td><td>20% off Atlas list</td><td class="num strong">$18.05</td><td class="num">$22.57</td><td>No published end date</td><td><a href="https://api.atlascloud.ai/api/v1/model/calculate" target="_blank" rel="noopener">source</a></td></tr>
+<tr><td>Seedance 2.5</td><td><span class="swatch" data-agg="wavespeed"></span>WaveSpeedAI</td><td>10% current discount</td><td class="num strong">$19.44</td><td class="num">$21.60</td><td>No published end date</td><td><a href="https://wavespeed.ai/models/bytedance/seedance-2.5/image-to-video" target="_blank" rel="noopener">source</a></td></tr>
+      </tbody></table></div>
+    </details>
+    <details class="card tight"><summary>Other video models spotted on these aggregators (not ranked yet)</summary>
+      <div class="tablewrap" style="margin-top:10px"><table><thead><tr><th>Model</th><th>Cheapest on</th><th class="num">720p $/min</th><th>Confidence</th><th></th></tr></thead><tbody>
+<tr><td colspan="5" class="muted">None recorded yet.</td></tr>
+      </tbody></table></div>
+    </details>
+    <details class="card tight"><summary>Other aggregators we looked at (candidates for the list)</summary>
+      <div class="tablewrap" style="margin-top:10px"><table><thead><tr><th>Aggregator</th><th>Note</th><th class="num">Best 720p $/min seen</th><th>For model</th></tr></thead><tbody>
+<tr><td colspan="4" class="muted">None recorded yet.</td></tr>
+      </tbody></table></div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section id="how">
+  <div class="wrap">
+    <div class="sec-head"><div><h2>How it works</h2><p>An aggregator of aggregators.</p></div></div>
+    <div class="grid2">
+      <div class="card">
+        <h3>The problem</h3>
+        <p class="ink2">Video models like Seedance, Kling, Veo, Wan and MiniMax are sold through many API “aggregators” (fal.ai, Replicate, Atlas Cloud, Runware, Kie.ai and others). Each one sets its own price, runs its own launch sales, and bills in its own units — per second, per clip, per credit, per million tokens. The cheapest place for one model is often the most expensive for another, and it changes week to week.</p>
+        <h3 style="margin-top:14px">What this site does</h3>
+        <p class="ink2">It reads all 10 aggregators every day, converts every quote to the same unit — <b>USD per minute of generated footage at 720p</b> (768p for the MiniMax H3 family) — keeps audio-on and audio-off variants separate, notes each sale and its deadline, and publishes the winner per model. The table at the top is the summary; the charts show the spread; the JSON feed lets software make the choice automatically.</p>
+      </div>
+      <div class="card">
+        <h3>The daily research run</h3>
+        <ol class="steps">
+          <li><b>06:17 New York time</b>, a scheduled job wakes up (GitHub Actions, free).</li>
+          <li>For every model × aggregator pair it <b>re-opens the provider's own price page</b> — with a headless browser when the page needs JavaScript.</li>
+          <li>It reads the number with a <b>deterministic pattern first</b>, and falls back to <b>Claude reading the page</b> (and, if the page moved, searching the provider's site) so a redesign does not break the feed.</li>
+          <li>Every figure is normalized to $/min, <b>sanity-checked against yesterday</b> (a 5× jump is flagged, not published), and dated sales that ended are switched to the regular price.</li>
+          <li>It recomputes the cheapest aggregator per model, writes a <b>dated snapshot</b> for the history charts, rebuilds this page and publishes it.</li>
+        </ol>
+        <p class="muted" style="font-size:13px">First edition — built from a live multi-agent research pass; the daily robot takes over from here.</p>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Reading the numbers honestly</h3>
+      <p class="ink2">“Per minute” means accumulated generated footage, not one continuous 60-second clip — the <i>Max clip</i> column shows the longest single clip each endpoint allows. Prices for token-billed models are estimates for a 16:9 output at the stated resolution. Provider-specific tiers (Kie's “Lite mode” for Veo, Atlas's “Developer” tier for Grok) are kept as their own rows because they are not guaranteed to be the same product as the standard API. Quality is not ranked here — only price. Every quote links to its source, carries the date it was verified, and is flagged when the robot could not re-verify it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOR AI AGENTS ============ -->
+<section id="agents">
+  <div class="wrap">
+    <div class="sec-head"><div><h2>For AI agents &amp; local AIs</h2><p>Give your assistant this page and it never has to visit ten pricing pages again.</p></div></div>
+    <div class="card">
+      <h3>Endpoints</h3>
+      <div class="endpoints">
+        <div class="endpoint"><code>GET https://bennygoldstein.github.io/discount-aggregator/data/cheapest.json</code><span class="what">Per model: cheapest aggregator, API base URL, endpoint id, $/min, promo deadline. Small — fetch this.</span></div>
+        <div class="endpoint"><code>GET https://bennygoldstein.github.io/discount-aggregator/data/prices.json</code><span class="what">Everything: all quotes across all aggregators, raw billing text, sources, verification verdicts, deals.</span></div>
+        <div class="endpoint"><code>GET https://bennygoldstein.github.io/discount-aggregator/data/history/index.json</code><span class="what">List of daily snapshots (then <code>history/YYYY-MM-DD.json</code>).</span></div>
+        <div class="endpoint"><code>GET https://bennygoldstein.github.io/discount-aggregator/data/changes.json</code><span class="what">What changed, when, and why (price moves, sales that ended).</span></div>
+        <div class="endpoint"><code>GET https://bennygoldstein.github.io/discount-aggregator/llms.txt</code><span class="what">Plain-text instructions for language models.</span></div>
+      </div>
+      <p class="ink2">Everything is static JSON over HTTPS, no key, no rate limit beyond GitHub Pages' generosity, CORS-open. It refreshes once a day; cache it for an hour and you are fine.</p>
+
+      <h3 style="margin-top:18px">Routing recipe — “render this with my favourite model, wherever it's cheapest today”</h3>
+      <div class="grid2">
+        <div>
+          <p class="muted" style="font-size:13px;margin:0">Python</p>
+<pre><code>import requests
+
+FEED = "https://bennygoldstein.github.io/discount-aggregator/data/cheapest.json"
+feed = requests.get(FEED, timeout=10).json()
+
+best = feed["models"]["mini"]          # Seedance 2.0 Mini (ids are in the feed)
+print(best["cheapest_aggregator"],       # e.g. "Atlas Cloud"
+      best["usd_per_min_720p"],          # e.g. 1.45
+      best["endpoint_id"])               # the model id to pass to that API
+
+# Now call that aggregator's API:
+api = best["aggregator"]["api_base_url"]
+docs = best["aggregator"]["api_docs_url"]
+# → build the request per `docs`, using best["endpoint_id"]
+</code></pre>
+        </div>
+        <div>
+          <p class="muted" style="font-size:13px;margin:0">JavaScript / Node</p>
+<pre><code>const FEED = "https://bennygoldstein.github.io/discount-aggregator/data/cheapest.json";
+const feed = await (await fetch(FEED)).json();
+
+const wanted = "Kling 3.0 Turbo";
+const [id, best] = Object.entries(feed.models)
+  .find(([, m]) => m.model === wanted);
+
+console.log(best.cheapest_aggregator, best.usd_per_min_720p,
+            best.endpoint_id, best.aggregator.api_base_url);
+// estimate for a 15 s clip:
+const clipUsd = best.usd_per_min_720p * 15 / 60;
+</code></pre>
+        </div>
+      </div>
+      <p class="muted" style="font-size:13px;margin:0">Shell</p>
+<pre><code>curl -s https://bennygoldstein.github.io/discount-aggregator/data/cheapest.json | jq '.models | to_entries | map({model:.value.model, at:.value.cheapest_aggregator, usd_per_min:.value.usd_per_min_720p}) | sort_by(.usd_per_min)'</code></pre>
+
+      <h3 style="margin-top:18px">Drop this line into your agent's instructions</h3>
+<pre><code>Before generating a video, fetch https://bennygoldstein.github.io/discount-aggregator/data/cheapest.json and route the job to the
+aggregator listed as cheapest for the requested model. Quote the price (usd_per_min_720p × seconds / 60)
+and the promo deadline if any. If the model is not in the feed, say so instead of guessing.</code></pre>
+      <p class="muted" style="font-size:13px">Model ids in the feed: <span id="model-ids"></span></p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Discount Aggregator Aggregator · prices are public list prices read from each provider's site, normalized to USD per minute at 720p (768p for MiniMax H3). Not affiliated with any provider. Verify a quote on the linked page before a large job. Data licence: CC BY 4.0.</p>
+    <p>Source &amp; daily robot: <a href="https://github.com/bennygoldstein/discount-aggregator">github.com/bennygoldstein/discount-aggregator</a> · built 2026-09-13T19:34:09.094Z</p>
+  </div>
+</footer>
+
+<script id="dataset" type="application/json">{"schema_version":1,"site":{"name":"Discount Aggregator Aggregator","url":"https://bennygoldstein.github.io/discount-aggregator/","owner":"Benny Goldstein"},"generated_at":"2026-09-13T19:27:55Z","checked_at":"2026-09-13T15:50:00Z","unit":"USD per minute of generated video (accumulated footage) at the 720p column basis","aggregators":[{"id":"atlas","name":"Atlas Cloud","url":"https://www.atlascloud.ai/","api_docs_url":"https://www.atlascloud.ai/docs","api_base_url":"https://api.atlascloud.ai/api/v1","billing_model":"USD per output second; token-based for Seedance; free quote endpoint /model/calculate","status":"using","role":"Current video supplier; broad discounted catalog"},{"id":"fal","name":"fal.ai","url":"https://fal.ai/","api_docs_url":"https://docs.fal.ai/","api_base_url":"https://queue.fal.run","billing_model":"USD per output second or per 1,000 tokens, per model","status":"using","role":"Current video supplier; dated launch offers"},{"id":"replicate","name":"Replicate","url":"https://replicate.com/","api_docs_url":"https://replicate.com/docs","api_base_url":"https://api.replicate.com/v1","billing_model":"USD per output second, per model","status":"shortlisted","role":"Broad model host"},{"id":"wavespeed","name":"WaveSpeedAI","url":"https://wavespeed.ai/","api_docs_url":"https://wavespeed.ai/docs","api_base_url":"https://api.wavespeed.ai/api/v3","billing_model":"USD per output second","status":"shortlisted","role":"Video/image API platform"},{"id":"runware","name":"Runware","url":"https://runware.ai/","api_docs_url":"https://runware.ai/docs","api_base_url":"https://api.runware.ai/v1","billing_model":"USD per output second (published per-model estimates)","status":"shortlisted","role":"Media API platform; many exact tiers"},{"id":"kie","name":"Kie.ai","url":"https://kie.ai/","api_docs_url":"https://docs.kie.ai/","api_base_url":"https://api.kie.ai","billing_model":"Credits, $0.005 per credit","status":"shortlisted","role":"Credit-based aggregator; provider-specific modes"},{"id":"huggingface","name":"Hugging Face","url":"https://huggingface.co/docs/inference-providers/index","api_docs_url":"https://huggingface.co/docs/inference-providers/index","api_base_url":"https://router.huggingface.co","billing_model":"Routes to partner providers at their rates, no markup","status":"shortlisted","role":"Partner inference routing"},{"id":"openrouter","name":"OpenRouter","url":"https://openrouter.ai/","api_docs_url":"https://openrouter.ai/docs","api_base_url":"https://openrouter.ai/api/v1","billing_model":"USD per million tokens (video models token-billed)","status":"shortlisted","role":"Unified router; few video models"},{"id":"novita","name":"Novita AI","url":"https://novita.ai/","api_docs_url":"https://docs.novita.ai/","api_base_url":"https://api.novita.ai","billing_model":"USD per output second","status":"shortlisted","role":"Multi-model API platform"},{"id":"piapi","name":"PiAPI","url":"https://piapi.ai/","api_docs_url":"https://app.piapi.ai/docs","api_base_url":"https://api.piapi.ai","billing_model":"USD per output second, standard tier","status":"shortlisted","role":"Multi-model API platform"}],"models":[{"id":"h3turbo","name":"MiniMax H3 Max Turbo","vendor":"MiniMax","spec":"768p (counts as the 720p column), audio included, up to 15s","max_clip_s":15,"col720_basis":"768p","tracked":true},{"id":"vidu","name":"Vidu Q2 Pro Fast","vendor":"Vidu (Shengshu)","spec":"720p, silent, image-to-video, 10s clips","max_clip_s":10,"col720_basis":"720p","tracked":true},{"id":"seed15","name":"Seedance 1.5 Pro Fast","vendor":"ByteDance","spec":"720p, up to 12s, audio setting to verify","max_clip_s":12,"col720_basis":"720p","tracked":true},{"id":"kielite","name":"Veo 3.1 — Kie Lite mode","vendor":"Google (Kie.ai tier)","spec":"Kie.ai-specific Lite mode, 8s clip, per-clip credits, audio may vary","max_clip_s":8,"col720_basis":"720p","tracked":true},{"id":"h3max","name":"MiniMax H3 Max","vendor":"MiniMax","spec":"768p (counts as the 720p column), audio included, up to 15s","max_clip_s":15,"col720_basis":"768p","tracked":true},{"id":"mini","name":"Seedance 2.0 Mini","vendor":"ByteDance","spec":"720p, audio included, up to 15s, text/image/reference input (no video input)","max_clip_s":15,"col720_basis":"720p","tracked":true},{"id":"wansilent","name":"Wan 2.6 Flash (silent)","vendor":"Alibaba","spec":"720p, audio OFF, up to 15s","max_clip_s":15,"col720_basis":"720p","tracked":true},{"id":"wanflash","name":"Wan 2.6 Flash","vendor":"Alibaba","spec":"720p, audio included, up to 15s, image-to-video","max_clip_s":15,"col720_basis":"720p","tracked":true},{"id":"pixsilent","name":"PixVerse V6 (silent)","vendor":"PixVerse","spec":"720p, audio OFF, up to 15s (540p is not 480p)","max_clip_s":15,"col720_basis":"720p","tracked":true},{"id":"veofast","name":"Veo 3.1 Fast","vendor":"Google","spec":"720p, 8s clips, audio may vary","max_clip_s":8,"col720_basis":"720p","tracked":true},{"id":"pix","name":"PixVerse V6","vendor":"PixVerse","spec":"720p, audio included, up to 15s","max_clip_s":15,"col720_basis":"720p","tracked":true},{"id":"grok","name":"Grok Imagine 1.5 Developer","vendor":"xAI (Atlas Developer tier)","spec":"Atlas Developer tier; 720p, up to 15s","max_clip_s":15,"col720_basis":"720p","tracked":true},{"id":"veolite","name":"Veo 3.1 Lite","vendor":"Google","spec":"Veo 3.1 Lite API tier, 720p, 8s, audio included","max_clip_s":8,"col720_basis":"720p","tracked":true},{"id":"fast","name":"Seedance 2.0 Fast","vendor":"ByteDance","spec":"720p, audio included, up to 15s","max_clip_s":15,"col720_basis":"720p","tracked":true},{"id":"wan3","name":"Wan 3.0","vendor":"Alibaba","spec":"native 720p, up to 30s, audio setting to verify","max_clip_s":30,"col720_basis":"720p","tracked":true},{"id":"kling","name":"Kling 3.0 Turbo","vendor":"Kuaishou","spec":"Turbo tier, 720p, up to 15s","max_clip_s":15,"col720_basis":"720p","tracked":true},{"id":"wan27","name":"Wan 2.7","vendor":"Alibaba","spec":"native 720p image-to-video, audio included, up to 15s","max_clip_s":15,"col720_basis":"720p","tracked":true},{"id":"s25","name":"Seedance 2.5","vendor":"ByteDance","spec":"720p, native audio, up to 30s, text/image input (no video reference)","max_clip_s":30,"col720_basis":"720p","tracked":true}],"quotes":[{"id":"h3turbo@fal","model_id":"h3turbo","aggregator_id":"fal","endpoint_id":"","model_page_url":"https://fal.ai/minimax-h3-max","mode":"","audio":"Included","resolution_basis":"768p","per_min":{"480p":0.375,"768p":0.6},"per_second":{"480p":0.0063,"768p":0.01},"fixed_per_clip":0,"clip_basis_s":15,"max_clip_s":15,"raw_billing_text":"USD per output second","promo":{"active":true,"kind":"sale","label":"75% launch sale","discount_pct":75,"ends_at":"2026-09-14","regular_per_min":{"480p":1.5,"768p":2.4}},"source_url":"https://fal.ai/minimax-h3-max","checked_at":"2026-09-13","method":"manual-sheet","confidence":"high","ranked":true,"notes":"768p replaces the 720p column. Regular 480p $0.025/s and 768p $0.04/s from Sep 15. Launch start and cutoff time zone not published."},{"id":"h3turbo@atlas","model_id":"h3turbo","aggregator_id":"atlas","endpoint_id":"","model_page_url":"https://www.atlascloud.ai/pricing/models","mode":"","audio":"Included","resolution_basis":"768p","per_min":{"480p":1.425,"768p":2.28},"per_second":{"480p":0.0238,"768p":0.038},"fixed_per_clip":0,"clip_basis_s":15,"max_clip_s":15,"raw_billing_text":"USD per output second","promo":{"active":true,"kind":"standing","label":"5% vs official","discount_pct":5,"ends_at":"","regular_per_min":{"768p":2.4}},"source_url":"https://www.atlascloud.ai/pricing/models","checked_at":"2026-09-12","method":"manual-sheet","confidence":"high","ranked":true,"notes":"768p, not exact 720p. No published discount dates."},{"id":"h3turbo@runware","model_id":"h3turbo","aggregator_id":"runware","endpoint_id":"","model_page_url":"https://runware.ai/docs/models/minimax-h3-max-turbo","mode":"","audio":"Included","resolution_basis":"768p","per_min":{"480p":1.5,"768p":2.4},"per_second":{"480p":0.025,"768p":0.04},"fixed_per_clip":0,"clip_basis_s":15,"max_clip_s":15,"raw_billing_text":"USD per output second","promo":{"active":false,"kind":"","label":"","discount_pct":null,"ends_at":"","regular_per_min":null},"source_url":"https://runware.ai/docs/models/minimax-h3-max-turbo","checked_at":"2026-09-12","method":"manual-sheet","confidence":"high","ranked":true,"notes":"768p, not exact 720p."},{"id":"vidu@atlas","model_id":"vidu","aggregator_id":"atlas","endpoint_id":"","model_page_url":"https://www.atlascloud.ai/pricing/models","mode":"","audio":"Silent","resolution_basis":"720p","per_min":{"720p":0.663},"per_second":{"720p":0.0085},"fixed_per_clip":0.0255,"clip_basis_s":10,"max_clip_s":10,"raw_billing_text":"$0.0085/s + $0.0255/clip","promo":{"active":true,"kind":"standing","label":"15% vs official","discount_pct":15,"ends_at":"","regular_per_min":{"720p":0.78}},"source_url":"https://www.atlascloud.ai/pricing/models","checked_at":"2026-09-12","method":"manual-sheet","confidence":"high","ranked":true,"notes":"Image-to-video. Calculator: 5s $0.068; 10s $0.1105. Base charge inferred from both totals. 8s clips cost $0.70125/min; 10s cost $0.663/min."},{"id":"seed15@atlas","model_id":"seed15","aggregator_id":"atlas","endpoint_id":"","model_page_url":"https://www.atlascloud.ai/pricing/models","mode":"","audio":"Check setting","resolution_basis":"720p","per_min":{"480p":0.4985,"720p":1.08},"per_second":{"480p":0.0083,"720p":0.018},"fixed_per_clip":0,"clip_basis_s":12,"max_clip_s":12,"raw_billing_text":"Token-based provider estimate","promo":{"active":true,"kind":"standing","label":"10% vs official","discount_pct":10,"ends_at":"","regular_per_min":{"720p":1.2}},"source_url":"https://www.atlascloud.ai/pricing/models","checked_at":"2026-09-12","method":"manual-sheet","confidence":"medium","ranked":true,"notes":"480p/720p estimated rates from price table. Audio inclusion not independently verified. Maximum retained from screenshot."},{"id":"h3max@fal","model_id":"h3max","aggregator_id":"fal","endpoint_id":"","model_page_url":"https://fal.ai/minimax-h3-max","mode":"","audio":"Included","resolution_basis":"768p","per_min":{"480p":0.75,"768p":1.2},"per_second":{"480p":0.0125,"768p":0.02},"fixed_per_clip":0,"clip_basis_s":15,"max_clip_s":15,"raw_billing_text":"USD per output second","promo":{"active":true,"kind":"sale","label":"75% launch sale","discount_pct":75,"ends_at":"2026-09-14","regular_per_min":{"480p":3,"768p":4.8}},"source_url":"https://fal.ai/minimax-h3-max","checked_at":"2026-09-13","method":"manual-sheet","confidence":"high","ranked":true,"notes":"768p replaces 720p. Regular 480p $0.05/s and 768p $0.08/s from Sep 15. Added higher-quality family variant; no project-specific quality test."},{"id":"mini@atlas","model_id":"mini","aggregator_id":"atlas","endpoint_id":"","model_page_url":"https://www.atlascloud.ai/models/explore/seedance-2-lowest-price","mode":"","audio":"Included","resolution_basis":"720p","per_min":{"480p":0.675,"720p":1.452},"per_second":{"480p":0.0112,"720p":0.0242},"fixed_per_clip":0,"clip_basis_s":15,"max_clip_s":15,"raw_billing_text":"$1.12/M output tokens; estimated $/s","promo":{"active":true,"kind":"standing","label":"80% off Atlas list; 68% below official","discount_pct":80,"ends_at":"","regular_per_min":{"720p":7.26}},"source_url":"https://www.atlascloud.ai/models/explore/seedance-2-lowest-price","checked_at":"2026-09-13","method":"manual-sheet","confidence":"medium","ranked":true,"notes":"Sep 13: advertised 720p $0.0242/s (~$0.363/15s), unchanged. Reference column M is Atlas list, not official; official comparator $0.0756/s. Permanent cut, no dated expiry. No video input; exact token quote and final charge may vary."},{"id":"mini@kie","model_id":"mini","aggregator_id":"kie","endpoint_id":"","model_page_url":"https://kie.ai/seedance-2-0-mini","mode":"","audio":"Included","resolution_basis":"720p","per_min":{"480p":1.14,"720p":2.46},"per_second":{"480p":0.019,"720p":0.041},"fixed_per_clip":0,"clip_basis_s":15,"max_clip_s":15,"raw_billing_text":"480p 3.8 and 720p 8.2 credits/s; $0.005/credit","promo":{"active":true,"kind":"sale","label":"Limited-time reduced price","discount_pct":null,"ends_at":"2026-10-07T06:00:00Z","regular_per_min":null},"source_url":"https://kie.ai/seedance-2-0-mini","checked_at":"2026-09-12","method":"manual-sheet","confidence":"high","ranked":true,"notes":"Sep 13 verification attempt: public page did not expose numerical rates. Sep 12 price and expiry retained as historical; recheck live quote before relying on them. No video input pricing; video-input rates differ."},{"id":"mini@runware","model_id":"mini","aggregator_id":"runware","endpoint_id":"","model_page_url":"https://runware.ai/docs/models/bytedance-seedance-2-0-mini","mode":"","audio":"Included","resolution_basis":"720p","per_min":{"480p":2.16,"720p":4.86},"per_second":{"480p":0.036,"720p":0.081},"fixed_per_clip":0,"clip_basis_s":15,"max_clip_s":15,"raw_billing_text":"USD per output second","promo":{"active":false,"kind":"","label":"","discount_pct":null,"ends_at":"","regular_per_min":null},"source_url":"https://runware.ai/docs/models/bytedance-seedance-2-0-mini","checked_at":"2026-09-13","method":"manual-sheet","confidence":"high","ranked":true,"notes":"Published per-second estimates for text/image input. Video-to-video uses another rate."},{"id":"mini@wavespeed","model_id":"mini","aggregator_id":"wavespeed","endpoint_id":"","model_page_url":"https://wavespeed.ai/models/bytedance/seedance-2.0-mini/image-to-video","mode":"","audio":"Included","resolution_basis":"720p","per_min":{"480p":3.6,"720p":7.2},"per_second":{"480p":0.06,"720p":0.12},"fixed_per_clip":0,"clip_basis_s":15,"max_clip_s":15,"raw_billing_text":"USD per output second","promo":{"active":false,"kind":"","label":"","discount_pct":null,"ends_at":"","regular_per_min":null},"source_url":"https://wavespeed.ai/models/bytedance/seedance-2.0-mini/image-to-video","checked_at":"2026-09-13","method":"manual-sheet","confidence":"high","ranked":true,"notes":"5s costs $0.30 at 480p or $0.60 at 720p. No video-reference input."},{"id":"mini@piapi","model_id":"mini","aggregator_id":"piapi","endpoint_id":"","model_page_url":"https://piapi.ai/seedance-2-0","mode":"","audio":"Included","resolution_basis":"720p","per_min":{"480p":4.2,"720p":8.4},"per_second":{"480p":0.07,"720p":0.14},"fixed_per_clip":0,"clip_basis_s":15,"max_clip_s":15,"raw_billing_text":"USD per output second","promo":{"active":false,"kind":"","label":"","discount_pct":null,"ends_at":"","regular_per_min":null},"source_url":"https://piapi.ai/seedance-2-0","checked_at":"2026-09-13","method":"manual-sheet","confidence":"high","ranked":true,"notes":"Mini tier. Optional less-restriction tier and other extras excluded."},{"id":"mini@fal","model_id":"mini","aggregator_id":"fal","endpoint_id":"","model_page_url":"https://fal.ai/models/bytedance/seedance-2.0/mini/reference-to-video","mode":"","audio":"Included","resolution_basis":"720p","per_min":{"480p":4.326,"720p":9.282},"per_second":{"480p":0.0721,"720p":0.1547},"fixed_per_clip":0,"clip_basis_s":15,"max_clip_s":15,"raw_billing_text":"$0.007/1,000 tokens; provider $/s estimate","promo":{"active":false,"kind":"","label":"","discount_pct":null,"ends_at":"","regular_per_min":null},"source_url":"https://fal.ai/models/bytedance/seedance-2.0/mini/reference-to-video","checked_at":"2026-09-12","method":"manual-sheet","confidence":"medium","ranked":true,"notes":"No video reference. Approximate published per-second equivalents; actual cost follows output pixels × seconds × 24 / 1024 × token price."},{"id":"wanflash@atlas","model_id":"wanflash","aggregator_id":"atlas","endpoint_id":"","model_page_url":"https://www.atlascloud.ai/pricing/models","mode":"","audio":"Included","resolution_basis":"720p","per_min":{"720p":2.1},"per_second":{"720p":0.035},"fixed_per_clip":0,"clip_basis_s":15,"max_clip_s":15,"raw_billing_text":"USD per output second","promo":{"active":true,"kind":"standing","label":"30% vs official","discount_pct":30,"ends_at":"","regular_per_min":{"720p":3}},"source_url":"https://www.atlascloud.ai/pricing/models","checked_at":"2026-09-12","method":"manual-sheet","confidence":"high","ranked":true,"notes":"Image-to-video. The matching $0.035/s tier is used for comparison; audio-off quote needs a separate calculator check."},{"id":"wanflash@runware","model_id":"wanflash","aggregator_id":"runware","endpoint_id":"","model_page_url":"https://runware.ai/docs/models/alibaba-wan2-6-flash","mode":"","audio":"Included","resolution_basis":"720p","per_min":{"720p":3},"per_second":{"720p":0.05},"fixed_per_clip":0,"clip_basis_s":15,"max_clip_s":15,"raw_billing_text":"USD per output second","promo":{"active":false,"kind":"","label":"","discount_pct":null,"ends_at":"","regular_per_min":null},"source_url":"https://runware.ai/docs/models/alibaba-wan2-6-flash","checked_at":"2026-09-12","method":"manual-sheet","confidence":"high","ranked":true,"notes":"With audio. Reference-to-video maximum is 10s; this row uses image-to-video, up to 15s."},{"id":"wansilent@runware","model_id":"wansilent","aggregator_id":"runware","endpoint_id":"","model_page_url":"https://runware.ai/docs/models/alibaba-wan2-6-flash","mode":"","audio":"Off","resolution_basis":"720p","per_min":{"720p":1.5},"per_second":{"720p":0.025},"fixed_per_clip":0,"clip_basis_s":15,"max_clip_s":15,"raw_billing_text":"USD per output second","promo":{"active":false,"kind":"","label":"","discount_pct":null,"ends_at":"","regular_per_min":null},"source_url":"https://runware.ai/docs/models/alibaba-wan2-6-flash","checked_at":"2026-09-12","method":"manual-sheet","confidence":"high","ranked":true,"notes":"Audio off. Atlas audio-off rate is not yet verified, so this is a verified option rather than a complete market minimum."},{"id":"grok@atlas","model_id":"grok","aggregator_id":"atlas","endpoint_id":"","model_page_url":"https://www.atlascloud.ai/pricing/models","mode":"","audio":"Check setting","resolution_basis":"720p","per_min":{"480p":1.68,"720p":2.94},"per_second":{"480p":0.028,"720p":0.049},"fixed_per_clip":0,"clip_basis_s":15,"max_clip_s":15,"raw_billing_text":"USD per output second","promo":{"active":true,"kind":"standing","label":"65% vs official","discount_pct":65,"ends_at":"","regular_per_min":{"720p":8.4}},"source_url":"https://www.atlascloud.ai/pricing/models","checked_at":"2026-09-12","method":"manual-sheet","confidence":"high","ranked":true,"notes":"Atlas Developer tier, kept separate from standard Grok 1.5 endpoints. Audio behavior and tier equivalence require checking before switching providers."},{"id":"veolite@atlas","model_id":"veolite","aggregator_id":"atlas","endpoint_id":"","model_page_url":"https://www.atlascloud.ai/pricing/models","mode":"","audio":"Included","resolution_basis":"720p","per_min":{"720p":3},"per_second":{"720p":0.05},"fixed_per_clip":0,"clip_basis_s":8,"max_clip_s":8,"raw_billing_text":"USD per output second","promo":{"active":false,"kind":"","label":"","discount_pct":null,"ends_at":"","regular_per_min":null},"source_url":"https://www.atlascloud.ai/pricing/models","checked_at":"2026-09-12","method":"manual-sheet","confidence":"high","ranked":true,"notes":"720p tier. Maximum retained from screenshot."},{"id":"veolite@runware","model_id":"veolite","aggregator_id":"runware","endpoint_id":"","model_page_url":"https://runware.ai/docs/models/google-veo-3-1-lite","mode":"","audio":"Included","resolution_basis":"720p","per_min":{"720p":3},"per_second":{"720p":0.05},"fixed_per_clip":0,"clip_basis_s":8,"max_clip_s":8,"raw_billing_text":"USD per output second","promo":{"active":false,"kind":"","label":"","discount_pct":null,"ends_at":"","regular_per_min":null},"source_url":"https://runware.ai/docs/models/google-veo-3-1-lite","checked_at":"2026-09-12","method":"manual-sheet","confidence":"high","ranked":true,"notes":"With audio. Without audio costs $0.03/s ($1.80/min). Provider notes limited capacity."},{"id":"kielite@kie","model_id":"kielite","aggregator_id":"kie","endpoint_id":"","model_page_url":"https://kie.ai/veo-3-1","mode":"","audio":"May vary","resolution_basis":"720p","per_min":{"720p":1.125},"per_second":{"720p":0},"fixed_per_clip":0.15,"clip_basis_s":8,"max_clip_s":8,"raw_billing_text":"30 credits = $0.15 per clip","promo":{"active":false,"kind":"","label":"","discount_pct":null,"ends_at":"","regular_per_min":null},"source_url":"https://kie.ai/veo-3-1","checked_at":"2026-09-12","method":"manual-sheet","confidence":"high","ranked":true,"notes":"Kie-specific Lite mode, not assumed identical to the separate Veo 3.1 Lite API. 4/6/8s options; this calculation uses 8s. Audio may be absent on some outputs. No top-up bonus included."},{"id":"fast@atlas","model_id":"fast","aggregator_id":"atlas","endpoint_id":"","model_page_url":"https://www.atlascloud.ai/models/explore/seedance-2-lowest-price","mode":"","audio":"Included","resolution_basis":"720p","per_min":{"480p":1.6199,"720p":3.486},"per_second":{"480p":0.027,"720p":0.0581},"fixed_per_clip":0,"clip_basis_s":15,"max_clip_s":15,"raw_billing_text":"$2.688/M output tokens; estimated $/s","promo":{"active":true,"kind":"standing","label":"70% off Atlas list; 52% below official","discount_pct":70,"ends_at":"","regular_per_min":{"720p":11.62}},"source_url":"https://www.atlascloud.ai/models/explore/seedance-2-lowest-price","checked_at":"2026-09-13","method":"manual-sheet","confidence":"medium","ranked":true,"notes":"Sep 13: advertised 720p $0.0581/s, unchanged. Reference column M is Atlas list, not official; official comparator $0.1209/s. Permanent cut, no dated expiry. Exact token quote may vary."},{"id":"fast@kie","model_id":"fast","aggregator_id":"kie","endpoint_id":"","model_page_url":"https://kie.ai/seedance-2-0","mode":"","audio":"Included","resolution_basis":"720p","per_min":{"480p":3.51,"720p":7.44},"per_second":{"480p":0.0585,"720p":0.124},"fixed_per_clip":0,"clip_basis_s":15,"max_clip_s":15,"raw_billing_text":"480p 11.7 and 720p 24.8 credits/s; $0.005/credit","promo":{"active":true,"kind":"sale","label":"Limited-time reduced price","discount_pct":null,"ends_at":"2026-10-07T06:00:00Z","regular_per_min":null},"source_url":"https://kie.ai/seedance-2-0","checked_at":"2026-09-12","method":"manual-sheet","confidence":"high","ranked":true,"notes":"Sep 13 verification attempt: public page did not expose numerical rates. Sep 12 price and expiry retained as historical; recheck live quote before relying on them."},{"id":"fast@runware","model_id":"fast","aggregator_id":"runware","endpoint_id":"","model_page_url":"https://runware.ai/docs/models/bytedance-seedance-2-0-fast","mode":"","audio":"Included","resolution_basis":"720p","per_min":{"480p":3.6,"720p":7.8},"per_second":{"480p":0.06,"720p":0.13},"fixed_per_clip":0,"clip_basis_s":15,"max_clip_s":15,"raw_billing_text":"USD per output second","promo":{"active":false,"kind":"","label":"","discount_pct":null,"ends_at":"","regular_per_min":null},"source_url":"https://runware.ai/docs/models/bytedance-seedance-2-0-fast","checked_at":"2026-09-12","method":"manual-sheet","confidence":"high","ranked":true,"notes":"Published approximate rates; example costs vary slightly with output dimensions."},{"id":"fast@piapi","model_id":"fast","aggregator_id":"piapi","endpoint_id":"","model_page_url":"https://piapi.ai/seedance-2-0","mode":"","audio":"Included","resolution_basis":"720p","per_min":{"480p":4.8,"720p":9.6},"per_second":{"480p":0.08,"720p":0.16},"fixed_per_clip":0,"clip_basis_s":15,"max_clip_s":15,"raw_billing_text":"USD per output second","promo":{"active":false,"kind":"","label":"","discount_pct":null,"ends_at":"","regular_per_min":null},"source_url":"https://piapi.ai/seedance-2-0","checked_at":"2026-09-13","method":"manual-sheet","confidence":"high","ranked":true,"notes":"Fast tier. Optional extras excluded."},{"id":"fast@fal","model_id":"fast","aggregator_id":"fal","endpoint_id":"","model_page_url":"https://fal.ai/models/bytedance/seedance-2.0/fast/image-to-video","mode":"","audio":"Included","resolution_basis":"720p","per_min":{"720p":14.514},"per_second":{"720p":0.2419},"fixed_per_clip":0,"clip_basis_s":15,"max_clip_s":15,"raw_billing_text":"$0.0112/1,000 tokens; provider $/s estimate","promo":{"active":false,"kind":"","label":"","discount_pct":null,"ends_at":"","regular_per_min":null},"source_url":"https://fal.ai/models/bytedance/seedance-2.0/fast/image-to-video","checked_at":"2026-09-12","method":"manual-sheet","confidence":"medium","ranked":true,"notes":"480p supported but a resolution-specific charge was not verified. Approximate 720p rate; no video reference."},{"id":"kling@atlas","model_id":"kling","aggregator_id":"atlas","endpoint_id":"","model_page_url":"https://www.atlascloud.ai/pricing/models","mode":"","audio":"Check setting","resolution_basis":"720p","per_min":{"720p":5.712},"per_second":{"720p":0.0952},"fixed_per_clip":0,"clip_basis_s":15,"max_clip_s":15,"raw_billing_text":"USD per output second","promo":{"active":true,"kind":"standing","label":"15% vs official","discount_pct":15,"ends_at":"","regular_per_min":{"720p":6.72}},"source_url":"https://www.atlascloud.ai/pricing/models","checked_at":"2026-09-12","method":"manual-sheet","confidence":"high","ranked":true,"notes":"Exact Turbo tier, not Kling Standard/Pro. Audio setting not independently verified."},{"id":"kling@runware","model_id":"kling","aggregator_id":"runware","endpoint_id":"","model_page_url":"https://runware.ai/docs/models/klingai-video-3-0-turbo","mode":"","audio":"Check setting","resolution_basis":"720p","per_min":{"720p":6.72},"per_second":{"720p":0.112},"fixed_per_clip":0,"clip_basis_s":15,"max_clip_s":15,"raw_billing_text":"USD per output second","promo":{"active":false,"kind":"","label":"","discount_pct":null,"ends_at":"","regular_per_min":null},"source_url":"https://runware.ai/docs/models/klingai-video-3-0-turbo","checked_at":"2026-09-12","method":"manual-sheet","confidence":"high","ranked":true,"notes":"Same Turbo product name. Audio behavior should be verified for the intended workflow."},{"id":"s25@atlas","model_id":"s25","aggregator_id":"atlas","endpoint_id":"","model_page_url":"https://api.atlascloud.ai/api/v1/model/calculate","mode":"","audio":"Included","resolution_basis":"720p","per_min":{"480p":8.3944,"720p":18.0524},"per_second":{"480p":0.1399,"720p":0.3009},"fixed_per_clip":0,"clip_basis_s":30,"max_clip_s":30,"raw_billing_text":"Free API estimate for 30s; normalized to USD/s","promo":{"active":true,"kind":"standing","label":"20% off Atlas list","discount_pct":20,"ends_at":"","regular_per_min":{"720p":22.5655}},"source_url":"https://api.atlascloud.ai/api/v1/model/calculate","checked_at":"2026-09-13","method":"manual-sheet","confidence":"medium","ranked":true,"notes":"Sep 13 11:50 a.m. EDT: /calculate, text-to-video, 16:9, native audio, no video references. 30s: 480p $4.197176; 720p $9.026199. 15s 720p $4.519359. Discount 80 means 80% paid (20% off). Token estimate; final billing may vary."},{"id":"s25@kie","model_id":"s25","aggregator_id":"kie","endpoint_id":"","model_page_url":"https://kie.ai/seedance-2-5","mode":"","audio":"Included","resolution_basis":"720p","per_min":{"480p":8.4,"720p":18.9},"per_second":{"480p":0.14,"720p":0.315},"fixed_per_clip":0,"clip_basis_s":30,"max_clip_s":30,"raw_billing_text":"480p 28 and 720p 63 credits/s; $0.005/credit","promo":{"active":false,"kind":"","label":"","discount_pct":null,"ends_at":"","regular_per_min":null},"source_url":"https://kie.ai/seedance-2-5","checked_at":"2026-09-13","method":"manual-sheet","confidence":"high","ranked":true,"notes":"Live playground pricing verified Sep 13: no video input 480p 28 credits/s ($0.14), 720p 63 ($0.315). Native audio. 28% offer through Oct 17 06:00 UTC applies only to 1080p. Top-up bonus excluded; beta rates may change."},{"id":"s25@wavespeed","model_id":"s25","aggregator_id":"wavespeed","endpoint_id":"","model_page_url":"https://wavespeed.ai/models/bytedance/seedance-2.5/image-to-video","mode":"","audio":"Included","resolution_basis":"720p","per_min":{"480p":9.72,"720p":19.44},"per_second":{"480p":0.162,"720p":0.324},"fixed_per_clip":0,"clip_basis_s":30,"max_clip_s":30,"raw_billing_text":"USD per output second","promo":{"active":true,"kind":"standing","label":"10% current discount","discount_pct":10,"ends_at":"","regular_per_min":{"720p":21.6}},"source_url":"https://wavespeed.ai/models/bytedance/seedance-2.5/image-to-video","checked_at":"2026-09-13","method":"manual-sheet","confidence":"high","ranked":true,"notes":"Live playground verified Sep 13: 5s 480p $0.81; 5s 720p $1.62, native audio on. 10% below README rates of $0.18/$0.36 per second. No published expiry."},{"id":"s25@fal","model_id":"s25","aggregator_id":"fal","endpoint_id":"","model_page_url":"https://fal.ai/models/bytedance/seedance-2.5/image-to-video","mode":"","audio":"Included","resolution_basis":"720p","per_min":{"480p":13.23,"720p":28.38},"per_second":{"480p":0.2205,"720p":0.473},"fixed_per_clip":0,"clip_basis_s":30,"max_clip_s":30,"raw_billing_text":"$0.0214/1,000 tokens; provider $/s estimate","promo":{"active":false,"kind":"","label":"","discount_pct":null,"ends_at":"","regular_per_min":null},"source_url":"https://fal.ai/models/bytedance/seedance-2.5/image-to-video","checked_at":"2026-09-13","method":"manual-sheet","confidence":"medium","ranked":true,"notes":"Live headline estimates: 480p $0.2205/s, 720p $0.473/s with audio. $21.40/M tokens. At exactly 1280x720, 24fps, formula gives $0.46224/s ($13.8672/30s); headline rounding differs. Input-video charges excluded."},{"id":"pix@kie","model_id":"pix","aggregator_id":"kie","endpoint_id":"","model_page_url":"https://kie.ai/pixverse-v6","mode":"","audio":"Included","resolution_basis":"720p","per_min":{"720p":2.88},"per_second":{"720p":0.048},"fixed_per_clip":0,"clip_basis_s":15,"max_clip_s":15,"raw_billing_text":"9.6 credits/s; $0.005/credit","promo":{"active":true,"kind":"standing","label":"20% vs official","discount_pct":20,"ends_at":"","regular_per_min":{"720p":3.6}},"source_url":"https://kie.ai/pixverse-v6","checked_at":"2026-09-12","method":"manual-sheet","confidence":"high","ranked":true,"notes":"Audio enabled. 540p exists but is not relabeled 480p. Added candidate; no project-specific quality test."},{"id":"pix@atlas","model_id":"pix","aggregator_id":"atlas","endpoint_id":"","model_page_url":"https://www.atlascloud.ai/pricing/models","mode":"","audio":"Included","resolution_basis":"720p","per_min":{"720p":3.6},"per_second":{"720p":0.06},"fixed_per_clip":0,"clip_basis_s":15,"max_clip_s":15,"raw_billing_text":"USD per output second","promo":{"active":false,"kind":"","label":"","discount_pct":null,"ends_at":"","regular_per_min":null},"source_url":"https://www.atlascloud.ai/pricing/models","checked_at":"2026-09-12","method":"manual-sheet","confidence":"high","ranked":true,"notes":"With audio. 540p is excluded from the 480p column."},{"id":"pix@runware","model_id":"pix","aggregator_id":"runware","endpoint_id":"","model_page_url":"https://runware.ai/docs/models/pixverse-v6","mode":"","audio":"Included","resolution_basis":"720p","per_min":{"720p":3.6},"per_second":{"720p":0.06},"fixed_per_clip":0,"clip_basis_s":15,"max_clip_s":15,"raw_billing_text":"USD per output second","promo":{"active":false,"kind":"","label":"","discount_pct":null,"ends_at":"","regular_per_min":null},"source_url":"https://runware.ai/docs/models/pixverse-v6","checked_at":"2026-09-12","method":"manual-sheet","confidence":"high","ranked":true,"notes":"With audio. 540p is excluded from the 480p column."},{"id":"pixsilent@kie","model_id":"pixsilent","aggregator_id":"kie","endpoint_id":"","model_page_url":"https://kie.ai/pixverse-v6","mode":"","audio":"Off","resolution_basis":"720p","per_min":{"720p":2.16},"per_second":{"720p":0.036},"fixed_per_clip":0,"clip_basis_s":15,"max_clip_s":15,"raw_billing_text":"7.2 credits/s; $0.005/credit","promo":{"active":true,"kind":"standing","label":"20% vs official","discount_pct":20,"ends_at":"","regular_per_min":{"720p":2.7}},"source_url":"https://kie.ai/pixverse-v6","checked_at":"2026-09-12","method":"manual-sheet","confidence":"high","ranked":true,"notes":"Audio off. No 480p; 540p is separate."},{"id":"pixsilent@runware","model_id":"pixsilent","aggregator_id":"runware","endpoint_id":"","model_page_url":"https://runware.ai/docs/models/pixverse-v6","mode":"","audio":"Off","resolution_basis":"720p","per_min":{"720p":2.7},"per_second":{"720p":0.045},"fixed_per_clip":0,"clip_basis_s":15,"max_clip_s":15,"raw_billing_text":"USD per output second","promo":{"active":false,"kind":"","label":"","discount_pct":null,"ends_at":"","regular_per_min":null},"source_url":"https://runware.ai/docs/models/pixverse-v6","checked_at":"2026-09-12","method":"manual-sheet","confidence":"high","ranked":true,"notes":"Audio off."},{"id":"wan3@atlas","model_id":"wan3","aggregator_id":"atlas","endpoint_id":"","model_page_url":"https://www.atlascloud.ai/pricing/models","mode":"","audio":"Check setting","resolution_basis":"720p","per_min":{"480p":2.4,"720p":4.8},"per_second":{"480p":0.04,"720p":0.08},"fixed_per_clip":0,"clip_basis_s":30,"max_clip_s":30,"raw_billing_text":"USD per output second","promo":{"active":true,"kind":"standing","label":"20% vs official","discount_pct":20,"ends_at":"","regular_per_min":{"720p":6}},"source_url":"https://www.atlascloud.ai/pricing/models","checked_at":"2026-09-12","method":"manual-sheet","confidence":"high","ranked":true,"notes":"Native 720p, not ESR. Added long-clip candidate; audio setting unverified. 30s model ceiling sourced from Replicate; Atlas endpoint limit should be rechecked."},{"id":"wan3@replicate","model_id":"wan3","aggregator_id":"replicate","endpoint_id":"","model_page_url":"https://replicate.com/alibaba/wan-3","mode":"","audio":"Check setting","resolution_basis":"720p","per_min":{"480p":3,"720p":6},"per_second":{"480p":0.05,"720p":0.1},"fixed_per_clip":0,"clip_basis_s":30,"max_clip_s":30,"raw_billing_text":"USD per output second","promo":{"active":false,"kind":"","label":"","discount_pct":null,"ends_at":"","regular_per_min":null},"source_url":"https://replicate.com/alibaba/wan-3","checked_at":"2026-09-12","method":"manual-sheet","confidence":"high","ranked":false,"notes":"Conflicting sale notices on the page; excluded from ranking until a live payable quote resolves it. README lists these rates but model subtitle says 50% off until Aug 30 (expired), while site banner says 30% off this week. Excluded from cheapest ranking until a live payable quote resolves the conflict."},{"id":"wan27@atlas","model_id":"wan27","aggregator_id":"atlas","endpoint_id":"","model_page_url":"https://www.atlascloud.ai/pricing/models","mode":"","audio":"Included","resolution_basis":"720p","per_min":{"720p":6},"per_second":{"720p":0.1},"fixed_per_clip":0,"clip_basis_s":15,"max_clip_s":15,"raw_billing_text":"USD per output second","promo":{"active":false,"kind":"","label":"","discount_pct":null,"ends_at":"","regular_per_min":null},"source_url":"https://www.atlascloud.ai/pricing/models","checked_at":"2026-09-12","method":"manual-sheet","confidence":"high","ranked":true,"notes":"Native 720p image-to-video. Added candidate with audio."},{"id":"wan27@novita","model_id":"wan27","aggregator_id":"novita","endpoint_id":"","model_page_url":"https://novita.ai/models","mode":"","audio":"Included","resolution_basis":"720p","per_min":{"720p":6},"per_second":{"720p":0.1},"fixed_per_clip":0,"clip_basis_s":15,"max_clip_s":15,"raw_billing_text":"USD per output second","promo":{"active":false,"kind":"","label":"","discount_pct":null,"ends_at":"","regular_per_min":null},"source_url":"https://novita.ai/models","checked_at":"2026-09-12","method":"manual-sheet","confidence":"high","ranked":true,"notes":"Catalog 720p $0.10/s. Public model playground confirms 2–15s and audio by default. Checked Video category."},{"id":"veofast@kie","model_id":"veofast","aggregator_id":"kie","endpoint_id":"","model_page_url":"https://kie.ai/veo-3-1","mode":"","audio":"May vary","resolution_basis":"720p","per_min":{"720p":2.25},"per_second":{"720p":0},"fixed_per_clip":0.3,"clip_basis_s":8,"max_clip_s":8,"raw_billing_text":"60 credits = $0.30 per clip","promo":{"active":false,"kind":"","label":"","discount_pct":null,"ends_at":"","regular_per_min":null},"source_url":"https://kie.ai/veo-3-1","checked_at":"2026-09-12","method":"manual-sheet","confidence":"high","ranked":true,"notes":"8s clip basis; 4s/6s also offered. Audio may be unavailable on some outputs. Kie Fast mode; verify endpoint behavior before replacing a different provider."},{"id":"veofast@atlas","model_id":"veofast","aggregator_id":"atlas","endpoint_id":"","model_page_url":"https://www.atlascloud.ai/pricing/models","mode":"","audio":"May vary","resolution_basis":"720p","per_min":{"720p":5.76},"per_second":{"720p":0.096},"fixed_per_clip":0,"clip_basis_s":8,"max_clip_s":8,"raw_billing_text":"720p with audio $0.096/s","promo":{"active":false,"kind":"","label":"","discount_pct":null,"ends_at":"","regular_per_min":null},"source_url":"https://www.atlascloud.ai/pricing/models","checked_at":"2026-09-12","method":"manual-sheet","confidence":"high","ranked":true,"notes":"With audio. Silent tier $0.08/s ($4.80/min)."},{"id":"s25@runware","model_id":"s25","aggregator_id":"runware","endpoint_id":"","model_page_url":"https://runware.ai/seedance-2-5","mode":"","audio":"Included","resolution_basis":"720p","per_min":{"480p":6.15,"720p":13.824},"per_second":{"480p":0.1025,"720p":0.2304},"fixed_per_clip":0,"clip_basis_s":30,"max_clip_s":30,"raw_billing_text":"$10.70/M tokens; published USD/s estimates","promo":{"active":false,"kind":"","label":"","discount_pct":null,"ends_at":"","regular_per_min":null},"source_url":"https://runware.ai/seedance-2-5","checked_at":"2026-09-13","method":"manual-sheet","confidence":"medium","ranked":true,"notes":"Same underlying token rate as OpenRouter; tiny headline difference may be rounding/frame area, not a material price advantage. T2V/I2V, native audio, no video input. Up to 30s."},{"id":"s25@openrouter","model_id":"s25","aggregator_id":"openrouter","endpoint_id":"","model_page_url":"https://openrouter.ai/compare/heygen/avatar-iv/bytedance/seedance-2.5","mode":"","audio":"Included","resolution_basis":"720p","per_min":{"480p":6.168,"720p":13.866},"per_second":{"480p":0.1028,"720p":0.2311},"fixed_per_clip":0,"clip_basis_s":30,"max_clip_s":30,"raw_billing_text":"$10.70/M tokens; published USD/s estimates","promo":{"active":false,"kind":"","label":"","discount_pct":null,"ends_at":"","regular_per_min":null},"source_url":"https://openrouter.ai/compare/heygen/avatar-iv/bytedance/seedance-2.5","checked_at":"2026-09-13","method":"manual-sheet","confidence":"medium","ranked":true,"notes":"Near-tie with Runware. Exact 480p/720p mapping from official comparison; native audio same rate. 4-30s. No video input. No dated discount."},{"id":"s25@piapi","model_id":"s25","aggregator_id":"piapi","endpoint_id":"","model_page_url":"https://app.piapi.ai/seedance-2-5","mode":"","audio":"Included","resolution_basis":"720p","per_min":{"480p":9,"720p":21},"per_second":{"480p":0.15,"720p":0.35},"fixed_per_clip":0,"clip_basis_s":30,"max_clip_s":30,"raw_billing_text":"USD per output second, standard tier","promo":{"active":false,"kind":"","label":"","discount_pct":null,"ends_at":"","regular_per_min":null},"source_url":"https://app.piapi.ai/seedance-2-5","checked_at":"2026-09-13","method":"manual-sheet","confidence":"high","ranked":true,"notes":"Standard tier, native audio; no video references. Less Restriction variant excluded ($0.165/s 480p, $0.385/s 720p). No published sale expiry."},{"id":"s25@replicate","model_id":"s25","aggregator_id":"replicate","endpoint_id":"","model_page_url":"https://replicate.com/bytedance/seedance-2.5","mode":"","audio":"Included","resolution_basis":"720p","per_min":{},"per_second":{},"fixed_per_clip":0,"clip_basis_s":30,"max_clip_s":30,"raw_billing_text":"Quote unavailable","promo":{"active":false,"kind":"","label":"","discount_pct":null,"ends_at":"","regular_per_min":null},"source_url":"https://replicate.com/bytedance/seedance-2.5","checked_at":"2026-09-13","method":"manual-sheet","confidence":"high","ranked":false,"notes":"Exact Seedance 2.5 available, with native audio and 4-30s; official model/API pages did not expose numerical prices. Not ranked.","unavailable_reason":"no price verified"},{"id":"s25@novita","model_id":"s25","aggregator_id":"novita","endpoint_id":"","model_page_url":"https://novita.ai/models","mode":"","audio":"Unverified","resolution_basis":"720p","per_min":{},"per_second":{},"fixed_per_clip":0,"clip_basis_s":30,"max_clip_s":null,"raw_billing_text":"No verified listing/quote","promo":{"active":false,"kind":"","label":"","discount_pct":null,"ends_at":"","regular_per_min":null},"source_url":"https://novita.ai/models","checked_at":"2026-09-13","method":"manual-sheet","confidence":"high","ranked":false,"notes":"Current model catalog and exact-model search did not establish Seedance 2.5 availability or price. No zero/free-price assumption.","unavailable_reason":"no price verified"},{"id":"s25@huggingface","model_id":"s25","aggregator_id":"huggingface","endpoint_id":"","model_page_url":"https://huggingface.co/spaces/wavespeed/seedance-2-5-image-to-video","mode":"","audio":"Unverified","resolution_basis":"720p","per_min":{},"per_second":{},"fixed_per_clip":0,"clip_basis_s":30,"max_clip_s":null,"raw_billing_text":"No independent provider quote","promo":{"active":false,"kind":"","label":"","discount_pct":null,"ends_at":"","regular_per_min":null},"source_url":"https://huggingface.co/spaces/wavespeed/seedance-2-5-image-to-video","checked_at":"2026-09-13","method":"manual-sheet","confidence":"high","ranked":false,"notes":"WaveSpeed-hosted Seedance 2.5 Space found; this is not a separate HF inference-provider price. No independent quote verified.","unavailable_reason":"no price verified"}],"cheapest":{"h3turbo":{"quote_id":"h3turbo@fal","aggregator_id":"fal","per_min_720p":0.6,"per_min_480p":0.375,"resolution_basis":"768p","endpoint_id":"","model_page_url":"https://fal.ai/minimax-h3-max","audio":"Included","max_clip_s":15,"promo":{"label":"75% launch sale","ends_at":"2026-09-14"},"runner_up":{"quote_id":"h3turbo@atlas","aggregator_id":"atlas","per_min_720p":2.28},"max_per_min_720p":2.4,"max_aggregator_id":"runware","savings_pct_vs_max":75,"n_quotes":3,"checked_at":"2026-09-13","confidence":"high"},"vidu":{"quote_id":"vidu@atlas","aggregator_id":"atlas","per_min_720p":0.663,"per_min_480p":null,"resolution_basis":"720p","endpoint_id":"","model_page_url":"https://www.atlascloud.ai/pricing/models","audio":"Silent","max_clip_s":10,"promo":{"label":"15% vs official","ends_at":""},"runner_up":null,"max_per_min_720p":0.663,"max_aggregator_id":"atlas","savings_pct_vs_max":0,"n_quotes":1,"checked_at":"2026-09-12","confidence":"high"},"seed15":{"quote_id":"seed15@atlas","aggregator_id":"atlas","per_min_720p":1.08,"per_min_480p":0.4985,"resolution_basis":"720p","endpoint_id":"","model_page_url":"https://www.atlascloud.ai/pricing/models","audio":"Check setting","max_clip_s":12,"promo":{"label":"10% vs official","ends_at":""},"runner_up":null,"max_per_min_720p":1.08,"max_aggregator_id":"atlas","savings_pct_vs_max":0,"n_quotes":1,"checked_at":"2026-09-12","confidence":"medium"},"kielite":{"quote_id":"kielite@kie","aggregator_id":"kie","per_min_720p":1.125,"per_min_480p":null,"resolution_basis":"720p","endpoint_id":"","model_page_url":"https://kie.ai/veo-3-1","audio":"May vary","max_clip_s":8,"promo":null,"runner_up":null,"max_per_min_720p":1.125,"max_aggregator_id":"kie","savings_pct_vs_max":0,"n_quotes":1,"checked_at":"2026-09-12","confidence":"high"},"h3max":{"quote_id":"h3max@fal","aggregator_id":"fal","per_min_720p":1.2,"per_min_480p":0.75,"resolution_basis":"768p","endpoint_id":"","model_page_url":"https://fal.ai/minimax-h3-max","audio":"Included","max_clip_s":15,"promo":{"label":"75% launch sale","ends_at":"2026-09-14"},"runner_up":null,"max_per_min_720p":1.2,"max_aggregator_id":"fal","savings_pct_vs_max":0,"n_quotes":1,"checked_at":"2026-09-13","confidence":"high"},"mini":{"quote_id":"mini@atlas","aggregator_id":"atlas","per_min_720p":1.452,"per_min_480p":0.675,"resolution_basis":"720p","endpoint_id":"","model_page_url":"https://www.atlascloud.ai/models/explore/seedance-2-lowest-price","audio":"Included","max_clip_s":15,"promo":{"label":"80% off Atlas list; 68% below official","ends_at":""},"runner_up":{"quote_id":"mini@kie","aggregator_id":"kie","per_min_720p":2.46},"max_per_min_720p":9.282,"max_aggregator_id":"fal","savings_pct_vs_max":84.4,"n_quotes":6,"checked_at":"2026-09-13","confidence":"medium"},"wansilent":{"quote_id":"wansilent@runware","aggregator_id":"runware","per_min_720p":1.5,"per_min_480p":null,"resolution_basis":"720p","endpoint_id":"","model_page_url":"https://runware.ai/docs/models/alibaba-wan2-6-flash","audio":"Off","max_clip_s":15,"promo":null,"runner_up":null,"max_per_min_720p":1.5,"max_aggregator_id":"runware","savings_pct_vs_max":0,"n_quotes":1,"checked_at":"2026-09-12","confidence":"high"},"wanflash":{"quote_id":"wanflash@atlas","aggregator_id":"atlas","per_min_720p":2.1,"per_min_480p":null,"resolution_basis":"720p","endpoint_id":"","model_page_url":"https://www.atlascloud.ai/pricing/models","audio":"Included","max_clip_s":15,"promo":{"label":"30% vs official","ends_at":""},"runner_up":{"quote_id":"wanflash@runware","aggregator_id":"runware","per_min_720p":3},"max_per_min_720p":3,"max_aggregator_id":"runware","savings_pct_vs_max":30,"n_quotes":2,"checked_at":"2026-09-12","confidence":"high"},"pixsilent":{"quote_id":"pixsilent@kie","aggregator_id":"kie","per_min_720p":2.16,"per_min_480p":null,"resolution_basis":"720p","endpoint_id":"","model_page_url":"https://kie.ai/pixverse-v6","audio":"Off","max_clip_s":15,"promo":{"label":"20% vs official","ends_at":""},"runner_up":{"quote_id":"pixsilent@runware","aggregator_id":"runware","per_min_720p":2.7},"max_per_min_720p":2.7,"max_aggregator_id":"runware","savings_pct_vs_max":20,"n_quotes":2,"checked_at":"2026-09-12","confidence":"high"},"veofast":{"quote_id":"veofast@kie","aggregator_id":"kie","per_min_720p":2.25,"per_min_480p":null,"resolution_basis":"720p","endpoint_id":"","model_page_url":"https://kie.ai/veo-3-1","audio":"May vary","max_clip_s":8,"promo":null,"runner_up":{"quote_id":"veofast@atlas","aggregator_id":"atlas","per_min_720p":5.76},"max_per_min_720p":5.76,"max_aggregator_id":"atlas","savings_pct_vs_max":60.9,"n_quotes":2,"checked_at":"2026-09-12","confidence":"high"},"pix":{"quote_id":"pix@kie","aggregator_id":"kie","per_min_720p":2.88,"per_min_480p":null,"resolution_basis":"720p","endpoint_id":"","model_page_url":"https://kie.ai/pixverse-v6","audio":"Included","max_clip_s":15,"promo":{"label":"20% vs official","ends_at":""},"runner_up":{"quote_id":"pix@atlas","aggregator_id":"atlas","per_min_720p":3.6},"max_per_min_720p":3.6,"max_aggregator_id":"runware","savings_pct_vs_max":20,"n_quotes":3,"checked_at":"2026-09-12","confidence":"high"},"grok":{"quote_id":"grok@atlas","aggregator_id":"atlas","per_min_720p":2.94,"per_min_480p":1.68,"resolution_basis":"720p","endpoint_id":"","model_page_url":"https://www.atlascloud.ai/pricing/models","audio":"Check setting","max_clip_s":15,"promo":{"label":"65% vs official","ends_at":""},"runner_up":null,"max_per_min_720p":2.94,"max_aggregator_id":"atlas","savings_pct_vs_max":0,"n_quotes":1,"checked_at":"2026-09-12","confidence":"high"},"veolite":{"quote_id":"veolite@atlas","aggregator_id":"atlas","per_min_720p":3,"per_min_480p":null,"resolution_basis":"720p","endpoint_id":"","model_page_url":"https://www.atlascloud.ai/pricing/models","audio":"Included","max_clip_s":8,"promo":null,"runner_up":{"quote_id":"veolite@runware","aggregator_id":"runware","per_min_720p":3},"max_per_min_720p":3,"max_aggregator_id":"runware","savings_pct_vs_max":0,"n_quotes":2,"checked_at":"2026-09-12","confidence":"high"},"fast":{"quote_id":"fast@atlas","aggregator_id":"atlas","per_min_720p":3.486,"per_min_480p":1.6199,"resolution_basis":"720p","endpoint_id":"","model_page_url":"https://www.atlascloud.ai/models/explore/seedance-2-lowest-price","audio":"Included","max_clip_s":15,"promo":{"label":"70% off Atlas list; 52% below official","ends_at":""},"runner_up":{"quote_id":"fast@kie","aggregator_id":"kie","per_min_720p":7.44},"max_per_min_720p":14.514,"max_aggregator_id":"fal","savings_pct_vs_max":76,"n_quotes":5,"checked_at":"2026-09-13","confidence":"medium"},"wan3":{"quote_id":"wan3@atlas","aggregator_id":"atlas","per_min_720p":4.8,"per_min_480p":2.4,"resolution_basis":"720p","endpoint_id":"","model_page_url":"https://www.atlascloud.ai/pricing/models","audio":"Check setting","max_clip_s":30,"promo":{"label":"20% vs official","ends_at":""},"runner_up":null,"max_per_min_720p":4.8,"max_aggregator_id":"atlas","savings_pct_vs_max":0,"n_quotes":1,"checked_at":"2026-09-12","confidence":"high"},"kling":{"quote_id":"kling@atlas","aggregator_id":"atlas","per_min_720p":5.712,"per_min_480p":null,"resolution_basis":"720p","endpoint_id":"","model_page_url":"https://www.atlascloud.ai/pricing/models","audio":"Check setting","max_clip_s":15,"promo":{"label":"15% vs official","ends_at":""},"runner_up":{"quote_id":"kling@runware","aggregator_id":"runware","per_min_720p":6.72},"max_per_min_720p":6.72,"max_aggregator_id":"runware","savings_pct_vs_max":15,"n_quotes":2,"checked_at":"2026-09-12","confidence":"high"},"wan27":{"quote_id":"wan27@atlas","aggregator_id":"atlas","per_min_720p":6,"per_min_480p":null,"resolution_basis":"720p","endpoint_id":"","model_page_url":"https://www.atlascloud.ai/pricing/models","audio":"Included","max_clip_s":15,"promo":null,"runner_up":{"quote_id":"wan27@novita","aggregator_id":"novita","per_min_720p":6},"max_per_min_720p":6,"max_aggregator_id":"novita","savings_pct_vs_max":0,"n_quotes":2,"checked_at":"2026-09-12","confidence":"high"},"s25":{"quote_id":"s25@runware","aggregator_id":"runware","per_min_720p":13.824,"per_min_480p":6.15,"resolution_basis":"720p","endpoint_id":"","model_page_url":"https://runware.ai/seedance-2-5","audio":"Included","max_clip_s":30,"promo":null,"runner_up":{"quote_id":"s25@openrouter","aggregator_id":"openrouter","per_min_720p":13.866},"max_per_min_720p":28.38,"max_aggregator_id":"fal","savings_pct_vs_max":51.3,"n_quotes":7,"checked_at":"2026-09-13","confidence":"medium"}},"deals":[{"quote_id":"h3turbo@fal","model_id":"h3turbo","aggregator_id":"fal","kind":"sale","label":"75% launch sale","discount_pct":75,"ends_at":"2026-09-14","per_min_720p":0.6,"regular_per_min_720p":2.4,"source_url":"https://fal.ai/minimax-h3-max"},{"quote_id":"h3max@fal","model_id":"h3max","aggregator_id":"fal","kind":"sale","label":"75% launch sale","discount_pct":75,"ends_at":"2026-09-14","per_min_720p":1.2,"regular_per_min_720p":4.8,"source_url":"https://fal.ai/minimax-h3-max"},{"quote_id":"mini@kie","model_id":"mini","aggregator_id":"kie","kind":"sale","label":"Limited-time reduced price","discount_pct":null,"ends_at":"2026-10-07T06:00:00Z","per_min_720p":2.46,"regular_per_min_720p":null,"source_url":"https://kie.ai/seedance-2-0-mini"},{"quote_id":"fast@kie","model_id":"fast","aggregator_id":"kie","kind":"sale","label":"Limited-time reduced price","discount_pct":null,"ends_at":"2026-10-07T06:00:00Z","per_min_720p":7.44,"regular_per_min_720p":null,"source_url":"https://kie.ai/seedance-2-0"},{"quote_id":"vidu@atlas","model_id":"vidu","aggregator_id":"atlas","kind":"standing","label":"15% vs official","discount_pct":15,"ends_at":"","per_min_720p":0.663,"regular_per_min_720p":0.78,"source_url":"https://www.atlascloud.ai/pricing/models"},{"quote_id":"seed15@atlas","model_id":"seed15","aggregator_id":"atlas","kind":"standing","label":"10% vs official","discount_pct":10,"ends_at":"","per_min_720p":1.08,"regular_per_min_720p":1.2,"source_url":"https://www.atlascloud.ai/pricing/models"},{"quote_id":"mini@atlas","model_id":"mini","aggregator_id":"atlas","kind":"standing","label":"80% off Atlas list; 68% below official","discount_pct":80,"ends_at":"","per_min_720p":1.452,"regular_per_min_720p":7.26,"source_url":"https://www.atlascloud.ai/models/explore/seedance-2-lowest-price"},{"quote_id":"wanflash@atlas","model_id":"wanflash","aggregator_id":"atlas","kind":"standing","label":"30% vs official","discount_pct":30,"ends_at":"","per_min_720p":2.1,"regular_per_min_720p":3,"source_url":"https://www.atlascloud.ai/pricing/models"},{"quote_id":"pixsilent@kie","model_id":"pixsilent","aggregator_id":"kie","kind":"standing","label":"20% vs official","discount_pct":20,"ends_at":"","per_min_720p":2.16,"regular_per_min_720p":2.7,"source_url":"https://kie.ai/pixverse-v6"},{"quote_id":"h3turbo@atlas","model_id":"h3turbo","aggregator_id":"atlas","kind":"standing","label":"5% vs official","discount_pct":5,"ends_at":"","per_min_720p":2.28,"regular_per_min_720p":2.4,"source_url":"https://www.atlascloud.ai/pricing/models"},{"quote_id":"pix@kie","model_id":"pix","aggregator_id":"kie","kind":"standing","label":"20% vs official","discount_pct":20,"ends_at":"","per_min_720p":2.88,"regular_per_min_720p":3.6,"source_url":"https://kie.ai/pixverse-v6"},{"quote_id":"grok@atlas","model_id":"grok","aggregator_id":"atlas","kind":"standing","label":"65% vs official","discount_pct":65,"ends_at":"","per_min_720p":2.94,"regular_per_min_720p":8.4,"source_url":"https://www.atlascloud.ai/pricing/models"},{"quote_id":"fast@atlas","model_id":"fast","aggregator_id":"atlas","kind":"standing","label":"70% off Atlas list; 52% below official","discount_pct":70,"ends_at":"","per_min_720p":3.486,"regular_per_min_720p":11.62,"source_url":"https://www.atlascloud.ai/models/explore/seedance-2-lowest-price"},{"quote_id":"wan3@atlas","model_id":"wan3","aggregator_id":"atlas","kind":"standing","label":"20% vs official","discount_pct":20,"ends_at":"","per_min_720p":4.8,"regular_per_min_720p":6,"source_url":"https://www.atlascloud.ai/pricing/models"},{"quote_id":"kling@atlas","model_id":"kling","aggregator_id":"atlas","kind":"standing","label":"15% vs official","discount_pct":15,"ends_at":"","per_min_720p":5.712,"regular_per_min_720p":6.72,"source_url":"https://www.atlascloud.ai/pricing/models"},{"quote_id":"s25@atlas","model_id":"s25","aggregator_id":"atlas","kind":"standing","label":"20% off Atlas list","discount_pct":20,"ends_at":"","per_min_720p":18.0524,"regular_per_min_720p":22.5655,"source_url":"https://api.atlascloud.ai/api/v1/model/calculate"},{"quote_id":"s25@wavespeed","model_id":"s25","aggregator_id":"wavespeed","kind":"standing","label":"10% current discount","discount_pct":10,"ends_at":"","per_min_720p":19.44,"regular_per_min_720p":21.6,"source_url":"https://wavespeed.ai/models/bytedance/seedance-2.5/image-to-video"}],"extra_models":[],"candidate_aggregators":[],"footnotes":["480p is the rate at the selected 720p provider. Blank means unavailable or unverified; details are in the full quote matrix.","One minute means accumulated generated footage. It does not imply a continuous 60-second clip. Vidu uses 10s clips. Kie Veo modes use 8s clips; shorter clips raise their effective per-minute cost.","Seedance token-based rates are estimates. Audio, reference inputs and actual output dimensions can change a quote.","Provider-specific Kie Lite and Atlas Grok Developer tiers are kept separate. Added options have not been quality-tested.","Hugging Face routes participating providers at their rates; it is not a separate cheaper video quote. OpenRouter only lists a few video models.","Prices are public list prices read on the check date. Sales expire automatically the morning after their published end date."]}</script>
+<script id="history" type="application/json">[]</script>
+<script>
+(function(){
+  const DATA = JSON.parse(document.getElementById('dataset').textContent);
+  const HIST = JSON.parse(document.getElementById('history').textContent);
+  const AGG = Object.fromEntries(DATA.aggregators.map(a=>[a.id,a]));
+  const MODEL = Object.fromEntries(DATA.models.map(m=>[m.id,m]));
+  const Q = Object.fromEntries(DATA.quotes.map(q=>[q.id,q]));
+  const css = getComputedStyle(document.documentElement);
+  const COLOR = id => {
+    const v = css.getPropertyValue('--s-'+id).trim();
+    return v || css.getPropertyValue('--s-other').trim();
+  };
+  const OTHER = new Set(['openrouter','huggingface']);
+  const colorOf = id => OTHER.has(id) ? css.getPropertyValue('--s-other').trim() : COLOR(id);
+  const money = v => v==null ? '—' : '$'+v.toFixed(2);
+  const NS = 'http://www.w3.org/2000/svg';
+  const el = (n, attrs={}, parent) => { const e = document.createElementNS(NS, n); for (const [k,v] of Object.entries(attrs)) e.setAttribute(k, v); if (parent) parent.appendChild(e); return e; };
+  const txt = (parent, x, y, s, cls, attrs={}) => { const t = el('text', {x, y, ...attrs}, parent); if (cls) t.setAttribute('class', cls); t.textContent = s; return t; };
+
+  // ---- ranked rows ----
+  const ranked = DATA.models.map(m=>({m, c:DATA.cheapest[m.id]})).filter(x=>x.c).sort((a,b)=>a.c.per_min_720p-b.c.per_min_720p);
+
+  // ---- tooltip ----
+  function makeTip(container){
+    const tip = document.createElement('div'); tip.className='tip'; container.appendChild(tip);
+    return {
+      show(evt, html){ tip.innerHTML = html; tip.style.display='block'; this.move(evt); },
+      move(evt){ const r = container.getBoundingClientRect(); let x = (evt.clientX ?? r.left+20) - r.left + 14, y = (evt.clientY ?? r.top+20) - r.top + 14; if (x + tip.offsetWidth > r.width - 8) x = x - tip.offsetWidth - 28; if (y + tip.offsetHeight > r.height) y = Math.max(0, y - tip.offsetHeight - 28); tip.style.left = x+'px'; tip.style.top = y+'px'; },
+      hide(){ tip.style.display='none'; }
+    };
+  }
+  const escT = s => String(s??'').replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  function quoteTip(q, title){
+    const a = AGG[q.aggregator_id], m = MODEL[q.model_id];
+    const promo = q.promo && q.promo.active ? `<div class="m">${escT(q.promo.label)}${q.promo.ends_at?' · ends '+escT(q.promo.ends_at.slice(0,10)):''}</div>` : '';
+    const p480 = q.per_min && q.per_min['480p']!=null ? ` · 480p ${money(q.per_min['480p'])}` : '';
+    return `<div><b>${money(q.per_min ? (q.per_min['720p'] ?? q.per_min['768p']) : null)}</b> <span class="m">/ min at ${escT(q.resolution_basis||'720p')}${p480}</span></div>
+      <div><span class="k" style="--c:${colorOf(q.aggregator_id)}"></span>${escT(m?m.name:q.model_id)} · ${escT(a?a.name:q.aggregator_id)}</div>
+      <div class="m">${escT(q.raw_billing_text||'')}</div>
+      <div class="m">audio: ${escT(q.audio||'?')} · max clip ${q.max_clip_s||'?'} s · ${escT(q.mode||'')}</div>${promo}
+      <div class="m">verified ${escT(q.checked_at||'')} · ${escT(q.confidence||'')}${q.needs_review?' · ⚑ needs review':''}</div>`;
+  }
+
+  // ---- KPI row ----
+  (function kpis(){
+    const root = document.getElementById('kpis');
+    if (!ranked.length) return;
+    const top = ranked[0];
+    const promos = (DATA.deals || []).filter(d=>d.kind==='sale');
+    const dated = promos.filter(d=>d.ends_at).map(d=>({d, days: Math.ceil((Date.parse(d.ends_at.length===10?d.ends_at+'T23:59:59Z':d.ends_at)-Date.now())/86400000)})).filter(x=>x.days>=0).sort((a,b)=>a.days-b.days);
+    const nearest = dated[0];
+    const nQuotes = DATA.quotes.filter(q=>q.per_min && (q.per_min['720p']!=null||q.per_min['768p']!=null)).length;
+    const avgSave = ranked.filter(x=>x.c.n_quotes>1).reduce((s,x)=>s+x.c.savings_pct_vs_max,0) / Math.max(1, ranked.filter(x=>x.c.n_quotes>1).length);
+    root.innerHTML = `
+      <div class="tile hero"><div class="label">Cheapest 720p video today</div><div class="value">${money(top.c.per_min_720p)}<small>per minute</small></div><div class="sub">${escT(top.m.name)} on ${escT(AGG[top.c.aggregator_id].name)}${top.c.promo?' · '+escT(top.c.promo.label):''}</div></div>
+      <div class="tile"><div class="label">Models tracked</div><div class="value">${ranked.length}</div><div class="sub">with a verified 720p quote</div></div>
+      <div class="tile"><div class="label">Quotes compared</div><div class="value">${nQuotes}</div><div class="sub">across ${DATA.aggregators.length} aggregators</div></div>
+      <div class="tile"><div class="label">Average saving vs. priciest</div><div class="value">${isFinite(avgSave)?Math.round(avgSave)+'%':'—'}</div><div class="sub">on models sold by 2+ aggregators</div></div>
+      <div class="tile"><div class="label">Limited-time sales live</div><div class="value">${promos.length}</div><div class="sub">${nearest? 'next deadline: '+escT(MODEL[nearest.d.model_id].name)+' in '+(nearest.days===0?'<1 day':nearest.days+' d') : 'none with a published end date'}</div></div>`;
+  })();
+
+  // ---- Chart 1: bars ----
+  (function bars(){
+    const host = document.getElementById('chart-bars'); const legend = document.getElementById('legend-bars');
+    const tip = makeTip(host);
+    const rows = ranked;
+    const W = Math.max(700, Math.min(1140, host.clientWidth||1000)), L = 230, R = 80, T = 8, B = 30, RH = 30, BH = 18;
+    const H = T + rows.length*RH + B;
+    const max = Math.max(...rows.map(r=>r.c.per_min_720p));
+    const step = niceStep(max, 6); const xmax = Math.ceil(max/step)*step;
+    const x = v => L + (v/xmax)*(W-L-R);
+    const svg = el('svg', {viewBox:`0 0 ${W} ${H}`, role:'img', 'aria-label':'Cheapest 720p price per model, USD per minute'}, host);
+    for (let v=0; v<=xmax+1e-9; v+=step){ el('line',{x1:x(v),x2:x(v),y1:T,y2:T+rows.length*RH,class:'grid'},svg); txt(svg, x(v), H-8, '$'+(step<1?v.toFixed(2):v.toFixed(0)), null, {'text-anchor':'middle'}); }
+    el('line',{x1:L,x2:L,y1:T,y2:T+rows.length*RH,class:'base'},svg);
+    const winners = new Set();
+    rows.forEach((r,i)=>{
+      const y = T + i*RH + (RH-BH)/2, w = Math.max(2, x(r.c.per_min_720p)-L), c = colorOf(r.c.aggregator_id); winners.add(r.c.aggregator_id);
+      const g = el('g', {}, svg);
+      const rr = Math.min(4, w/2);
+      const bar = el('path', {d:`M${L},${y} H${L+w-rr} a${rr},${rr} 0 0 1 ${rr},${rr} V${y+BH-rr} a${rr},${rr} 0 0 1 -${rr},${rr} H${L} Z`, fill:c, class:'bar'}, g);
+      const lbl = txt(g, L-10, y+BH/2+4, r.m.name, 'lbl', {'text-anchor':'end'});
+      if (r.m.name.length>26) lbl.textContent = r.m.name.slice(0,25)+'…';
+      txt(g, L+w+8, y+BH/2+4, money(r.c.per_min_720p)+(r.c.resolution_basis==='768p'?' ⁷⁶⁸ᵖ':''), 'val');
+      // hit target drawn LAST so it sits above the bar (the whole row, not just the painted pixels)
+      const hit = el('rect', {x:0, y:T+i*RH, width:W, height:RH, class:'hit', tabindex:0, role:'img', 'aria-label':`${r.m.name}: ${money(r.c.per_min_720p)} per minute on ${AGG[r.c.aggregator_id].name}`}, g);
+      const q = Q[r.c.quote_id];
+      const html = quoteTip(q) + (r.c.runner_up ? `<div class="m">runner-up: ${escT(AGG[r.c.runner_up.aggregator_id].name)} ${money(r.c.runner_up.per_min_720p)}</div>` : '');
+      const lift = on => bar.style.filter = on ? 'brightness(1.2)' : '';
+      hit.addEventListener('pointerenter', e=>{ lift(true); tip.show(e, html); }); hit.addEventListener('pointermove', e=>tip.move(e)); hit.addEventListener('pointerleave', ()=>{ lift(false); tip.hide(); });
+      hit.addEventListener('focus', e=>{ lift(true); tip.show({clientX:host.getBoundingClientRect().left+L+w+20, clientY:host.getBoundingClientRect().top+y}, html); }); hit.addEventListener('blur', ()=>{ lift(false); tip.hide(); });
+    });
+    // legend: fixed aggregator order, only those that win + Other
+    const order = DATA.aggregators.map(a=>a.id).filter(id=>winners.has(id));
+    const parts = order.map(id => OTHER.has(id) ? null : `<span class="key"><i style="background:${colorOf(id)}"></i>${escT(AGG[id].name)}</span>`).filter(Boolean);
+    if (order.some(id=>OTHER.has(id))) parts.push(`<span class="key"><i style="background:${css.getPropertyValue('--s-other').trim()}"></i>Other (${order.filter(id=>OTHER.has(id)).map(id=>escT(AGG[id].name)).join(', ')})</span>`);
+    legend.innerHTML = parts.join('');
+  })();
+
+  function niceStep(max, ticks){ const raw = max/ticks; const p = Math.pow(10, Math.floor(Math.log10(raw))); const n = raw/p; const s = n<=1?1:n<=2?2:n<=2.5?2.5:n<=5?5:10; return s*p; }
+
+  // ---- Chart 2: heatmap ----
+  (function heat(){
+    const host = document.getElementById('chart-heat');
+    const tip = makeTip(host);
+    const cols = DATA.aggregators;
+    const rows = ranked;
+    const L = 210, CW = 90, CH = 30, T = 30;
+    const W = L + cols.length*CW + 10, H = T + rows.length*CH + 6;
+    const scroll = document.createElement('div'); scroll.className='scroll'; host.appendChild(scroll);
+    const svg = el('svg', {viewBox:`0 0 ${W} ${H}`, style:`min-width:${W}px`, role:'img', 'aria-label':'Price matrix: models by aggregators'}, scroll);
+    const ramp = ['#cde2fb','#b7d3f6','#9ec5f4','#86b6ef','#6da7ec','#5598e7','#3987e5','#2a78d6','#256abf','#1c5cab','#184f95','#104281','#0d366b'];
+    const vals = DATA.quotes.map(q=>q.per_min && (q.per_min['720p'] ?? q.per_min['768p'])).filter(v=>v!=null && v>0);
+    const lo = Math.log(Math.min(...vals)), hi = Math.log(Math.max(...vals));
+    const shade = v => { const t = hi>lo ? (Math.log(v)-lo)/(hi-lo) : 0; return ramp[Math.min(ramp.length-1, Math.max(0, Math.round(t*(ramp.length-1))))]; };
+    const inkFor = hex => { const n = parseInt(hex.slice(1),16); const r=(n>>16)&255,g=(n>>8)&255,b=n&255; const lum = 0.2126*Math.pow(r/255,2.2)+0.7152*Math.pow(g/255,2.2)+0.0722*Math.pow(b/255,2.2); return lum>0.28 ? '#0b0b0b' : '#ffffff'; };
+    cols.forEach((a,j)=>{ const t = txt(svg, L + j*CW + CW/2, 18, a.name, null, {'text-anchor':'middle'}); if (a.name.length>13) t.textContent = a.name.slice(0,12)+'…'; });
+    rows.forEach((r,i)=>{
+      const y = T + i*CH;
+      const lbl = txt(svg, L-10, y+CH/2+4, r.m.name, 'lbl', {'text-anchor':'end'}); if (r.m.name.length>24) lbl.textContent = r.m.name.slice(0,23)+'…';
+      cols.forEach((a,j)=>{
+        const x = L + j*CW;
+        const q = DATA.quotes.find(q=>q.model_id===r.m.id && q.aggregator_id===a.id);
+        const v = q && q.per_min ? (q.per_min['720p'] ?? q.per_min['768p']) : null;
+        const g = el('g', {}, svg);
+        if (v==null){ el('rect',{x:x+1,y:y+1,width:CW-2,height:CH-2,rx:4,fill:'transparent',stroke:'var(--grid)'},g); txt(g, x+CW/2, y+CH/2+4, q && q.unavailable_reason ? 'n/v' : '—', null, {'text-anchor':'middle'});
+          if (q){ g.addEventListener('pointerenter', e=>tip.show(e, `<div><b>${escT(r.m.name)}</b> · ${escT(a.name)}</div><div class="m">${escT(q.unavailable_reason||q.notes||'no verifiable price')}</div>`)); g.addEventListener('pointermove', e=>tip.move(e)); g.addEventListener('pointerleave', ()=>tip.hide()); }
+          return; }
+        const fill = shade(v), best = r.c.quote_id===q.id, excluded = q.ranked===false;
+        el('rect',{x:x+1,y:y+1,width:CW-2,height:CH-2,rx:4,fill:fill,opacity:excluded?0.45:1},g);
+        if (best) el('rect',{x:x+2,y:y+2,width:CW-4,height:CH-4,rx:4,fill:'none',stroke:'#ffffff','stroke-width':2},g);
+        const t = txt(g, x+CW/2, y+CH/2+4, money(v)+(excluded?'*':''), null, {'text-anchor':'middle'});
+        t.style.fill = inkFor(fill); t.style.fontWeight = best ? '700' : '500';   // inline style beats the .chart text rule
+        const hit = el('rect',{x:x,y:y,width:CW,height:CH,class:'hit',tabindex:0,'aria-label':`${r.m.name} at ${a.name}: ${money(v)} per minute`},g);
+        const html = quoteTip(q) + (excluded?'<div class="m">* excluded from ranking: '+escT(q.notes||'conflicting notices')+'</div>':'');
+        hit.addEventListener('pointerenter', e=>tip.show(e, html)); hit.addEventListener('pointermove', e=>tip.move(e)); hit.addEventListener('pointerleave', ()=>tip.hide());
+        hit.addEventListener('focus', e=>{ const b=host.getBoundingClientRect(); tip.show({clientX:b.left+x+CW, clientY:b.top+y}, html); }); hit.addEventListener('blur', ()=>tip.hide());
+      });
+    });
+    // scale legend
+    const lg = document.createElement('div'); lg.className='legend'; lg.innerHTML = `<span class="key">cheaper</span><span style="display:inline-block;width:160px;height:10px;border-radius:5px;background:linear-gradient(90deg,${ramp[0]},${ramp[ramp.length-1]})"></span><span class="key">pricier (log scale)</span>`; host.appendChild(lg);
+    document.getElementById('btn-heat').addEventListener('click', ()=>{ host.classList.remove('hidden'); document.getElementById('matrix-table').classList.add('hidden'); setPressed('btn-heat'); });
+    document.getElementById('btn-table').addEventListener('click', ()=>{ host.classList.add('hidden'); document.getElementById('matrix-table').classList.remove('hidden'); setPressed('btn-table'); });
+    function setPressed(id){ for (const b of ['btn-heat','btn-table']) document.getElementById(b).setAttribute('aria-pressed', String(b===id)); }
+  })();
+
+  // ---- Chart 3: dumbbell spread (log scale) ----
+  (function spread(){
+    const host = document.getElementById('chart-spread');
+    const tip = makeTip(host);
+    const rows = ranked.filter(r=>r.c.n_quotes>1).sort((a,b)=>b.c.savings_pct_vs_max-a.c.savings_pct_vs_max);
+    if (!rows.length){ host.innerHTML = '<p class="muted">Only one aggregator per model so far.</p>'; return; }
+    const W = Math.max(700, Math.min(1140, host.clientWidth||1000)), L = 230, R = 110, T = 8, B = 30, RH = 30;
+    const H = T + rows.length*RH + B;
+    const lo = Math.min(...rows.map(r=>r.c.per_min_720p))*0.8, hi = Math.max(...rows.map(r=>r.c.max_per_min_720p))*1.25;
+    const x = v => L + (Math.log(v)-Math.log(lo))/(Math.log(hi)-Math.log(lo))*(W-L-R);
+    const svg = el('svg', {viewBox:`0 0 ${W} ${H}`, role:'img', 'aria-label':'Cheapest versus priciest aggregator per model'}, host);
+    const ticks = [0.25,0.5,1,2,5,10,20,50].filter(t=>t>=lo && t<=hi);
+    ticks.forEach(t=>{ el('line',{x1:x(t),x2:x(t),y1:T,y2:T+rows.length*RH,class:'grid'},svg); txt(svg, x(t), H-8, '$'+t, null, {'text-anchor':'middle'}); });
+    const c1 = css.getPropertyValue('--blue-400').trim(), c2 = css.getPropertyValue('--blue-200').trim(), surf = css.getPropertyValue('--surface').trim();
+    rows.forEach((r,i)=>{
+      const y = T + i*RH + RH/2, xa = x(r.c.per_min_720p), xb = x(r.c.max_per_min_720p);
+      const g = el('g', {}, svg);
+      el('line',{x1:xa,x2:xb,y1:y,y2:y,stroke:'var(--baseline)','stroke-width':2,'stroke-linecap':'round'},g);
+      el('circle',{cx:xb,cy:y,r:6,fill:c2,stroke:surf,'stroke-width':2},g);
+      el('circle',{cx:xa,cy:y,r:6,fill:c1,stroke:surf,'stroke-width':2},g);
+      const lbl = txt(g, L-10, y+4, r.m.name, 'lbl', {'text-anchor':'end'}); if (r.m.name.length>26) lbl.textContent = r.m.name.slice(0,25)+'…';
+      const pct = Math.round(r.c.savings_pct_vs_max);
+      txt(g, xb+12, y+4, pct>0 ? `save ${pct}%` : 'same price', 'val');
+      const hit = el('rect',{x:0,y:T+i*RH,width:W,height:RH,class:'hit',tabindex:0,'aria-label':`${r.m.name}: ${money(r.c.per_min_720p)} at ${AGG[r.c.aggregator_id].name} versus ${money(r.c.max_per_min_720p)} at ${AGG[r.c.max_aggregator_id].name}`},g);
+      const html = `<div><b>${money(r.c.per_min_720p)}</b> <span class="m">at ${escT(AGG[r.c.aggregator_id].name)}</span></div><div><b>${money(r.c.max_per_min_720p)}</b> <span class="m">at ${escT(AGG[r.c.max_aggregator_id].name)}</span></div><div class="m">${escT(r.m.name)} · ${r.c.n_quotes} aggregators quote it · ${Math.round(r.c.savings_pct_vs_max)}% cheaper at the winner</div>`;
+      hit.addEventListener('pointerenter', e=>tip.show(e, html)); hit.addEventListener('pointermove', e=>tip.move(e)); hit.addEventListener('pointerleave', ()=>tip.hide());
+      hit.addEventListener('focus', e=>{ const b=host.getBoundingClientRect(); tip.show({clientX:b.left+xb+20, clientY:b.top+y}, html); }); hit.addEventListener('blur', ()=>tip.hide());
+    });
+  })();
+
+  // ---- Chart 4: history small multiples ----
+  (function history(){
+    const host = document.getElementById('chart-history');
+    if (!HIST || HIST.length < 2){ host.innerHTML = `<p class="muted">${HIST && HIST.length===1 ? 'First snapshot taken '+escT(HIST[0].date)+'. ' : ''}Sparklines appear after the second daily check. Snapshots live in <code>data/history/</code>.</p>`; return; }
+    const grid = document.createElement('div'); grid.className='smalls'; host.appendChild(grid);
+    const c1 = css.getPropertyValue('--blue-400').trim(), surf = css.getPropertyValue('--surface-2').trim();
+    ranked.forEach(r=>{
+      const series = HIST.map(h=>({d:h.date, v:h.cheapest[r.m.id] ? h.cheapest[r.m.id].per_min_720p : null})).filter(p=>p.v!=null);
+      if (series.length < 2) return;
+      const card = document.createElement('div'); card.className='small'; grid.appendChild(card);
+      const first = series[0].v, last = series[series.length-1].v, delta = first ? ((last-first)/first*100) : 0;
+      card.innerHTML = `<div class="n" title="${escT(r.m.name)}">${escT(r.m.name)}</div><div class="v">${money(last)} <span class="muted" style="font-size:12px;font-weight:500">${delta>0.5?'▲':delta<-0.5?'▼':'•'} ${Math.abs(delta).toFixed(0)}% since ${escT(series[0].d)}</span></div>`;
+      const W = 180, H = 44, P = 4; const vs = series.map(p=>p.v); const lo = Math.min(...vs), hi = Math.max(...vs);
+      const x = i => P + i/(series.length-1)*(W-2*P), y = v => hi>lo ? H-P-(v-lo)/(hi-lo)*(H-2*P) : H/2;
+      const svg = el('svg', {viewBox:`0 0 ${W} ${H}`, preserveAspectRatio:'none', role:'img','aria-label':`${r.m.name} price history`}, card);
+      el('path', {d: series.map((p,i)=>(i?'L':'M')+x(i)+','+y(p.v)).join(' ') + ` L${x(series.length-1)},${H} L${x(0)},${H} Z`, fill:c1, opacity:0.10}, svg);
+      el('path', {d: series.map((p,i)=>(i?'L':'M')+x(i)+','+y(p.v)).join(' '), fill:'none', stroke:c1, 'stroke-width':2, 'stroke-linejoin':'round', 'stroke-linecap':'round'}, svg);
+      el('circle', {cx:x(series.length-1), cy:y(last), r:4, fill:c1, stroke:surf, 'stroke-width':2}, svg);
+    });
+  })();
+
+  // ---- deals countdown badges + model ids ----
+  (function extras(){
+    document.getElementById('model-ids').textContent = DATA.models.filter(m=>DATA.cheapest[m.id]).map(m=>`${m.id} = ${m.name}`).join(' · ');
+  })();
+})();
+</script>
+</body>
+</html>

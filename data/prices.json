@@ -1,0 +1,1962 @@
+{
+  "schema_version": 1,
+  "site": {
+    "name": "Discount Aggregator Aggregator",
+    "url": "https://bennygoldstein.github.io/discount-aggregator/",
+    "owner": "Benny Goldstein"
+  },
+  "generated_at": "2026-09-13T19:27:55Z",
+  "checked_at": "2026-09-13T15:50:00Z",
+  "unit": "USD per minute of generated video (accumulated footage) at the 720p column basis",
+  "aggregators": [
+    {
+      "id": "atlas",
+      "name": "Atlas Cloud",
+      "url": "https://www.atlascloud.ai/",
+      "api_docs_url": "https://www.atlascloud.ai/docs",
+      "api_base_url": "https://api.atlascloud.ai/api/v1",
+      "billing_model": "USD per output second; token-based for Seedance; free quote endpoint /model/calculate",
+      "status": "using",
+      "role": "Current video supplier; broad discounted catalog"
+    },
+    {
+      "id": "fal",
+      "name": "fal.ai",
+      "url": "https://fal.ai/",
+      "api_docs_url": "https://docs.fal.ai/",
+      "api_base_url": "https://queue.fal.run",
+      "billing_model": "USD per output second or per 1,000 tokens, per model",
+      "status": "using",
+      "role": "Current video supplier; dated launch offers"
+    },
+    {
+      "id": "replicate",
+      "name": "Replicate",
+      "url": "https://replicate.com/",
+      "api_docs_url": "https://replicate.com/docs",
+      "api_base_url": "https://api.replicate.com/v1",
+      "billing_model": "USD per output second, per model",
+      "status": "shortlisted",
+      "role": "Broad model host"
+    },
+    {
+      "id": "wavespeed",
+      "name": "WaveSpeedAI",
+      "url": "https://wavespeed.ai/",
+      "api_docs_url": "https://wavespeed.ai/docs",
+      "api_base_url": "https://api.wavespeed.ai/api/v3",
+      "billing_model": "USD per output second",
+      "status": "shortlisted",
+      "role": "Video/image API platform"
+    },
+    {
+      "id": "runware",
+      "name": "Runware",
+      "url": "https://runware.ai/",
+      "api_docs_url": "https://runware.ai/docs",
+      "api_base_url": "https://api.runware.ai/v1",
+      "billing_model": "USD per output second (published per-model estimates)",
+      "status": "shortlisted",
+      "role": "Media API platform; many exact tiers"
+    },
+    {
+      "id": "kie",
+      "name": "Kie.ai",
+      "url": "https://kie.ai/",
+      "api_docs_url": "https://docs.kie.ai/",
+      "api_base_url": "https://api.kie.ai",
+      "billing_model": "Credits, $0.005 per credit",
+      "status": "shortlisted",
+      "role": "Credit-based aggregator; provider-specific modes"
+    },
+    {
+      "id": "huggingface",
+      "name": "Hugging Face",
+      "url": "https://huggingface.co/docs/inference-providers/index",
+      "api_docs_url": "https://huggingface.co/docs/inference-providers/index",
+      "api_base_url": "https://router.huggingface.co",
+      "billing_model": "Routes to partner providers at their rates, no markup",
+      "status": "shortlisted",
+      "role": "Partner inference routing"
+    },
+    {
+      "id": "openrouter",
+      "name": "OpenRouter",
+      "url": "https://openrouter.ai/",
+      "api_docs_url": "https://openrouter.ai/docs",
+      "api_base_url": "https://openrouter.ai/api/v1",
+      "billing_model": "USD per million tokens (video models token-billed)",
+      "status": "shortlisted",
+      "role": "Unified router; few video models"
+    },
+    {
+      "id": "novita",
+      "name": "Novita AI",
+      "url": "https://novita.ai/",
+      "api_docs_url": "https://docs.novita.ai/",
+      "api_base_url": "https://api.novita.ai",
+      "billing_model": "USD per output second",
+      "status": "shortlisted",
+      "role": "Multi-model API platform"
+    },
+    {
+      "id": "piapi",
+      "name": "PiAPI",
+      "url": "https://piapi.ai/",
+      "api_docs_url": "https://app.piapi.ai/docs",
+      "api_base_url": "https://api.piapi.ai",
+      "billing_model": "USD per output second, standard tier",
+      "status": "shortlisted",
+      "role": "Multi-model API platform"
+    }
+  ],
+  "models": [
+    {
+      "id": "h3turbo",
+      "name": "MiniMax H3 Max Turbo",
+      "vendor": "MiniMax",
+      "spec": "768p (counts as the 720p column), audio included, up to 15s",
+      "max_clip_s": 15,
+      "col720_basis": "768p",
+      "tracked": true
+    },
+    {
+      "id": "vidu",
+      "name": "Vidu Q2 Pro Fast",
+      "vendor": "Vidu (Shengshu)",
+      "spec": "720p, silent, image-to-video, 10s clips",
+      "max_clip_s": 10,
+      "col720_basis": "720p",
+      "tracked": true
+    },
+    {
+      "id": "seed15",
+      "name": "Seedance 1.5 Pro Fast",
+      "vendor": "ByteDance",
+      "spec": "720p, up to 12s, audio setting to verify",
+      "max_clip_s": 12,
+      "col720_basis": "720p",
+      "tracked": true
+    },
+    {
+      "id": "kielite",
+      "name": "Veo 3.1 — Kie Lite mode",
+      "vendor": "Google (Kie.ai tier)",
+      "spec": "Kie.ai-specific Lite mode, 8s clip, per-clip credits, audio may vary",
+      "max_clip_s": 8,
+      "col720_basis": "720p",
+      "tracked": true
+    },
+    {
+      "id": "h3max",
+      "name": "MiniMax H3 Max",
+      "vendor": "MiniMax",
+      "spec": "768p (counts as the 720p column), audio included, up to 15s",
+      "max_clip_s": 15,
+      "col720_basis": "768p",
+      "tracked": true
+    },
+    {
+      "id": "mini",
+      "name": "Seedance 2.0 Mini",
+      "vendor": "ByteDance",
+      "spec": "720p, audio included, up to 15s, text/image/reference input (no video input)",
+      "max_clip_s": 15,
+      "col720_basis": "720p",
+      "tracked": true
+    },
+    {
+      "id": "wansilent",
+      "name": "Wan 2.6 Flash (silent)",
+      "vendor": "Alibaba",
+      "spec": "720p, audio OFF, up to 15s",
+      "max_clip_s": 15,
+      "col720_basis": "720p",
+      "tracked": true
+    },
+    {
+      "id": "wanflash",
+      "name": "Wan 2.6 Flash",
+      "vendor": "Alibaba",
+      "spec": "720p, audio included, up to 15s, image-to-video",
+      "max_clip_s": 15,
+      "col720_basis": "720p",
+      "tracked": true
+    },
+    {
+      "id": "pixsilent",
+      "name": "PixVerse V6 (silent)",
+      "vendor": "PixVerse",
+      "spec": "720p, audio OFF, up to 15s (540p is not 480p)",
+      "max_clip_s": 15,
+      "col720_basis": "720p",
+      "tracked": true
+    },
+    {
+      "id": "veofast",
+      "name": "Veo 3.1 Fast",
+      "vendor": "Google",
+      "spec": "720p, 8s clips, audio may vary",
+      "max_clip_s": 8,
+      "col720_basis": "720p",
+      "tracked": true
+    },
+    {
+      "id": "pix",
+      "name": "PixVerse V6",
+      "vendor": "PixVerse",
+      "spec": "720p, audio included, up to 15s",
+      "max_clip_s": 15,
+      "col720_basis": "720p",
+      "tracked": true
+    },
+    {
+      "id": "grok",
+      "name": "Grok Imagine 1.5 Developer",
+      "vendor": "xAI (Atlas Developer tier)",
+      "spec": "Atlas Developer tier; 720p, up to 15s",
+      "max_clip_s": 15,
+      "col720_basis": "720p",
+      "tracked": true
+    },
+    {
+      "id": "veolite",
+      "name": "Veo 3.1 Lite",
+      "vendor": "Google",
+      "spec": "Veo 3.1 Lite API tier, 720p, 8s, audio included",
+      "max_clip_s": 8,
+      "col720_basis": "720p",
+      "tracked": true
+    },
+    {
+      "id": "fast",
+      "name": "Seedance 2.0 Fast",
+      "vendor": "ByteDance",
+      "spec": "720p, audio included, up to 15s",
+      "max_clip_s": 15,
+      "col720_basis": "720p",
+      "tracked": true
+    },
+    {
+      "id": "wan3",
+      "name": "Wan 3.0",
+      "vendor": "Alibaba",
+      "spec": "native 720p, up to 30s, audio setting to verify",
+      "max_clip_s": 30,
+      "col720_basis": "720p",
+      "tracked": true
+    },
+    {
+      "id": "kling",
+      "name": "Kling 3.0 Turbo",
+      "vendor": "Kuaishou",
+      "spec": "Turbo tier, 720p, up to 15s",
+      "max_clip_s": 15,
+      "col720_basis": "720p",
+      "tracked": true
+    },
+    {
+      "id": "wan27",
+      "name": "Wan 2.7",
+      "vendor": "Alibaba",
+      "spec": "native 720p image-to-video, audio included, up to 15s",
+      "max_clip_s": 15,
+      "col720_basis": "720p",
+      "tracked": true
+    },
+    {
+      "id": "s25",
+      "name": "Seedance 2.5",
+      "vendor": "ByteDance",
+      "spec": "720p, native audio, up to 30s, text/image input (no video reference)",
+      "max_clip_s": 30,
+      "col720_basis": "720p",
+      "tracked": true
+    }
+  ],
+  "quotes": [
+    {
+      "id": "h3turbo@fal",
+      "model_id": "h3turbo",
+      "aggregator_id": "fal",
+      "endpoint_id": "",
+      "model_page_url": "https://fal.ai/minimax-h3-max",
+      "mode": "",
+      "audio": "Included",
+      "resolution_basis": "768p",
+      "per_min": {
+        "480p": 0.375,
+        "768p": 0.6
+      },
+      "per_second": {
+        "480p": 0.0063,
+        "768p": 0.01
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 15.0,
+      "max_clip_s": 15,
+      "raw_billing_text": "USD per output second",
+      "promo": {
+        "active": true,
+        "kind": "sale",
+        "label": "75% launch sale",
+        "discount_pct": 75,
+        "ends_at": "2026-09-14",
+        "regular_per_min": {
+          "480p": 1.5,
+          "768p": 2.4
+        }
+      },
+      "source_url": "https://fal.ai/minimax-h3-max",
+      "checked_at": "2026-09-13",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "768p replaces the 720p column. Regular 480p $0.025/s and 768p $0.04/s from Sep 15. Launch start and cutoff time zone not published."
+    },
+    {
+      "id": "h3turbo@atlas",
+      "model_id": "h3turbo",
+      "aggregator_id": "atlas",
+      "endpoint_id": "",
+      "model_page_url": "https://www.atlascloud.ai/pricing/models",
+      "mode": "",
+      "audio": "Included",
+      "resolution_basis": "768p",
+      "per_min": {
+        "480p": 1.425,
+        "768p": 2.28
+      },
+      "per_second": {
+        "480p": 0.0238,
+        "768p": 0.038
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 15.0,
+      "max_clip_s": 15,
+      "raw_billing_text": "USD per output second",
+      "promo": {
+        "active": true,
+        "kind": "standing",
+        "label": "5% vs official",
+        "discount_pct": 5,
+        "ends_at": "",
+        "regular_per_min": {
+          "768p": 2.4
+        }
+      },
+      "source_url": "https://www.atlascloud.ai/pricing/models",
+      "checked_at": "2026-09-12",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "768p, not exact 720p. No published discount dates."
+    },
+    {
+      "id": "h3turbo@runware",
+      "model_id": "h3turbo",
+      "aggregator_id": "runware",
+      "endpoint_id": "",
+      "model_page_url": "https://runware.ai/docs/models/minimax-h3-max-turbo",
+      "mode": "",
+      "audio": "Included",
+      "resolution_basis": "768p",
+      "per_min": {
+        "480p": 1.5,
+        "768p": 2.4
+      },
+      "per_second": {
+        "480p": 0.025,
+        "768p": 0.04
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 15.0,
+      "max_clip_s": 15,
+      "raw_billing_text": "USD per output second",
+      "promo": {
+        "active": false,
+        "kind": "",
+        "label": "",
+        "discount_pct": null,
+        "ends_at": "",
+        "regular_per_min": null
+      },
+      "source_url": "https://runware.ai/docs/models/minimax-h3-max-turbo",
+      "checked_at": "2026-09-12",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "768p, not exact 720p."
+    },
+    {
+      "id": "vidu@atlas",
+      "model_id": "vidu",
+      "aggregator_id": "atlas",
+      "endpoint_id": "",
+      "model_page_url": "https://www.atlascloud.ai/pricing/models",
+      "mode": "",
+      "audio": "Silent",
+      "resolution_basis": "720p",
+      "per_min": {
+        "720p": 0.663
+      },
+      "per_second": {
+        "720p": 0.0085
+      },
+      "fixed_per_clip": 0.0255,
+      "clip_basis_s": 10.0,
+      "max_clip_s": 10,
+      "raw_billing_text": "$0.0085/s + $0.0255/clip",
+      "promo": {
+        "active": true,
+        "kind": "standing",
+        "label": "15% vs official",
+        "discount_pct": 15,
+        "ends_at": "",
+        "regular_per_min": {
+          "720p": 0.78
+        }
+      },
+      "source_url": "https://www.atlascloud.ai/pricing/models",
+      "checked_at": "2026-09-12",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "Image-to-video. Calculator: 5s $0.068; 10s $0.1105. Base charge inferred from both totals. 8s clips cost $0.70125/min; 10s cost $0.663/min."
+    },
+    {
+      "id": "seed15@atlas",
+      "model_id": "seed15",
+      "aggregator_id": "atlas",
+      "endpoint_id": "",
+      "model_page_url": "https://www.atlascloud.ai/pricing/models",
+      "mode": "",
+      "audio": "Check setting",
+      "resolution_basis": "720p",
+      "per_min": {
+        "480p": 0.4985,
+        "720p": 1.08
+      },
+      "per_second": {
+        "480p": 0.0083,
+        "720p": 0.018
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 12.0,
+      "max_clip_s": 12,
+      "raw_billing_text": "Token-based provider estimate",
+      "promo": {
+        "active": true,
+        "kind": "standing",
+        "label": "10% vs official",
+        "discount_pct": 10,
+        "ends_at": "",
+        "regular_per_min": {
+          "720p": 1.2
+        }
+      },
+      "source_url": "https://www.atlascloud.ai/pricing/models",
+      "checked_at": "2026-09-12",
+      "method": "manual-sheet",
+      "confidence": "medium",
+      "ranked": true,
+      "notes": "480p/720p estimated rates from price table. Audio inclusion not independently verified. Maximum retained from screenshot."
+    },
+    {
+      "id": "h3max@fal",
+      "model_id": "h3max",
+      "aggregator_id": "fal",
+      "endpoint_id": "",
+      "model_page_url": "https://fal.ai/minimax-h3-max",
+      "mode": "",
+      "audio": "Included",
+      "resolution_basis": "768p",
+      "per_min": {
+        "480p": 0.75,
+        "768p": 1.2
+      },
+      "per_second": {
+        "480p": 0.0125,
+        "768p": 0.02
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 15.0,
+      "max_clip_s": 15,
+      "raw_billing_text": "USD per output second",
+      "promo": {
+        "active": true,
+        "kind": "sale",
+        "label": "75% launch sale",
+        "discount_pct": 75,
+        "ends_at": "2026-09-14",
+        "regular_per_min": {
+          "480p": 3.0,
+          "768p": 4.8
+        }
+      },
+      "source_url": "https://fal.ai/minimax-h3-max",
+      "checked_at": "2026-09-13",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "768p replaces 720p. Regular 480p $0.05/s and 768p $0.08/s from Sep 15. Added higher-quality family variant; no project-specific quality test."
+    },
+    {
+      "id": "mini@atlas",
+      "model_id": "mini",
+      "aggregator_id": "atlas",
+      "endpoint_id": "",
+      "model_page_url": "https://www.atlascloud.ai/models/explore/seedance-2-lowest-price",
+      "mode": "",
+      "audio": "Included",
+      "resolution_basis": "720p",
+      "per_min": {
+        "480p": 0.675,
+        "720p": 1.452
+      },
+      "per_second": {
+        "480p": 0.0112,
+        "720p": 0.0242
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 15.0,
+      "max_clip_s": 15,
+      "raw_billing_text": "$1.12/M output tokens; estimated $/s",
+      "promo": {
+        "active": true,
+        "kind": "standing",
+        "label": "80% off Atlas list; 68% below official",
+        "discount_pct": 80,
+        "ends_at": "",
+        "regular_per_min": {
+          "720p": 7.26
+        }
+      },
+      "source_url": "https://www.atlascloud.ai/models/explore/seedance-2-lowest-price",
+      "checked_at": "2026-09-13",
+      "method": "manual-sheet",
+      "confidence": "medium",
+      "ranked": true,
+      "notes": "Sep 13: advertised 720p $0.0242/s (~$0.363/15s), unchanged. Reference column M is Atlas list, not official; official comparator $0.0756/s. Permanent cut, no dated expiry. No video input; exact token quote and final charge may vary."
+    },
+    {
+      "id": "mini@kie",
+      "model_id": "mini",
+      "aggregator_id": "kie",
+      "endpoint_id": "",
+      "model_page_url": "https://kie.ai/seedance-2-0-mini",
+      "mode": "",
+      "audio": "Included",
+      "resolution_basis": "720p",
+      "per_min": {
+        "480p": 1.14,
+        "720p": 2.46
+      },
+      "per_second": {
+        "480p": 0.019,
+        "720p": 0.041
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 15.0,
+      "max_clip_s": 15,
+      "raw_billing_text": "480p 3.8 and 720p 8.2 credits/s; $0.005/credit",
+      "promo": {
+        "active": true,
+        "kind": "sale",
+        "label": "Limited-time reduced price",
+        "discount_pct": null,
+        "ends_at": "2026-10-07T06:00:00Z",
+        "regular_per_min": null
+      },
+      "source_url": "https://kie.ai/seedance-2-0-mini",
+      "checked_at": "2026-09-12",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "Sep 13 verification attempt: public page did not expose numerical rates. Sep 12 price and expiry retained as historical; recheck live quote before relying on them. No video input pricing; video-input rates differ."
+    },
+    {
+      "id": "mini@runware",
+      "model_id": "mini",
+      "aggregator_id": "runware",
+      "endpoint_id": "",
+      "model_page_url": "https://runware.ai/docs/models/bytedance-seedance-2-0-mini",
+      "mode": "",
+      "audio": "Included",
+      "resolution_basis": "720p",
+      "per_min": {
+        "480p": 2.16,
+        "720p": 4.86
+      },
+      "per_second": {
+        "480p": 0.036,
+        "720p": 0.081
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 15.0,
+      "max_clip_s": 15,
+      "raw_billing_text": "USD per output second",
+      "promo": {
+        "active": false,
+        "kind": "",
+        "label": "",
+        "discount_pct": null,
+        "ends_at": "",
+        "regular_per_min": null
+      },
+      "source_url": "https://runware.ai/docs/models/bytedance-seedance-2-0-mini",
+      "checked_at": "2026-09-13",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "Published per-second estimates for text/image input. Video-to-video uses another rate."
+    },
+    {
+      "id": "mini@wavespeed",
+      "model_id": "mini",
+      "aggregator_id": "wavespeed",
+      "endpoint_id": "",
+      "model_page_url": "https://wavespeed.ai/models/bytedance/seedance-2.0-mini/image-to-video",
+      "mode": "",
+      "audio": "Included",
+      "resolution_basis": "720p",
+      "per_min": {
+        "480p": 3.6,
+        "720p": 7.2
+      },
+      "per_second": {
+        "480p": 0.06,
+        "720p": 0.12
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 15.0,
+      "max_clip_s": 15,
+      "raw_billing_text": "USD per output second",
+      "promo": {
+        "active": false,
+        "kind": "",
+        "label": "",
+        "discount_pct": null,
+        "ends_at": "",
+        "regular_per_min": null
+      },
+      "source_url": "https://wavespeed.ai/models/bytedance/seedance-2.0-mini/image-to-video",
+      "checked_at": "2026-09-13",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "5s costs $0.30 at 480p or $0.60 at 720p. No video-reference input."
+    },
+    {
+      "id": "mini@piapi",
+      "model_id": "mini",
+      "aggregator_id": "piapi",
+      "endpoint_id": "",
+      "model_page_url": "https://piapi.ai/seedance-2-0",
+      "mode": "",
+      "audio": "Included",
+      "resolution_basis": "720p",
+      "per_min": {
+        "480p": 4.2,
+        "720p": 8.4
+      },
+      "per_second": {
+        "480p": 0.07,
+        "720p": 0.14
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 15.0,
+      "max_clip_s": 15,
+      "raw_billing_text": "USD per output second",
+      "promo": {
+        "active": false,
+        "kind": "",
+        "label": "",
+        "discount_pct": null,
+        "ends_at": "",
+        "regular_per_min": null
+      },
+      "source_url": "https://piapi.ai/seedance-2-0",
+      "checked_at": "2026-09-13",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "Mini tier. Optional less-restriction tier and other extras excluded."
+    },
+    {
+      "id": "mini@fal",
+      "model_id": "mini",
+      "aggregator_id": "fal",
+      "endpoint_id": "",
+      "model_page_url": "https://fal.ai/models/bytedance/seedance-2.0/mini/reference-to-video",
+      "mode": "",
+      "audio": "Included",
+      "resolution_basis": "720p",
+      "per_min": {
+        "480p": 4.326,
+        "720p": 9.282
+      },
+      "per_second": {
+        "480p": 0.0721,
+        "720p": 0.1547
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 15.0,
+      "max_clip_s": 15,
+      "raw_billing_text": "$0.007/1,000 tokens; provider $/s estimate",
+      "promo": {
+        "active": false,
+        "kind": "",
+        "label": "",
+        "discount_pct": null,
+        "ends_at": "",
+        "regular_per_min": null
+      },
+      "source_url": "https://fal.ai/models/bytedance/seedance-2.0/mini/reference-to-video",
+      "checked_at": "2026-09-12",
+      "method": "manual-sheet",
+      "confidence": "medium",
+      "ranked": true,
+      "notes": "No video reference. Approximate published per-second equivalents; actual cost follows output pixels × seconds × 24 / 1024 × token price."
+    },
+    {
+      "id": "wanflash@atlas",
+      "model_id": "wanflash",
+      "aggregator_id": "atlas",
+      "endpoint_id": "",
+      "model_page_url": "https://www.atlascloud.ai/pricing/models",
+      "mode": "",
+      "audio": "Included",
+      "resolution_basis": "720p",
+      "per_min": {
+        "720p": 2.1
+      },
+      "per_second": {
+        "720p": 0.035
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 15.0,
+      "max_clip_s": 15,
+      "raw_billing_text": "USD per output second",
+      "promo": {
+        "active": true,
+        "kind": "standing",
+        "label": "30% vs official",
+        "discount_pct": 30,
+        "ends_at": "",
+        "regular_per_min": {
+          "720p": 3.0
+        }
+      },
+      "source_url": "https://www.atlascloud.ai/pricing/models",
+      "checked_at": "2026-09-12",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "Image-to-video. The matching $0.035/s tier is used for comparison; audio-off quote needs a separate calculator check."
+    },
+    {
+      "id": "wanflash@runware",
+      "model_id": "wanflash",
+      "aggregator_id": "runware",
+      "endpoint_id": "",
+      "model_page_url": "https://runware.ai/docs/models/alibaba-wan2-6-flash",
+      "mode": "",
+      "audio": "Included",
+      "resolution_basis": "720p",
+      "per_min": {
+        "720p": 3.0
+      },
+      "per_second": {
+        "720p": 0.05
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 15.0,
+      "max_clip_s": 15,
+      "raw_billing_text": "USD per output second",
+      "promo": {
+        "active": false,
+        "kind": "",
+        "label": "",
+        "discount_pct": null,
+        "ends_at": "",
+        "regular_per_min": null
+      },
+      "source_url": "https://runware.ai/docs/models/alibaba-wan2-6-flash",
+      "checked_at": "2026-09-12",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "With audio. Reference-to-video maximum is 10s; this row uses image-to-video, up to 15s."
+    },
+    {
+      "id": "wansilent@runware",
+      "model_id": "wansilent",
+      "aggregator_id": "runware",
+      "endpoint_id": "",
+      "model_page_url": "https://runware.ai/docs/models/alibaba-wan2-6-flash",
+      "mode": "",
+      "audio": "Off",
+      "resolution_basis": "720p",
+      "per_min": {
+        "720p": 1.5
+      },
+      "per_second": {
+        "720p": 0.025
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 15.0,
+      "max_clip_s": 15,
+      "raw_billing_text": "USD per output second",
+      "promo": {
+        "active": false,
+        "kind": "",
+        "label": "",
+        "discount_pct": null,
+        "ends_at": "",
+        "regular_per_min": null
+      },
+      "source_url": "https://runware.ai/docs/models/alibaba-wan2-6-flash",
+      "checked_at": "2026-09-12",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "Audio off. Atlas audio-off rate is not yet verified, so this is a verified option rather than a complete market minimum."
+    },
+    {
+      "id": "grok@atlas",
+      "model_id": "grok",
+      "aggregator_id": "atlas",
+      "endpoint_id": "",
+      "model_page_url": "https://www.atlascloud.ai/pricing/models",
+      "mode": "",
+      "audio": "Check setting",
+      "resolution_basis": "720p",
+      "per_min": {
+        "480p": 1.68,
+        "720p": 2.94
+      },
+      "per_second": {
+        "480p": 0.028,
+        "720p": 0.049
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 15.0,
+      "max_clip_s": 15,
+      "raw_billing_text": "USD per output second",
+      "promo": {
+        "active": true,
+        "kind": "standing",
+        "label": "65% vs official",
+        "discount_pct": 65,
+        "ends_at": "",
+        "regular_per_min": {
+          "720p": 8.4
+        }
+      },
+      "source_url": "https://www.atlascloud.ai/pricing/models",
+      "checked_at": "2026-09-12",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "Atlas Developer tier, kept separate from standard Grok 1.5 endpoints. Audio behavior and tier equivalence require checking before switching providers."
+    },
+    {
+      "id": "veolite@atlas",
+      "model_id": "veolite",
+      "aggregator_id": "atlas",
+      "endpoint_id": "",
+      "model_page_url": "https://www.atlascloud.ai/pricing/models",
+      "mode": "",
+      "audio": "Included",
+      "resolution_basis": "720p",
+      "per_min": {
+        "720p": 3.0
+      },
+      "per_second": {
+        "720p": 0.05
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 8.0,
+      "max_clip_s": 8,
+      "raw_billing_text": "USD per output second",
+      "promo": {
+        "active": false,
+        "kind": "",
+        "label": "",
+        "discount_pct": null,
+        "ends_at": "",
+        "regular_per_min": null
+      },
+      "source_url": "https://www.atlascloud.ai/pricing/models",
+      "checked_at": "2026-09-12",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "720p tier. Maximum retained from screenshot."
+    },
+    {
+      "id": "veolite@runware",
+      "model_id": "veolite",
+      "aggregator_id": "runware",
+      "endpoint_id": "",
+      "model_page_url": "https://runware.ai/docs/models/google-veo-3-1-lite",
+      "mode": "",
+      "audio": "Included",
+      "resolution_basis": "720p",
+      "per_min": {
+        "720p": 3.0
+      },
+      "per_second": {
+        "720p": 0.05
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 8.0,
+      "max_clip_s": 8,
+      "raw_billing_text": "USD per output second",
+      "promo": {
+        "active": false,
+        "kind": "",
+        "label": "",
+        "discount_pct": null,
+        "ends_at": "",
+        "regular_per_min": null
+      },
+      "source_url": "https://runware.ai/docs/models/google-veo-3-1-lite",
+      "checked_at": "2026-09-12",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "With audio. Without audio costs $0.03/s ($1.80/min). Provider notes limited capacity."
+    },
+    {
+      "id": "kielite@kie",
+      "model_id": "kielite",
+      "aggregator_id": "kie",
+      "endpoint_id": "",
+      "model_page_url": "https://kie.ai/veo-3-1",
+      "mode": "",
+      "audio": "May vary",
+      "resolution_basis": "720p",
+      "per_min": {
+        "720p": 1.125
+      },
+      "per_second": {
+        "720p": 0.0
+      },
+      "fixed_per_clip": 0.15,
+      "clip_basis_s": 8.0,
+      "max_clip_s": 8,
+      "raw_billing_text": "30 credits = $0.15 per clip",
+      "promo": {
+        "active": false,
+        "kind": "",
+        "label": "",
+        "discount_pct": null,
+        "ends_at": "",
+        "regular_per_min": null
+      },
+      "source_url": "https://kie.ai/veo-3-1",
+      "checked_at": "2026-09-12",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "Kie-specific Lite mode, not assumed identical to the separate Veo 3.1 Lite API. 4/6/8s options; this calculation uses 8s. Audio may be absent on some outputs. No top-up bonus included."
+    },
+    {
+      "id": "fast@atlas",
+      "model_id": "fast",
+      "aggregator_id": "atlas",
+      "endpoint_id": "",
+      "model_page_url": "https://www.atlascloud.ai/models/explore/seedance-2-lowest-price",
+      "mode": "",
+      "audio": "Included",
+      "resolution_basis": "720p",
+      "per_min": {
+        "480p": 1.6199,
+        "720p": 3.486
+      },
+      "per_second": {
+        "480p": 0.027,
+        "720p": 0.0581
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 15.0,
+      "max_clip_s": 15,
+      "raw_billing_text": "$2.688/M output tokens; estimated $/s",
+      "promo": {
+        "active": true,
+        "kind": "standing",
+        "label": "70% off Atlas list; 52% below official",
+        "discount_pct": 70,
+        "ends_at": "",
+        "regular_per_min": {
+          "720p": 11.62
+        }
+      },
+      "source_url": "https://www.atlascloud.ai/models/explore/seedance-2-lowest-price",
+      "checked_at": "2026-09-13",
+      "method": "manual-sheet",
+      "confidence": "medium",
+      "ranked": true,
+      "notes": "Sep 13: advertised 720p $0.0581/s, unchanged. Reference column M is Atlas list, not official; official comparator $0.1209/s. Permanent cut, no dated expiry. Exact token quote may vary."
+    },
+    {
+      "id": "fast@kie",
+      "model_id": "fast",
+      "aggregator_id": "kie",
+      "endpoint_id": "",
+      "model_page_url": "https://kie.ai/seedance-2-0",
+      "mode": "",
+      "audio": "Included",
+      "resolution_basis": "720p",
+      "per_min": {
+        "480p": 3.51,
+        "720p": 7.44
+      },
+      "per_second": {
+        "480p": 0.0585,
+        "720p": 0.124
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 15.0,
+      "max_clip_s": 15,
+      "raw_billing_text": "480p 11.7 and 720p 24.8 credits/s; $0.005/credit",
+      "promo": {
+        "active": true,
+        "kind": "sale",
+        "label": "Limited-time reduced price",
+        "discount_pct": null,
+        "ends_at": "2026-10-07T06:00:00Z",
+        "regular_per_min": null
+      },
+      "source_url": "https://kie.ai/seedance-2-0",
+      "checked_at": "2026-09-12",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "Sep 13 verification attempt: public page did not expose numerical rates. Sep 12 price and expiry retained as historical; recheck live quote before relying on them."
+    },
+    {
+      "id": "fast@runware",
+      "model_id": "fast",
+      "aggregator_id": "runware",
+      "endpoint_id": "",
+      "model_page_url": "https://runware.ai/docs/models/bytedance-seedance-2-0-fast",
+      "mode": "",
+      "audio": "Included",
+      "resolution_basis": "720p",
+      "per_min": {
+        "480p": 3.6,
+        "720p": 7.8
+      },
+      "per_second": {
+        "480p": 0.06,
+        "720p": 0.13
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 15.0,
+      "max_clip_s": 15,
+      "raw_billing_text": "USD per output second",
+      "promo": {
+        "active": false,
+        "kind": "",
+        "label": "",
+        "discount_pct": null,
+        "ends_at": "",
+        "regular_per_min": null
+      },
+      "source_url": "https://runware.ai/docs/models/bytedance-seedance-2-0-fast",
+      "checked_at": "2026-09-12",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "Published approximate rates; example costs vary slightly with output dimensions."
+    },
+    {
+      "id": "fast@piapi",
+      "model_id": "fast",
+      "aggregator_id": "piapi",
+      "endpoint_id": "",
+      "model_page_url": "https://piapi.ai/seedance-2-0",
+      "mode": "",
+      "audio": "Included",
+      "resolution_basis": "720p",
+      "per_min": {
+        "480p": 4.8,
+        "720p": 9.6
+      },
+      "per_second": {
+        "480p": 0.08,
+        "720p": 0.16
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 15.0,
+      "max_clip_s": 15,
+      "raw_billing_text": "USD per output second",
+      "promo": {
+        "active": false,
+        "kind": "",
+        "label": "",
+        "discount_pct": null,
+        "ends_at": "",
+        "regular_per_min": null
+      },
+      "source_url": "https://piapi.ai/seedance-2-0",
+      "checked_at": "2026-09-13",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "Fast tier. Optional extras excluded."
+    },
+    {
+      "id": "fast@fal",
+      "model_id": "fast",
+      "aggregator_id": "fal",
+      "endpoint_id": "",
+      "model_page_url": "https://fal.ai/models/bytedance/seedance-2.0/fast/image-to-video",
+      "mode": "",
+      "audio": "Included",
+      "resolution_basis": "720p",
+      "per_min": {
+        "720p": 14.514
+      },
+      "per_second": {
+        "720p": 0.2419
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 15.0,
+      "max_clip_s": 15,
+      "raw_billing_text": "$0.0112/1,000 tokens; provider $/s estimate",
+      "promo": {
+        "active": false,
+        "kind": "",
+        "label": "",
+        "discount_pct": null,
+        "ends_at": "",
+        "regular_per_min": null
+      },
+      "source_url": "https://fal.ai/models/bytedance/seedance-2.0/fast/image-to-video",
+      "checked_at": "2026-09-12",
+      "method": "manual-sheet",
+      "confidence": "medium",
+      "ranked": true,
+      "notes": "480p supported but a resolution-specific charge was not verified. Approximate 720p rate; no video reference."
+    },
+    {
+      "id": "kling@atlas",
+      "model_id": "kling",
+      "aggregator_id": "atlas",
+      "endpoint_id": "",
+      "model_page_url": "https://www.atlascloud.ai/pricing/models",
+      "mode": "",
+      "audio": "Check setting",
+      "resolution_basis": "720p",
+      "per_min": {
+        "720p": 5.712
+      },
+      "per_second": {
+        "720p": 0.0952
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 15.0,
+      "max_clip_s": 15,
+      "raw_billing_text": "USD per output second",
+      "promo": {
+        "active": true,
+        "kind": "standing",
+        "label": "15% vs official",
+        "discount_pct": 15,
+        "ends_at": "",
+        "regular_per_min": {
+          "720p": 6.72
+        }
+      },
+      "source_url": "https://www.atlascloud.ai/pricing/models",
+      "checked_at": "2026-09-12",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "Exact Turbo tier, not Kling Standard/Pro. Audio setting not independently verified."
+    },
+    {
+      "id": "kling@runware",
+      "model_id": "kling",
+      "aggregator_id": "runware",
+      "endpoint_id": "",
+      "model_page_url": "https://runware.ai/docs/models/klingai-video-3-0-turbo",
+      "mode": "",
+      "audio": "Check setting",
+      "resolution_basis": "720p",
+      "per_min": {
+        "720p": 6.72
+      },
+      "per_second": {
+        "720p": 0.112
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 15.0,
+      "max_clip_s": 15,
+      "raw_billing_text": "USD per output second",
+      "promo": {
+        "active": false,
+        "kind": "",
+        "label": "",
+        "discount_pct": null,
+        "ends_at": "",
+        "regular_per_min": null
+      },
+      "source_url": "https://runware.ai/docs/models/klingai-video-3-0-turbo",
+      "checked_at": "2026-09-12",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "Same Turbo product name. Audio behavior should be verified for the intended workflow."
+    },
+    {
+      "id": "s25@atlas",
+      "model_id": "s25",
+      "aggregator_id": "atlas",
+      "endpoint_id": "",
+      "model_page_url": "https://api.atlascloud.ai/api/v1/model/calculate",
+      "mode": "",
+      "audio": "Included",
+      "resolution_basis": "720p",
+      "per_min": {
+        "480p": 8.3944,
+        "720p": 18.0524
+      },
+      "per_second": {
+        "480p": 0.1399,
+        "720p": 0.3009
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 30.0,
+      "max_clip_s": 30,
+      "raw_billing_text": "Free API estimate for 30s; normalized to USD/s",
+      "promo": {
+        "active": true,
+        "kind": "standing",
+        "label": "20% off Atlas list",
+        "discount_pct": 20,
+        "ends_at": "",
+        "regular_per_min": {
+          "720p": 22.5655
+        }
+      },
+      "source_url": "https://api.atlascloud.ai/api/v1/model/calculate",
+      "checked_at": "2026-09-13",
+      "method": "manual-sheet",
+      "confidence": "medium",
+      "ranked": true,
+      "notes": "Sep 13 11:50 a.m. EDT: /calculate, text-to-video, 16:9, native audio, no video references. 30s: 480p $4.197176; 720p $9.026199. 15s 720p $4.519359. Discount 80 means 80% paid (20% off). Token estimate; final billing may vary."
+    },
+    {
+      "id": "s25@kie",
+      "model_id": "s25",
+      "aggregator_id": "kie",
+      "endpoint_id": "",
+      "model_page_url": "https://kie.ai/seedance-2-5",
+      "mode": "",
+      "audio": "Included",
+      "resolution_basis": "720p",
+      "per_min": {
+        "480p": 8.4,
+        "720p": 18.9
+      },
+      "per_second": {
+        "480p": 0.14,
+        "720p": 0.315
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 30.0,
+      "max_clip_s": 30,
+      "raw_billing_text": "480p 28 and 720p 63 credits/s; $0.005/credit",
+      "promo": {
+        "active": false,
+        "kind": "",
+        "label": "",
+        "discount_pct": null,
+        "ends_at": "",
+        "regular_per_min": null
+      },
+      "source_url": "https://kie.ai/seedance-2-5",
+      "checked_at": "2026-09-13",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "Live playground pricing verified Sep 13: no video input 480p 28 credits/s ($0.14), 720p 63 ($0.315). Native audio. 28% offer through Oct 17 06:00 UTC applies only to 1080p. Top-up bonus excluded; beta rates may change."
+    },
+    {
+      "id": "s25@wavespeed",
+      "model_id": "s25",
+      "aggregator_id": "wavespeed",
+      "endpoint_id": "",
+      "model_page_url": "https://wavespeed.ai/models/bytedance/seedance-2.5/image-to-video",
+      "mode": "",
+      "audio": "Included",
+      "resolution_basis": "720p",
+      "per_min": {
+        "480p": 9.72,
+        "720p": 19.44
+      },
+      "per_second": {
+        "480p": 0.162,
+        "720p": 0.324
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 30.0,
+      "max_clip_s": 30,
+      "raw_billing_text": "USD per output second",
+      "promo": {
+        "active": true,
+        "kind": "standing",
+        "label": "10% current discount",
+        "discount_pct": 10,
+        "ends_at": "",
+        "regular_per_min": {
+          "720p": 21.6
+        }
+      },
+      "source_url": "https://wavespeed.ai/models/bytedance/seedance-2.5/image-to-video",
+      "checked_at": "2026-09-13",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "Live playground verified Sep 13: 5s 480p $0.81; 5s 720p $1.62, native audio on. 10% below README rates of $0.18/$0.36 per second. No published expiry."
+    },
+    {
+      "id": "s25@fal",
+      "model_id": "s25",
+      "aggregator_id": "fal",
+      "endpoint_id": "",
+      "model_page_url": "https://fal.ai/models/bytedance/seedance-2.5/image-to-video",
+      "mode": "",
+      "audio": "Included",
+      "resolution_basis": "720p",
+      "per_min": {
+        "480p": 13.23,
+        "720p": 28.38
+      },
+      "per_second": {
+        "480p": 0.2205,
+        "720p": 0.473
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 30.0,
+      "max_clip_s": 30,
+      "raw_billing_text": "$0.0214/1,000 tokens; provider $/s estimate",
+      "promo": {
+        "active": false,
+        "kind": "",
+        "label": "",
+        "discount_pct": null,
+        "ends_at": "",
+        "regular_per_min": null
+      },
+      "source_url": "https://fal.ai/models/bytedance/seedance-2.5/image-to-video",
+      "checked_at": "2026-09-13",
+      "method": "manual-sheet",
+      "confidence": "medium",
+      "ranked": true,
+      "notes": "Live headline estimates: 480p $0.2205/s, 720p $0.473/s with audio. $21.40/M tokens. At exactly 1280x720, 24fps, formula gives $0.46224/s ($13.8672/30s); headline rounding differs. Input-video charges excluded."
+    },
+    {
+      "id": "pix@kie",
+      "model_id": "pix",
+      "aggregator_id": "kie",
+      "endpoint_id": "",
+      "model_page_url": "https://kie.ai/pixverse-v6",
+      "mode": "",
+      "audio": "Included",
+      "resolution_basis": "720p",
+      "per_min": {
+        "720p": 2.88
+      },
+      "per_second": {
+        "720p": 0.048
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 15.0,
+      "max_clip_s": 15,
+      "raw_billing_text": "9.6 credits/s; $0.005/credit",
+      "promo": {
+        "active": true,
+        "kind": "standing",
+        "label": "20% vs official",
+        "discount_pct": 20,
+        "ends_at": "",
+        "regular_per_min": {
+          "720p": 3.6
+        }
+      },
+      "source_url": "https://kie.ai/pixverse-v6",
+      "checked_at": "2026-09-12",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "Audio enabled. 540p exists but is not relabeled 480p. Added candidate; no project-specific quality test."
+    },
+    {
+      "id": "pix@atlas",
+      "model_id": "pix",
+      "aggregator_id": "atlas",
+      "endpoint_id": "",
+      "model_page_url": "https://www.atlascloud.ai/pricing/models",
+      "mode": "",
+      "audio": "Included",
+      "resolution_basis": "720p",
+      "per_min": {
+        "720p": 3.6
+      },
+      "per_second": {
+        "720p": 0.06
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 15.0,
+      "max_clip_s": 15,
+      "raw_billing_text": "USD per output second",
+      "promo": {
+        "active": false,
+        "kind": "",
+        "label": "",
+        "discount_pct": null,
+        "ends_at": "",
+        "regular_per_min": null
+      },
+      "source_url": "https://www.atlascloud.ai/pricing/models",
+      "checked_at": "2026-09-12",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "With audio. 540p is excluded from the 480p column."
+    },
+    {
+      "id": "pix@runware",
+      "model_id": "pix",
+      "aggregator_id": "runware",
+      "endpoint_id": "",
+      "model_page_url": "https://runware.ai/docs/models/pixverse-v6",
+      "mode": "",
+      "audio": "Included",
+      "resolution_basis": "720p",
+      "per_min": {
+        "720p": 3.6
+      },
+      "per_second": {
+        "720p": 0.06
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 15.0,
+      "max_clip_s": 15,
+      "raw_billing_text": "USD per output second",
+      "promo": {
+        "active": false,
+        "kind": "",
+        "label": "",
+        "discount_pct": null,
+        "ends_at": "",
+        "regular_per_min": null
+      },
+      "source_url": "https://runware.ai/docs/models/pixverse-v6",
+      "checked_at": "2026-09-12",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "With audio. 540p is excluded from the 480p column."
+    },
+    {
+      "id": "pixsilent@kie",
+      "model_id": "pixsilent",
+      "aggregator_id": "kie",
+      "endpoint_id": "",
+      "model_page_url": "https://kie.ai/pixverse-v6",
+      "mode": "",
+      "audio": "Off",
+      "resolution_basis": "720p",
+      "per_min": {
+        "720p": 2.16
+      },
+      "per_second": {
+        "720p": 0.036
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 15.0,
+      "max_clip_s": 15,
+      "raw_billing_text": "7.2 credits/s; $0.005/credit",
+      "promo": {
+        "active": true,
+        "kind": "standing",
+        "label": "20% vs official",
+        "discount_pct": 20,
+        "ends_at": "",
+        "regular_per_min": {
+          "720p": 2.7
+        }
+      },
+      "source_url": "https://kie.ai/pixverse-v6",
+      "checked_at": "2026-09-12",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "Audio off. No 480p; 540p is separate."
+    },
+    {
+      "id": "pixsilent@runware",
+      "model_id": "pixsilent",
+      "aggregator_id": "runware",
+      "endpoint_id": "",
+      "model_page_url": "https://runware.ai/docs/models/pixverse-v6",
+      "mode": "",
+      "audio": "Off",
+      "resolution_basis": "720p",
+      "per_min": {
+        "720p": 2.7
+      },
+      "per_second": {
+        "720p": 0.045
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 15.0,
+      "max_clip_s": 15,
+      "raw_billing_text": "USD per output second",
+      "promo": {
+        "active": false,
+        "kind": "",
+        "label": "",
+        "discount_pct": null,
+        "ends_at": "",
+        "regular_per_min": null
+      },
+      "source_url": "https://runware.ai/docs/models/pixverse-v6",
+      "checked_at": "2026-09-12",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "Audio off."
+    },
+    {
+      "id": "wan3@atlas",
+      "model_id": "wan3",
+      "aggregator_id": "atlas",
+      "endpoint_id": "",
+      "model_page_url": "https://www.atlascloud.ai/pricing/models",
+      "mode": "",
+      "audio": "Check setting",
+      "resolution_basis": "720p",
+      "per_min": {
+        "480p": 2.4,
+        "720p": 4.8
+      },
+      "per_second": {
+        "480p": 0.04,
+        "720p": 0.08
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 30.0,
+      "max_clip_s": 30,
+      "raw_billing_text": "USD per output second",
+      "promo": {
+        "active": true,
+        "kind": "standing",
+        "label": "20% vs official",
+        "discount_pct": 20,
+        "ends_at": "",
+        "regular_per_min": {
+          "720p": 6.0
+        }
+      },
+      "source_url": "https://www.atlascloud.ai/pricing/models",
+      "checked_at": "2026-09-12",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "Native 720p, not ESR. Added long-clip candidate; audio setting unverified. 30s model ceiling sourced from Replicate; Atlas endpoint limit should be rechecked."
+    },
+    {
+      "id": "wan3@replicate",
+      "model_id": "wan3",
+      "aggregator_id": "replicate",
+      "endpoint_id": "",
+      "model_page_url": "https://replicate.com/alibaba/wan-3",
+      "mode": "",
+      "audio": "Check setting",
+      "resolution_basis": "720p",
+      "per_min": {
+        "480p": 3.0,
+        "720p": 6.0
+      },
+      "per_second": {
+        "480p": 0.05,
+        "720p": 0.1
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 30.0,
+      "max_clip_s": 30,
+      "raw_billing_text": "USD per output second",
+      "promo": {
+        "active": false,
+        "kind": "",
+        "label": "",
+        "discount_pct": null,
+        "ends_at": "",
+        "regular_per_min": null
+      },
+      "source_url": "https://replicate.com/alibaba/wan-3",
+      "checked_at": "2026-09-12",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": false,
+      "notes": "Conflicting sale notices on the page; excluded from ranking until a live payable quote resolves it. README lists these rates but model subtitle says 50% off until Aug 30 (expired), while site banner says 30% off this week. Excluded from cheapest ranking until a live payable quote resolves the conflict."
+    },
+    {
+      "id": "wan27@atlas",
+      "model_id": "wan27",
+      "aggregator_id": "atlas",
+      "endpoint_id": "",
+      "model_page_url": "https://www.atlascloud.ai/pricing/models",
+      "mode": "",
+      "audio": "Included",
+      "resolution_basis": "720p",
+      "per_min": {
+        "720p": 6.0
+      },
+      "per_second": {
+        "720p": 0.1
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 15.0,
+      "max_clip_s": 15,
+      "raw_billing_text": "USD per output second",
+      "promo": {
+        "active": false,
+        "kind": "",
+        "label": "",
+        "discount_pct": null,
+        "ends_at": "",
+        "regular_per_min": null
+      },
+      "source_url": "https://www.atlascloud.ai/pricing/models",
+      "checked_at": "2026-09-12",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "Native 720p image-to-video. Added candidate with audio."
+    },
+    {
+      "id": "wan27@novita",
+      "model_id": "wan27",
+      "aggregator_id": "novita",
+      "endpoint_id": "",
+      "model_page_url": "https://novita.ai/models",
+      "mode": "",
+      "audio": "Included",
+      "resolution_basis": "720p",
+      "per_min": {
+        "720p": 6.0
+      },
+      "per_second": {
+        "720p": 0.1
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 15.0,
+      "max_clip_s": 15,
+      "raw_billing_text": "USD per output second",
+      "promo": {
+        "active": false,
+        "kind": "",
+        "label": "",
+        "discount_pct": null,
+        "ends_at": "",
+        "regular_per_min": null
+      },
+      "source_url": "https://novita.ai/models",
+      "checked_at": "2026-09-12",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "Catalog 720p $0.10/s. Public model playground confirms 2–15s and audio by default. Checked Video category."
+    },
+    {
+      "id": "veofast@kie",
+      "model_id": "veofast",
+      "aggregator_id": "kie",
+      "endpoint_id": "",
+      "model_page_url": "https://kie.ai/veo-3-1",
+      "mode": "",
+      "audio": "May vary",
+      "resolution_basis": "720p",
+      "per_min": {
+        "720p": 2.25
+      },
+      "per_second": {
+        "720p": 0.0
+      },
+      "fixed_per_clip": 0.3,
+      "clip_basis_s": 8.0,
+      "max_clip_s": 8,
+      "raw_billing_text": "60 credits = $0.30 per clip",
+      "promo": {
+        "active": false,
+        "kind": "",
+        "label": "",
+        "discount_pct": null,
+        "ends_at": "",
+        "regular_per_min": null
+      },
+      "source_url": "https://kie.ai/veo-3-1",
+      "checked_at": "2026-09-12",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "8s clip basis; 4s/6s also offered. Audio may be unavailable on some outputs. Kie Fast mode; verify endpoint behavior before replacing a different provider."
+    },
+    {
+      "id": "veofast@atlas",
+      "model_id": "veofast",
+      "aggregator_id": "atlas",
+      "endpoint_id": "",
+      "model_page_url": "https://www.atlascloud.ai/pricing/models",
+      "mode": "",
+      "audio": "May vary",
+      "resolution_basis": "720p",
+      "per_min": {
+        "720p": 5.76
+      },
+      "per_second": {
+        "720p": 0.096
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 8.0,
+      "max_clip_s": 8,
+      "raw_billing_text": "720p with audio $0.096/s",
+      "promo": {
+        "active": false,
+        "kind": "",
+        "label": "",
+        "discount_pct": null,
+        "ends_at": "",
+        "regular_per_min": null
+      },
+      "source_url": "https://www.atlascloud.ai/pricing/models",
+      "checked_at": "2026-09-12",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "With audio. Silent tier $0.08/s ($4.80/min)."
+    },
+    {
+      "id": "s25@runware",
+      "model_id": "s25",
+      "aggregator_id": "runware",
+      "endpoint_id": "",
+      "model_page_url": "https://runware.ai/seedance-2-5",
+      "mode": "",
+      "audio": "Included",
+      "resolution_basis": "720p",
+      "per_min": {
+        "480p": 6.15,
+        "720p": 13.824
+      },
+      "per_second": {
+        "480p": 0.1025,
+        "720p": 0.2304
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 30.0,
+      "max_clip_s": 30,
+      "raw_billing_text": "$10.70/M tokens; published USD/s estimates",
+      "promo": {
+        "active": false,
+        "kind": "",
+        "label": "",
+        "discount_pct": null,
+        "ends_at": "",
+        "regular_per_min": null
+      },
+      "source_url": "https://runware.ai/seedance-2-5",
+      "checked_at": "2026-09-13",
+      "method": "manual-sheet",
+      "confidence": "medium",
+      "ranked": true,
+      "notes": "Same underlying token rate as OpenRouter; tiny headline difference may be rounding/frame area, not a material price advantage. T2V/I2V, native audio, no video input. Up to 30s."
+    },
+    {
+      "id": "s25@openrouter",
+      "model_id": "s25",
+      "aggregator_id": "openrouter",
+      "endpoint_id": "",
+      "model_page_url": "https://openrouter.ai/compare/heygen/avatar-iv/bytedance/seedance-2.5",
+      "mode": "",
+      "audio": "Included",
+      "resolution_basis": "720p",
+      "per_min": {
+        "480p": 6.168,
+        "720p": 13.866
+      },
+      "per_second": {
+        "480p": 0.1028,
+        "720p": 0.2311
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 30.0,
+      "max_clip_s": 30,
+      "raw_billing_text": "$10.70/M tokens; published USD/s estimates",
+      "promo": {
+        "active": false,
+        "kind": "",
+        "label": "",
+        "discount_pct": null,
+        "ends_at": "",
+        "regular_per_min": null
+      },
+      "source_url": "https://openrouter.ai/compare/heygen/avatar-iv/bytedance/seedance-2.5",
+      "checked_at": "2026-09-13",
+      "method": "manual-sheet",
+      "confidence": "medium",
+      "ranked": true,
+      "notes": "Near-tie with Runware. Exact 480p/720p mapping from official comparison; native audio same rate. 4-30s. No video input. No dated discount."
+    },
+    {
+      "id": "s25@piapi",
+      "model_id": "s25",
+      "aggregator_id": "piapi",
+      "endpoint_id": "",
+      "model_page_url": "https://app.piapi.ai/seedance-2-5",
+      "mode": "",
+      "audio": "Included",
+      "resolution_basis": "720p",
+      "per_min": {
+        "480p": 9.0,
+        "720p": 21.0
+      },
+      "per_second": {
+        "480p": 0.15,
+        "720p": 0.35
+      },
+      "fixed_per_clip": 0,
+      "clip_basis_s": 30.0,
+      "max_clip_s": 30,
+      "raw_billing_text": "USD per output second, standard tier",
+      "promo": {
+        "active": false,
+        "kind": "",
+        "label": "",
+        "discount_pct": null,
+        "ends_at": "",
+        "regular_per_min": null
+      },
+      "source_url": "https://app.piapi.ai/seedance-2-5",
+      "checked_at": "2026-09-13",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": true,
+      "notes": "Standard tier, native audio; no video references. Less Restriction variant excluded ($0.165/s 480p, $0.385/s 720p). No published sale expiry."
+    },
+    {
+      "id": "s25@replicate",
+      "model_id": "s25",
+      "aggregator_id": "replicate",
+      "endpoint_id": "",
+      "model_page_url": "https://replicate.com/bytedance/seedance-2.5",
+      "mode": "",
+      "audio": "Included",
+      "resolution_basis": "720p",
+      "per_min": {},
+      "per_second": {},
+      "fixed_per_clip": 0,
+      "clip_basis_s": 30.0,
+      "max_clip_s": 30,
+      "raw_billing_text": "Quote unavailable",
+      "promo": {
+        "active": false,
+        "kind": "",
+        "label": "",
+        "discount_pct": null,
+        "ends_at": "",
+        "regular_per_min": null
+      },
+      "source_url": "https://replicate.com/bytedance/seedance-2.5",
+      "checked_at": "2026-09-13",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": false,
+      "notes": "Exact Seedance 2.5 available, with native audio and 4-30s; official model/API pages did not expose numerical prices. Not ranked.",
+      "unavailable_reason": "no price verified"
+    },
+    {
+      "id": "s25@novita",
+      "model_id": "s25",
+      "aggregator_id": "novita",
+      "endpoint_id": "",
+      "model_page_url": "https://novita.ai/models",
+      "mode": "",
+      "audio": "Unverified",
+      "resolution_basis": "720p",
+      "per_min": {},
+      "per_second": {},
+      "fixed_per_clip": 0,
+      "clip_basis_s": 30.0,
+      "max_clip_s": null,
+      "raw_billing_text": "No verified listing/quote",
+      "promo": {
+        "active": false,
+        "kind": "",
+        "label": "",
+        "discount_pct": null,
+        "ends_at": "",
+        "regular_per_min": null
+      },
+      "source_url": "https://novita.ai/models",
+      "checked_at": "2026-09-13",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": false,
+      "notes": "Current model catalog and exact-model search did not establish Seedance 2.5 availability or price. No zero/free-price assumption.",
+      "unavailable_reason": "no price verified"
+    },
+    {
+      "id": "s25@huggingface",
+      "model_id": "s25",
+      "aggregator_id": "huggingface",
+      "endpoint_id": "",
+      "model_page_url": "https://huggingface.co/spaces/wavespeed/seedance-2-5-image-to-video",
+      "mode": "",
+      "audio": "Unverified",
+      "resolution_basis": "720p",
+      "per_min": {},
+      "per_second": {},
+      "fixed_per_clip": 0,
+      "clip_basis_s": 30.0,
+      "max_clip_s": null,
+      "raw_billing_text": "No independent provider quote",
+      "promo": {
+        "active": false,
+        "kind": "",
+        "label": "",
+        "discount_pct": null,
+        "ends_at": "",
+        "regular_per_min": null
+      },
+      "source_url": "https://huggingface.co/spaces/wavespeed/seedance-2-5-image-to-video",
+      "checked_at": "2026-09-13",
+      "method": "manual-sheet",
+      "confidence": "high",
+      "ranked": false,
+      "notes": "WaveSpeed-hosted Seedance 2.5 Space found; this is not a separate HF inference-provider price. No independent quote verified.",
+      "unavailable_reason": "no price verified"
+    }
+  ],
+  "cheapest": {},
+  "deals": [],
+  "extra_models": [],
+  "candidate_aggregators": [],
+  "footnotes": [
+    "480p is the rate at the selected 720p provider. Blank means unavailable or unverified; details are in the full quote matrix.",
+    "One minute means accumulated generated footage. It does not imply a continuous 60-second clip. Vidu uses 10s clips. Kie Veo modes use 8s clips; shorter clips raise their effective per-minute cost.",
+    "Seedance token-based rates are estimates. Audio, reference inputs and actual output dimensions can change a quote.",
+    "Provider-specific Kie Lite and Atlas Grok Developer tiers are kept separate. Added options have not been quality-tested.",
+    "Hugging Face routes participating providers at their rates; it is not a separate cheaper video quote. OpenRouter only lists a few video models.",
+    "Prices are public list prices read on the check date. Sales expire automatically the morning after their published end date."
+  ]
+}

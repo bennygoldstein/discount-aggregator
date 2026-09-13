@@ -1,0 +1,9 @@
+# Discount Aggregator Aggregator — everyone welcome, including AI agents.
+User-agent: *
+Allow: /
+
+# Machine-readable feeds (JSON) for agents:
+#   /data/cheapest.json   – per model: cheapest aggregator + endpoint
+#   /data/prices.json     – full matrix, promos, sources, verification
+#   /llms.txt             – how to use this site from an AI agent
+Sitemap: https://bennygoldstein.github.io/discount-aggregator/sitemap.xml

@@ -1,0 +1,38 @@
+# Discount Aggregator Aggregator
+
+> The cheapest place to render every AI video model, checked daily across ten API aggregators
+> (Atlas Cloud, fal.ai, Replicate, WaveSpeedAI, Runware, Kie.ai, Hugging Face Inference Providers,
+> OpenRouter, Novita AI, PiAPI). All prices are normalized to USD per minute of generated footage
+> at 720p (768p for the MiniMax H3 family). Audio-on and audio-off variants are separate rows.
+
+## What an AI agent should do here
+
+1. Fetch `data/cheapest.json` (small). Do not scrape the HTML.
+2. Find the requested model under `models` by its `model` name or key (e.g. `mini` = Seedance 2.0 Mini,
+   `kling` = Kling 3.0 Turbo, `s25` = Seedance 2.5, `h3turbo` = MiniMax H3 Max Turbo, `veofast` = Veo 3.1 Fast).
+3. Route the generation request to `aggregator.api_base_url` using `endpoint_id`, following `aggregator.api_docs_url`.
+4. Estimate cost as `usd_per_min_720p * clip_seconds / 60`. Mention `promo.ends_at` if present.
+5. Respect `max_clip_seconds` — it is the longest single clip that endpoint allows.
+6. If `confidence` is `low` or the row is missing, tell the user instead of guessing.
+7. Cache for up to one hour; the data changes once a day (about 06:17 America/New_York).
+
+## Files
+
+- `data/cheapest.json`: per model — cheapest aggregator, API base URL, endpoint id, USD/min at 720p and 480p,
+  audio, max clip seconds, promo + deadline, runner-up, most expensive price, savings %, verification date.
+- `data/prices.json`: full dataset — every quote across every aggregator (`quotes[]`), raw billing text,
+  source URLs, verification verdicts, `cheapest{}`, `deals[]`, `changes` and footnotes.
+- `data/history/index.json` then `data/history/YYYY-MM-DD.json`: daily snapshots.
+- `data/changes.json`: dated log of price changes and expired sales.
+
+## Field notes
+
+- `usd_per_min_720p` means accumulated generated footage per minute, not one continuous 60-second clip.
+- `resolution_basis` is `768p` for MiniMax H3 models (there is no 720p tier); everything else is 720p.
+- Token-billed models (Seedance on some providers) are estimates for 16:9 output at the stated resolution.
+- Provider-specific tiers (Kie.ai "Lite mode" Veo, Atlas "Developer" Grok) are separate models in the feed.
+- Prices are public list prices read from each provider's own page on `checked_at`; verify before a large job.
+
+## License
+
+Data: CC BY 4.0. Attribution: "Discount Aggregator Aggregator".

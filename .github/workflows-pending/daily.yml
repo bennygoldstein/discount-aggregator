@@ -1,0 +1,60 @@
+name: Daily price research
+
+on:
+  schedule:
+    # 10:17 UTC every day = 06:17 New York (EDT). GitHub may delay cron a few minutes.
+    - cron: "17 10 * * *"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "refresh = re-check every source (default). rebuild = only regenerate the page from data/"
+        required: false
+        default: "refresh"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-research
+  cancel-in-progress: false
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Install headless Chromium (for JavaScript-rendered pricing pages)
+        if: ${{ github.event.inputs.mode != 'rebuild' }}
+        run: npx playwright install --with-deps chromium
+
+      - name: Research today's prices
+        if: ${{ github.event.inputs.mode != 'rebuild' }}
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ATLASCLOUD_API_KEY: ${{ secrets.ATLASCLOUD_API_KEY }}
+          USE_BROWSER: "1"
+        run: node scripts/refresh.mjs
+
+      - name: Rebuild the page
+        run: node scripts/build.mjs
+
+      - name: Commit and push if anything changed
+        run: |
+          git config user.name "price-bot"
+          git config user.email "price-bot@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes today."
+          else
+            git commit -m "Daily price check $(date -u +%Y-%m-%d)"
+            git push
+          fi

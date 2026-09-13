@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Discount Aggregator Aggregator — cheapest AI video model prices, checked daily</title>
+<meta name="description" content="Every day we check {{AGG_COUNT}} AI video API aggregators and publish the cheapest price for each video model (Seedance, Kling, Veo, Wan, MiniMax, PixVerse, Vidu, Grok). Human dashboard plus a JSON feed your AI agent can read before it renders.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="{{SITE_URL}}">
+<link rel="alternate" type="application/json" title="Cheapest per model (JSON feed)" href="{{SITE_URL}}data/cheapest.json">
+<link rel="alternate" type="application/json" title="Full price matrix (JSON)" href="{{SITE_URL}}data/prices.json">
+<meta property="og:title" content="Discount Aggregator Aggregator">
+<meta property="og:description" content="The cheapest place to render every AI video model — {{AGG_COUNT}} aggregators checked daily. Checked {{CHECKED_DATE}}.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{SITE_URL}}">
+<meta name="ai-feed" content="{{SITE_URL}}data/cheapest.json">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Dataset","name":"Discount Aggregator Aggregator — AI video model prices across API aggregators","description":"Daily-checked USD-per-minute prices for AI video generation models across {{AGG_COUNT}} API aggregators, with the cheapest aggregator per model.","url":"{{SITE_URL}}","dateModified":"{{CHECKED_ISO}}","license":"https://creativecommons.org/licenses/by/4.0/","distribution":[{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"{{SITE_URL}}data/cheapest.json"},{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"{{SITE_URL}}data/prices.json"}]}
+</script>
+<style>
+:root{
+  color-scheme:dark;
+  --plane:#0d0d0d;--surface:#1a1a19;--surface-2:#212120;--ink:#ffffff;--ink-2:#c3c2b7;--muted:#898781;
+  --grid:#2c2c2a;--baseline:#383835;--border:rgba(255,255,255,.10);--link:#7fb4f0;
+  --s-atlas:#3987e5;--s-fal:#d95926;--s-kie:#199e70;--s-runware:#c98500;--s-wavespeed:#d55181;--s-novita:#008300;--s-piapi:#9085e9;--s-replicate:#e66767;--s-other:#6b6a66;
+  --good:#0ca30c;--warn:#fab219;--serious:#ec835a;--critical:#d03b3b;
+  --blue-200:#9ec5f4;--blue-400:#3987e5;
+  --font:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{background:var(--plane)}
+body{margin:0;background:var(--plane);color:var(--ink);font:15px/1.5 var(--font);-webkit-font-smoothing:antialiased}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+h1,h2,h3{margin:0;font-weight:650;letter-spacing:-.01em}
+h2{font-size:22px;margin-bottom:6px}
+h3{font-size:16px}
+p{margin:.4em 0}
+.muted{color:var(--muted)}
+.ink2{color:var(--ink-2)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+sup{font-size:9px;color:var(--muted);margin-left:2px}
+code,kbd{font-family:var(--mono);font-size:.92em;background:var(--surface-2);padding:1px 5px;border-radius:4px;border:1px solid var(--border)}
+pre{font-family:var(--mono);font-size:13px;line-height:1.5;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:12px 14px;overflow-x:auto;margin:8px 0}
+pre code{background:none;border:0;padding:0}
+
+/* header */
+header{position:relative;padding:44px 0 26px;overflow:hidden;border-bottom:1px solid var(--border)}
+header::before{content:"";position:absolute;inset:-40% -10% auto;height:140%;background:radial-gradient(60% 50% at 20% 0%,rgba(57,135,229,.22),transparent 60%),radial-gradient(40% 40% at 90% 10%,rgba(217,89,38,.14),transparent 60%);pointer-events:none}
+header .wrap{position:relative}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);margin-bottom:8px}
+h1{font-size:clamp(28px,4.4vw,44px);line-height:1.08}
+.tagline{font-size:18px;color:var(--ink-2);max-width:760px;margin:12px 0 18px}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);background:rgba(255,255,255,.04);border-radius:999px;padding:5px 12px;font-size:13px;color:var(--ink-2)}
+.pill b{color:var(--ink);font-weight:600}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--good);box-shadow:0 0 0 3px rgba(12,163,12,.18)}
+nav.top{display:flex;flex-wrap:wrap;gap:14px;margin-top:22px;font-size:14px}
+nav.top a{color:var(--ink-2);border-bottom:1px solid transparent;padding-bottom:2px}
+nav.top a:hover{color:var(--ink);text-decoration:none;border-color:var(--ink-2)}
+
+/* sections & cards */
+section{padding:34px 0 8px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin:14px 0}
+.card.tight{padding:12px 14px}
+.sec-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px;margin-bottom:6px}
+.sec-head p{margin:0;color:var(--ink-2)}
+.legend{display:flex;flex-wrap:wrap;gap:12px 18px;font-size:13px;color:var(--ink-2);margin:10px 0 4px}
+.legend .key{display:inline-flex;align-items:center;gap:7px}
+.legend .key i{width:12px;height:12px;border-radius:3px;display:inline-block;background:var(--c,var(--s-other))}
+.legend .key i.round{border-radius:50%}
+.swatch{display:inline-block;width:9px;height:9px;border-radius:2px;background:var(--c,var(--s-other));margin-right:7px;vertical-align:1px}
+[data-agg="atlas"]{--c:var(--s-atlas)}[data-agg="fal"]{--c:var(--s-fal)}[data-agg="kie"]{--c:var(--s-kie)}[data-agg="runware"]{--c:var(--s-runware)}
+[data-agg="wavespeed"]{--c:var(--s-wavespeed)}[data-agg="novita"]{--c:var(--s-novita)}[data-agg="piapi"]{--c:var(--s-piapi)}[data-agg="replicate"]{--c:var(--s-replicate)}
+[data-agg="openrouter"],[data-agg="huggingface"]{--c:var(--s-other)}
+
+/* the sheet-style table */
+.sheet-title{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:10px}
+.sheet-title h2{font-size:20px}
+.sheet-title .when{color:var(--ink-2);font-size:14px}
+.tablewrap{overflow-x:auto;border:1px solid var(--border);border-radius:10px;background:#141413}
+table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}
+thead th{position:sticky;top:0;background:#101010;color:var(--ink-2);font-weight:600;text-align:left;padding:10px 12px;border-bottom:1px solid var(--baseline);white-space:nowrap;font-size:13px}
+tbody td,tbody th{padding:8px 12px;border-bottom:1px solid var(--grid);vertical-align:middle;white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:rgba(255,255,255,.03)}
+td.num,th.num{text-align:center}
+td.strong{font-weight:650;color:var(--ink)}
+td.rank{color:var(--muted);width:34px;text-align:right}
+td.model a{color:var(--link)}
+td.empty{color:var(--muted)}
+td.best{box-shadow:inset 0 0 0 2px var(--ink);border-radius:4px;font-weight:650}
+td.excluded{color:var(--muted)}
+.flag{color:var(--warn);cursor:help}
+.foot{font-size:13px;color:var(--ink-2);margin-top:14px}
+.foot li{margin:3px 0}
+
+/* KPI row */
+.kpis{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:12px;margin:12px 0}
+.tile{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px;min-height:112px;display:flex;flex-direction:column;justify-content:space-between}
+.tile .label{font-size:13px;color:var(--ink-2)}
+.tile .value{font-size:30px;font-weight:650;line-height:1.1;margin-top:8px}
+.tile .sub{font-size:13px;color:var(--muted);margin-top:6px}
+.tile.hero{background:linear-gradient(135deg,rgba(57,135,229,.16),rgba(57,135,229,.02)),var(--surface)}
+.tile.hero .value{font-size:52px;letter-spacing:-.02em}
+.tile.hero .value small{font-size:18px;color:var(--ink-2);font-weight:500;margin-left:6px}
+@media (max-width:900px){.kpis{grid-template-columns:1fr 1fr}.tile.hero{grid-column:1/-1}}
+
+/* charts */
+.chart{position:relative;margin-top:6px}
+.chart svg{display:block;width:100%;height:auto;font-family:var(--font)}
+.chart .scroll{overflow-x:auto}
+.chart text{fill:var(--ink-2);font-size:12px}
+.chart text.lbl{fill:var(--ink);font-size:13px}
+.chart text.val{fill:var(--ink);font-size:12px;font-weight:600}
+.chart line.grid{stroke:var(--grid);stroke-width:1}
+.chart line.base{stroke:var(--baseline);stroke-width:1}
+.chart .bar{transition:opacity .12s}
+.chart .hit{fill:transparent;cursor:pointer}
+.chart .hit:focus{outline:none}
+.tip{position:absolute;z-index:5;pointer-events:none;background:#0b0b0b;color:var(--ink);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;line-height:1.4;max-width:280px;box-shadow:0 8px 24px rgba(0,0,0,.5);display:none}
+.tip b{font-size:15px}
+.tip .k{display:inline-block;width:10px;height:3px;border-radius:2px;background:var(--c,var(--s-other));margin-right:6px;vertical-align:middle}
+.tip .m{color:var(--ink-2)}
+.toggle{display:inline-flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;font-size:13px}
+.toggle button{background:transparent;color:var(--ink-2);border:0;padding:6px 12px;cursor:pointer;font:inherit}
+.toggle button[aria-pressed="true"]{background:rgba(255,255,255,.08);color:var(--ink)}
+.caption{font-size:13px;color:var(--muted);margin-top:8px}
+.hidden{display:none!important}
+.smalls{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-top:10px}
+.small{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
+.small .n{font-size:13px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.small .v{font-size:20px;font-weight:650;margin-top:2px}
+.small svg{width:100%;height:44px;display:block;margin-top:6px}
+
+/* deals */
+.deal-badge{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:600;border:1px solid var(--border)}
+.deal-badge.soon{color:var(--warn)}.deal-badge.ok{color:var(--good)}.deal-badge.gone{color:var(--muted)}
+
+/* explainer */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:800px){.grid2{grid-template-columns:1fr}}
+.steps{counter-reset:s;list-style:none;padding:0;margin:8px 0}
+.steps li{position:relative;padding-left:40px;margin:10px 0;color:var(--ink-2)}
+.steps li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:1px;width:26px;height:26px;border-radius:50%;background:rgba(57,135,229,.18);color:var(--ink);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:650;border:1px solid rgba(57,135,229,.5)}
+.steps li b{color:var(--ink)}
+.endpoints{display:grid;grid-template-columns:1fr;gap:8px;margin:8px 0}
+.endpoint{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
+.endpoint code{font-size:13px}
+.endpoint .what{color:var(--ink-2);font-size:13px}
+details{margin:6px 0}
+summary{cursor:pointer;color:var(--ink-2)}
+footer{border-top:1px solid var(--border);padding:26px 0 40px;color:var(--muted);font-size:13px;margin-top:30px}
+footer a{color:var(--ink-2)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">Discount Aggregator Aggregator</div>
+    <h1>The cheapest place to render every AI video model.<br>Checked every day.</h1>
+    <p class="tagline">Ten API aggregators resell the same video models at very different prices. We read all of them daily, normalize everything to <b>dollars per minute of generated 720p video</b>, and show where each model is cheapest right now — for you, and for your AI agent.</p>
+    <div class="pills">
+      <span class="pill"><span class="dot"></span> Updated <b>{{CHECKED_HUMAN}}</b></span>
+      <span class="pill"><b>{{MODEL_COUNT}}</b> models</span>
+      <span class="pill"><b>{{AGG_COUNT}}</b> aggregators</span>
+      <span class="pill"><b>{{QUOTE_COUNT}}</b> live quotes compared</span>
+      <span class="pill">Feed for agents: <b><a href="data/cheapest.json">cheapest.json</a></b></span>
+    </div>
+    <nav class="top">
+      <a href="#top">Price table</a><a href="#charts">Charts</a><a href="#matrix">Every quote</a><a href="#deals">Sales &amp; deadlines</a><a href="#how">How it works</a><a href="#agents">For AI agents</a><a href="llms.txt">llms.txt</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ TOP VIEW: the sheet ============ -->
+<section id="top">
+  <div class="wrap">
+    <div class="card">
+      <div class="sheet-title">
+        <h2>AI aggregators Prices</h2>
+        <span class="when">Updated {{CHECKED_HUMAN}} · cheapest verified quote per model · USD per minute</span>
+      </div>
+      <div class="tablewrap">
+        <table id="price-table">
+          <thead><tr><th></th><th>Engine / Model</th><th>Provider</th><th class="num">480p / minute</th><th class="num">720p / minute</th><th class="num">Max clip (s)</th><th>Audio</th><th>Sale / discount</th><th>Sale ends</th></tr></thead>
+          <tbody>
+{{TABLE_ROWS}}
+          </tbody>
+        </table>
+      </div>
+      <p class="caption">Sorted by 720p price. Model names link to the provider's page for that exact model. ⚑ marks a quote flagged for review (see tooltip). 480p is the rate at the selected 720p provider; blank = not offered or not verified.</p>
+
+      <h3 style="margin-top:22px">AI aggregators we check ({{AGG_COUNT}})</h3>
+      <div class="tablewrap" style="margin-top:8px">
+        <table><thead><tr><th>Aggregator</th><th>Role in this comparison</th><th>Website</th></tr></thead><tbody>
+{{AGG_LIST}}
+        </tbody></table>
+      </div>
+
+      <div class="foot">
+        <b>Footnotes</b>
+        <ul>
+{{FOOTNOTES}}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GRAPHICAL VIEW ============ -->
+<section id="charts">
+  <div class="wrap">
+    <div class="sec-head"><div><h2>Today at a glance</h2><p>The same numbers as the table, drawn so the story is obvious.</p></div></div>
+
+    <div class="kpis" id="kpis"></div>
+
+    <div class="card">
+      <div class="sec-head"><div><h3>Cheapest price per model — 720p, USD per minute</h3><p class="muted" style="font-size:13px">Bar colour = the aggregator that wins that model today.</p></div></div>
+      <div class="legend" id="legend-bars"></div>
+      <div class="chart" id="chart-bars"></div>
+    </div>
+
+    <div class="card" id="matrix">
+      <div class="sec-head">
+        <div><h3>Every quote we found — model × aggregator</h3><p class="muted" style="font-size:13px">Lighter = cheaper. The ringed cell is the winner in each row. “—” = model not offered or no verifiable price. * = quote excluded from ranking (conflicting notices).</p></div>
+        <div class="toggle" role="group" aria-label="View"><button type="button" id="btn-heat" aria-pressed="true">Heatmap</button><button type="button" id="btn-table" aria-pressed="false">Table</button></div>
+      </div>
+      <div class="chart" id="chart-heat"></div>
+      <div class="tablewrap hidden" id="matrix-table">
+        <table><thead><tr><th>Model</th>{{MATRIX_HEAD}}</tr></thead><tbody>
+{{MATRIX_ROWS}}
+        </tbody></table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="sec-head"><div><h3>Same model, different bill — cheapest vs. priciest aggregator</h3><p class="muted" style="font-size:13px">Why an aggregator aggregator exists: the spread on one model can be 5× or more. Log scale.</p></div></div>
+      <div class="legend"><span class="key"><i class="round" style="background:var(--blue-400)"></i>Cheapest aggregator</span><span class="key"><i class="round" style="background:var(--blue-200)"></i>Priciest aggregator</span></div>
+      <div class="chart" id="chart-spread"></div>
+    </div>
+
+    <div class="card">
+      <div class="sec-head"><div><h3>Price history — cheapest 720p rate per model</h3><p class="muted" style="font-size:13px">One snapshot per day. Sparklines appear once there are at least two days of history.</p></div></div>
+      <div id="chart-history"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DEALS ============ -->
+<section id="deals">
+  <div class="wrap">
+    <div class="sec-head"><div><h2>Sales &amp; deadlines</h2><p>Limited-time offers we could verify on the provider's own page. Dated sales expire automatically the morning after their end date.</p></div></div>
+    <div class="card tight">
+      <div class="tablewrap">
+        <table><thead><tr><th>Model</th><th>Aggregator</th><th>Offer</th><th class="num">720p $/min now</th><th class="num">Regular</th><th>Deadline</th><th></th></tr></thead><tbody id="deals-body">
+{{DEALS_ROWS}}
+        </tbody></table>
+      </div>
+    </div>
+    <details class="card tight"><summary>Standing discounts — permanent cuts and “X% below the official price” (no deadline)</summary>
+      <div class="tablewrap" style="margin-top:10px"><table><thead><tr><th>Model</th><th>Aggregator</th><th>Discount</th><th class="num">720p $/min</th><th class="num">Reference</th><th>Deadline</th><th></th></tr></thead><tbody>
+{{STANDING_ROWS}}
+      </tbody></table></div>
+    </details>
+    <details class="card tight"><summary>Other video models spotted on these aggregators (not ranked yet)</summary>
+      <div class="tablewrap" style="margin-top:10px"><table><thead><tr><th>Model</th><th>Cheapest on</th><th class="num">720p $/min</th><th>Confidence</th><th></th></tr></thead><tbody>
+{{EXTRA_ROWS}}
+      </tbody></table></div>
+    </details>
+    <details class="card tight"><summary>Other aggregators we looked at (candidates for the list)</summary>
+      <div class="tablewrap" style="margin-top:10px"><table><thead><tr><th>Aggregator</th><th>Note</th><th class="num">Best 720p $/min seen</th><th>For model</th></tr></thead><tbody>
+{{CANDIDATE_ROWS}}
+      </tbody></table></div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section id="how">
+  <div class="wrap">
+    <div class="sec-head"><div><h2>How it works</h2><p>An aggregator of aggregators.</p></div></div>
+    <div class="grid2">
+      <div class="card">
+        <h3>The problem</h3>
+        <p class="ink2">Video models like Seedance, Kling, Veo, Wan and MiniMax are sold through many API “aggregators” (fal.ai, Replicate, Atlas Cloud, Runware, Kie.ai and others). Each one sets its own price, runs its own launch sales, and bills in its own units — per second, per clip, per credit, per million tokens. The cheapest place for one model is often the most expensive for another, and it changes week to week.</p>
+        <h3 style="margin-top:14px">What this site does</h3>
+        <p class="ink2">It reads all {{AGG_COUNT}} aggregators every day, converts every quote to the same unit — <b>USD per minute of generated footage at 720p</b> (768p for the MiniMax H3 family) — keeps audio-on and audio-off variants separate, notes each sale and its deadline, and publishes the winner per model. The table at the top is the summary; the charts show the spread; the JSON feed lets software make the choice automatically.</p>
+      </div>
+      <div class="card">
+        <h3>The daily research run</h3>
+        <ol class="steps">
+          <li><b>06:17 New York time</b>, a scheduled job wakes up (GitHub Actions, free).</li>
+          <li>For every model × aggregator pair it <b>re-opens the provider's own price page</b> — with a headless browser when the page needs JavaScript.</li>
+          <li>It reads the number with a <b>deterministic pattern first</b>, and falls back to <b>Claude reading the page</b> (and, if the page moved, searching the provider's site) so a redesign does not break the feed.</li>
+          <li>Every figure is normalized to $/min, <b>sanity-checked against yesterday</b> (a 5× jump is flagged, not published), and dated sales that ended are switched to the regular price.</li>
+          <li>It recomputes the cheapest aggregator per model, writes a <b>dated snapshot</b> for the history charts, rebuilds this page and publishes it.</li>
+        </ol>
+        <p class="muted" style="font-size:13px">{{LAST_RUN}}</p>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Reading the numbers honestly</h3>
+      <p class="ink2">“Per minute” means accumulated generated footage, not one continuous 60-second clip — the <i>Max clip</i> column shows the longest single clip each endpoint allows. Prices for token-billed models are estimates for a 16:9 output at the stated resolution. Provider-specific tiers (Kie's “Lite mode” for Veo, Atlas's “Developer” tier for Grok) are kept as their own rows because they are not guaranteed to be the same product as the standard API. Quality is not ranked here — only price. Every quote links to its source, carries the date it was verified, and is flagged when the robot could not re-verify it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOR AI AGENTS ============ -->
+<section id="agents">
+  <div class="wrap">
+    <div class="sec-head"><div><h2>For AI agents &amp; local AIs</h2><p>Give your assistant this page and it never has to visit ten pricing pages again.</p></div></div>
+    <div class="card">
+      <h3>Endpoints</h3>
+      <div class="endpoints">
+        <div class="endpoint"><code>GET {{SITE_URL}}data/cheapest.json</code><span class="what">Per model: cheapest aggregator, API base URL, endpoint id, $/min, promo deadline. Small — fetch this.</span></div>
+        <div class="endpoint"><code>GET {{SITE_URL}}data/prices.json</code><span class="what">Everything: all quotes across all aggregators, raw billing text, sources, verification verdicts, deals.</span></div>
+        <div class="endpoint"><code>GET {{SITE_URL}}data/history/index.json</code><span class="what">List of daily snapshots (then <code>history/YYYY-MM-DD.json</code>).</span></div>
+        <div class="endpoint"><code>GET {{SITE_URL}}data/changes.json</code><span class="what">What changed, when, and why (price moves, sales that ended).</span></div>
+        <div class="endpoint"><code>GET {{SITE_URL}}llms.txt</code><span class="what">Plain-text instructions for language models.</span></div>
+      </div>
+      <p class="ink2">Everything is static JSON over HTTPS, no key, no rate limit beyond GitHub Pages' generosity, CORS-open. It refreshes once a day; cache it for an hour and you are fine.</p>
+
+      <h3 style="margin-top:18px">Routing recipe — “render this with my favourite model, wherever it's cheapest today”</h3>
+      <div class="grid2">
+        <div>
+          <p class="muted" style="font-size:13px;margin:0">Python</p>
+<pre><code>import requests
+
+FEED = "{{SITE_URL}}data/cheapest.json"
+feed = requests.get(FEED, timeout=10).json()
+
+best = feed["models"]["mini"]          # Seedance 2.0 Mini (ids are in the feed)
+print(best["cheapest_aggregator"],       # e.g. "Atlas Cloud"
+      best["usd_per_min_720p"],          # e.g. 1.45
+      best["endpoint_id"])               # the model id to pass to that API
+
+# Now call that aggregator's API:
+api = best["aggregator"]["api_base_url"]
+docs = best["aggregator"]["api_docs_url"]
+# → build the request per `docs`, using best["endpoint_id"]
+</code></pre>
+        </div>
+        <div>
+          <p class="muted" style="font-size:13px;margin:0">JavaScript / Node</p>
+<pre><code>const FEED = "{{SITE_URL}}data/cheapest.json";
+const feed = await (await fetch(FEED)).json();
+
+const wanted = "Kling 3.0 Turbo";
+const [id, best] = Object.entries(feed.models)
+  .find(([, m]) => m.model === wanted);
+
+console.log(best.cheapest_aggregator, best.usd_per_min_720p,
+            best.endpoint_id, best.aggregator.api_base_url);
+// estimate for a 15 s clip:
+const clipUsd = best.usd_per_min_720p * 15 / 60;
+</code></pre>
+        </div>
+      </div>
+      <p class="muted" style="font-size:13px;margin:0">Shell</p>
+<pre><code>curl -s {{SITE_URL}}data/cheapest.json | jq '.models | to_entries | map({model:.value.model, at:.value.cheapest_aggregator, usd_per_min:.value.usd_per_min_720p}) | sort_by(.usd_per_min)'</code></pre>
+
+      <h3 style="margin-top:18px">Drop this line into your agent's instructions</h3>
+<pre><code>Before generating a video, fetch {{SITE_URL}}data/cheapest.json and route the job to the
+aggregator listed as cheapest for the requested model. Quote the price (usd_per_min_720p × seconds / 60)
+and the promo deadline if any. If the model is not in the feed, say so instead of guessing.</code></pre>
+      <p class="muted" style="font-size:13px">Model ids in the feed: <span id="model-ids"></span></p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Discount Aggregator Aggregator · prices are public list prices read from each provider's site, normalized to USD per minute at 720p (768p for MiniMax H3). Not affiliated with any provider. Verify a quote on the linked page before a large job. Data licence: CC BY 4.0.</p>
+    <p>Source &amp; daily robot: <a href="https://github.com/bennygoldstein/discount-aggregator">github.com/bennygoldstein/discount-aggregator</a> · built {{BUILD_ISO}}</p>
+  </div>
+</footer>
+
+<script id="dataset" type="application/json">{{DATA_JSON}}</script>
+<script id="history" type="application/json">{{HISTORY_JSON}}</script>
+<script>
+(function(){
+  const DATA = JSON.parse(document.getElementById('dataset').textContent);
+  const HIST = JSON.parse(document.getElementById('history').textContent);
+  const AGG = Object.fromEntries(DATA.aggregators.map(a=>[a.id,a]));
+  const MODEL = Object.fromEntries(DATA.models.map(m=>[m.id,m]));
+  const Q = Object.fromEntries(DATA.quotes.map(q=>[q.id,q]));
+  const css = getComputedStyle(document.documentElement);
+  const COLOR = id => {
+    const v = css.getPropertyValue('--s-'+id).trim();
+    return v || css.getPropertyValue('--s-other').trim();
+  };
+  const OTHER = new Set(['openrouter','huggingface']);
+  const colorOf = id => OTHER.has(id) ? css.getPropertyValue('--s-other').trim() : COLOR(id);
+  const money = v => v==null ? '—' : '$'+v.toFixed(2);
+  const NS = 'http://www.w3.org/2000/svg';
+  const el = (n, attrs={}, parent) => { const e = document.createElementNS(NS, n); for (const [k,v] of Object.entries(attrs)) e.setAttribute(k, v); if (parent) parent.appendChild(e); return e; };
+  const txt = (parent, x, y, s, cls, attrs={}) => { const t = el('text', {x, y, ...attrs}, parent); if (cls) t.setAttribute('class', cls); t.textContent = s; return t; };
+
+  // ---- ranked rows ----
+  const ranked = DATA.models.map(m=>({m, c:DATA.cheapest[m.id]})).filter(x=>x.c).sort((a,b)=>a.c.per_min_720p-b.c.per_min_720p);
+
+  // ---- tooltip ----
+  function makeTip(container){
+    const tip = document.createElement('div'); tip.className='tip'; container.appendChild(tip);
+    return {
+      show(evt, html){ tip.innerHTML = html; tip.style.display='block'; this.move(evt); },
+      move(evt){ const r = container.getBoundingClientRect(); let x = (evt.clientX ?? r.left+20) - r.left + 14, y = (evt.clientY ?? r.top+20) - r.top + 14; if (x + tip.offsetWidth > r.width - 8) x = x - tip.offsetWidth - 28; if (y + tip.offsetHeight > r.height) y = Math.max(0, y - tip.offsetHeight - 28); tip.style.left = x+'px'; tip.style.top = y+'px'; },
+      hide(){ tip.style.display='none'; }
+    };
+  }
+  const escT = s => String(s??'').replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  function quoteTip(q, title){
+    const a = AGG[q.aggregator_id], m = MODEL[q.model_id];
+    const promo = q.promo && q.promo.active ? `<div class="m">${escT(q.promo.label)}${q.promo.ends_at?' · ends '+escT(q.promo.ends_at.slice(0,10)):''}</div>` : '';
+    const p480 = q.per_min && q.per_min['480p']!=null ? ` · 480p ${money(q.per_min['480p'])}` : '';
+    return `<div><b>${money(q.per_min ? (q.per_min['720p'] ?? q.per_min['768p']) : null)}</b> <span class="m">/ min at ${escT(q.resolution_basis||'720p')}${p480}</span></div>
+      <div><span class="k" style="--c:${colorOf(q.aggregator_id)}"></span>${escT(m?m.name:q.model_id)} · ${escT(a?a.name:q.aggregator_id)}</div>
+      <div class="m">${escT(q.raw_billing_text||'')}</div>
+      <div class="m">audio: ${escT(q.audio||'?')} · max clip ${q.max_clip_s||'?'} s · ${escT(q.mode||'')}</div>${promo}
+      <div class="m">verified ${escT(q.checked_at||'')} · ${escT(q.confidence||'')}${q.needs_review?' · ⚑ needs review':''}</div>`;
+  }
+
+  // ---- KPI row ----
+  (function kpis(){
+    const root = document.getElementById('kpis');
+    if (!ranked.length) return;
+    const top = ranked[0];
+    const promos = (DATA.deals || []).filter(d=>d.kind==='sale');
+    const dated = promos.filter(d=>d.ends_at).map(d=>({d, days: Math.ceil((Date.parse(d.ends_at.length===10?d.ends_at+'T23:59:59Z':d.ends_at)-Date.now())/86400000)})).filter(x=>x.days>=0).sort((a,b)=>a.days-b.days);
+    const nearest = dated[0];
+    const nQuotes = DATA.quotes.filter(q=>q.per_min && (q.per_min['720p']!=null||q.per_min['768p']!=null)).length;
+    const avgSave = ranked.filter(x=>x.c.n_quotes>1).reduce((s,x)=>s+x.c.savings_pct_vs_max,0) / Math.max(1, ranked.filter(x=>x.c.n_quotes>1).length);
+    root.innerHTML = `
+      <div class="tile hero"><div class="label">Cheapest 720p video today</div><div class="value">${money(top.c.per_min_720p)}<small>per minute</small></div><div class="sub">${escT(top.m.name)} on ${escT(AGG[top.c.aggregator_id].name)}${top.c.promo?' · '+escT(top.c.promo.label):''}</div></div>
+      <div class="tile"><div class="label">Models tracked</div><div class="value">${ranked.length}</div><div class="sub">with a verified 720p quote</div></div>
+      <div class="tile"><div class="label">Quotes compared</div><div class="value">${nQuotes}</div><div class="sub">across ${DATA.aggregators.length} aggregators</div></div>
+      <div class="tile"><div class="label">Average saving vs. priciest</div><div class="value">${isFinite(avgSave)?Math.round(avgSave)+'%':'—'}</div><div class="sub">on models sold by 2+ aggregators</div></div>
+      <div class="tile"><div class="label">Limited-time sales live</div><div class="value">${promos.length}</div><div class="sub">${nearest? 'next deadline: '+escT(MODEL[nearest.d.model_id].name)+' in '+(nearest.days===0?'<1 day':nearest.days+' d') : 'none with a published end date'}</div></div>`;
+  })();
+
+  // ---- Chart 1: bars ----
+  (function bars(){
+    const host = document.getElementById('chart-bars'); const legend = document.getElementById('legend-bars');
+    const tip = makeTip(host);
+    const rows = ranked;
+    const W = Math.max(700, Math.min(1140, host.clientWidth||1000)), L = 230, R = 80, T = 8, B = 30, RH = 30, BH = 18;
+    const H = T + rows.length*RH + B;
+    const max = Math.max(...rows.map(r=>r.c.per_min_720p));
+    const step = niceStep(max, 6); const xmax = Math.ceil(max/step)*step;
+    const x = v => L + (v/xmax)*(W-L-R);
+    const svg = el('svg', {viewBox:`0 0 ${W} ${H}`, role:'img', 'aria-label':'Cheapest 720p price per model, USD per minute'}, host);
+    for (let v=0; v<=xmax+1e-9; v+=step){ el('line',{x1:x(v),x2:x(v),y1:T,y2:T+rows.length*RH,class:'grid'},svg); txt(svg, x(v), H-8, '$'+(step<1?v.toFixed(2):v.toFixed(0)), null, {'text-anchor':'middle'}); }
+    el('line',{x1:L,x2:L,y1:T,y2:T+rows.length*RH,class:'base'},svg);
+    const winners = new Set();
+    rows.forEach((r,i)=>{
+      const y = T + i*RH + (RH-BH)/2, w = Math.max(2, x(r.c.per_min_720p)-L), c = colorOf(r.c.aggregator_id); winners.add(r.c.aggregator_id);
+      const g = el('g', {}, svg);
+      const rr = Math.min(4, w/2);
+      const bar = el('path', {d:`M${L},${y} H${L+w-rr} a${rr},${rr} 0 0 1 ${rr},${rr} V${y+BH-rr} a${rr},${rr} 0 0 1 -${rr},${rr} H${L} Z`, fill:c, class:'bar'}, g);
+      const lbl = txt(g, L-10, y+BH/2+4, r.m.name, 'lbl', {'text-anchor':'end'});
+      if (r.m.name.length>26) lbl.textContent = r.m.name.slice(0,25)+'…';
+      txt(g, L+w+8, y+BH/2+4, money(r.c.per_min_720p)+(r.c.resolution_basis==='768p'?' ⁷⁶⁸ᵖ':''), 'val');
+      // hit target drawn LAST so it sits above the bar (the whole row, not just the painted pixels)
+      const hit = el('rect', {x:0, y:T+i*RH, width:W, height:RH, class:'hit', tabindex:0, role:'img', 'aria-label':`${r.m.name}: ${money(r.c.per_min_720p)} per minute on ${AGG[r.c.aggregator_id].name}`}, g);
+      const q = Q[r.c.quote_id];
+      const html = quoteTip(q) + (r.c.runner_up ? `<div class="m">runner-up: ${escT(AGG[r.c.runner_up.aggregator_id].name)} ${money(r.c.runner_up.per_min_720p)}</div>` : '');
+      const lift = on => bar.style.filter = on ? 'brightness(1.2)' : '';
+      hit.addEventListener('pointerenter', e=>{ lift(true); tip.show(e, html); }); hit.addEventListener('pointermove', e=>tip.move(e)); hit.addEventListener('pointerleave', ()=>{ lift(false); tip.hide(); });
+      hit.addEventListener('focus', e=>{ lift(true); tip.show({clientX:host.getBoundingClientRect().left+L+w+20, clientY:host.getBoundingClientRect().top+y}, html); }); hit.addEventListener('blur', ()=>{ lift(false); tip.hide(); });
+    });
+    // legend: fixed aggregator order, only those that win + Other
+    const order = DATA.aggregators.map(a=>a.id).filter(id=>winners.has(id));
+    const parts = order.map(id => OTHER.has(id) ? null : `<span class="key"><i style="background:${colorOf(id)}"></i>${escT(AGG[id].name)}</span>`).filter(Boolean);
+    if (order.some(id=>OTHER.has(id))) parts.push(`<span class="key"><i style="background:${css.getPropertyValue('--s-other').trim()}"></i>Other (${order.filter(id=>OTHER.has(id)).map(id=>escT(AGG[id].name)).join(', ')})</span>`);
+    legend.innerHTML = parts.join('');
+  })();
+
+  function niceStep(max, ticks){ const raw = max/ticks; const p = Math.pow(10, Math.floor(Math.log10(raw))); const n = raw/p; const s = n<=1?1:n<=2?2:n<=2.5?2.5:n<=5?5:10; return s*p; }
+
+  // ---- Chart 2: heatmap ----
+  (function heat(){
+    const host = document.getElementById('chart-heat');
+    const tip = makeTip(host);
+    const cols = DATA.aggregators;
+    const rows = ranked;
+    const L = 210, CW = 90, CH = 30, T = 30;
+    const W = L + cols.length*CW + 10, H = T + rows.length*CH + 6;
+    const scroll = document.createElement('div'); scroll.className='scroll'; host.appendChild(scroll);
+    const svg = el('svg', {viewBox:`0 0 ${W} ${H}`, style:`min-width:${W}px`, role:'img', 'aria-label':'Price matrix: models by aggregators'}, scroll);
+    const ramp = ['#cde2fb','#b7d3f6','#9ec5f4','#86b6ef','#6da7ec','#5598e7','#3987e5','#2a78d6','#256abf','#1c5cab','#184f95','#104281','#0d366b'];
+    const vals = DATA.quotes.map(q=>q.per_min && (q.per_min['720p'] ?? q.per_min['768p'])).filter(v=>v!=null && v>0);
+    const lo = Math.log(Math.min(...vals)), hi = Math.log(Math.max(...vals));
+    const shade = v => { const t = hi>lo ? (Math.log(v)-lo)/(hi-lo) : 0; return ramp[Math.min(ramp.length-1, Math.max(0, Math.round(t*(ramp.length-1))))]; };
+    const inkFor = hex => { const n = parseInt(hex.slice(1),16); const r=(n>>16)&255,g=(n>>8)&255,b=n&255; const lum = 0.2126*Math.pow(r/255,2.2)+0.7152*Math.pow(g/255,2.2)+0.0722*Math.pow(b/255,2.2); return lum>0.28 ? '#0b0b0b' : '#ffffff'; };
+    cols.forEach((a,j)=>{ const t = txt(svg, L + j*CW + CW/2, 18, a.name, null, {'text-anchor':'middle'}); if (a.name.length>13) t.textContent = a.name.slice(0,12)+'…'; });
+    rows.forEach((r,i)=>{
+      const y = T + i*CH;
+      const lbl = txt(svg, L-10, y+CH/2+4, r.m.name, 'lbl', {'text-anchor':'end'}); if (r.m.name.length>24) lbl.textContent = r.m.name.slice(0,23)+'…';
+      cols.forEach((a,j)=>{
+        const x = L + j*CW;
+        const q = DATA.quotes.find(q=>q.model_id===r.m.id && q.aggregator_id===a.id);
+        const v = q && q.per_min ? (q.per_min['720p'] ?? q.per_min['768p']) : null;
+        const g = el('g', {}, svg);
+        if (v==null){ el('rect',{x:x+1,y:y+1,width:CW-2,height:CH-2,rx:4,fill:'transparent',stroke:'var(--grid)'},g); txt(g, x+CW/2, y+CH/2+4, q && q.unavailable_reason ? 'n/v' : '—', null, {'text-anchor':'middle'});
+          if (q){ g.addEventListener('pointerenter', e=>tip.show(e, `<div><b>${escT(r.m.name)}</b> · ${escT(a.name)}</div><div class="m">${escT(q.unavailable_reason||q.notes||'no verifiable price')}</div>`)); g.addEventListener('pointermove', e=>tip.move(e)); g.addEventListener('pointerleave', ()=>tip.hide()); }
+          return; }
+        const fill = shade(v), best = r.c.quote_id===q.id, excluded = q.ranked===false;
+        el('rect',{x:x+1,y:y+1,width:CW-2,height:CH-2,rx:4,fill:fill,opacity:excluded?0.45:1},g);
+        if (best) el('rect',{x:x+2,y:y+2,width:CW-4,height:CH-4,rx:4,fill:'none',stroke:'#ffffff','stroke-width':2},g);
+        const t = txt(g, x+CW/2, y+CH/2+4, money(v)+(excluded?'*':''), null, {'text-anchor':'middle'});
+        t.style.fill = inkFor(fill); t.style.fontWeight = best ? '700' : '500';   // inline style beats the .chart text rule
+        const hit = el('rect',{x:x,y:y,width:CW,height:CH,class:'hit',tabindex:0,'aria-label':`${r.m.name} at ${a.name}: ${money(v)} per minute`},g);
+        const html = quoteTip(q) + (excluded?'<div class="m">* excluded from ranking: '+escT(q.notes||'conflicting notices')+'</div>':'');
+        hit.addEventListener('pointerenter', e=>tip.show(e, html)); hit.addEventListener('pointermove', e=>tip.move(e)); hit.addEventListener('pointerleave', ()=>tip.hide());
+        hit.addEventListener('focus', e=>{ const b=host.getBoundingClientRect(); tip.show({clientX:b.left+x+CW, clientY:b.top+y}, html); }); hit.addEventListener('blur', ()=>tip.hide());
+      });
+    });
+    // scale legend
+    const lg = document.createElement('div'); lg.className='legend'; lg.innerHTML = `<span class="key">cheaper</span><span style="display:inline-block;width:160px;height:10px;border-radius:5px;background:linear-gradient(90deg,${ramp[0]},${ramp[ramp.length-1]})"></span><span class="key">pricier (log scale)</span>`; host.appendChild(lg);
+    document.getElementById('btn-heat').addEventListener('click', ()=>{ host.classList.remove('hidden'); document.getElementById('matrix-table').classList.add('hidden'); setPressed('btn-heat'); });
+    document.getElementById('btn-table').addEventListener('click', ()=>{ host.classList.add('hidden'); document.getElementById('matrix-table').classList.remove('hidden'); setPressed('btn-table'); });
+    function setPressed(id){ for (const b of ['btn-heat','btn-table']) document.getElementById(b).setAttribute('aria-pressed', String(b===id)); }
+  })();
+
+  // ---- Chart 3: dumbbell spread (log scale) ----
+  (function spread(){
+    const host = document.getElementById('chart-spread');
+    const tip = makeTip(host);
+    const rows = ranked.filter(r=>r.c.n_quotes>1).sort((a,b)=>b.c.savings_pct_vs_max-a.c.savings_pct_vs_max);
+    if (!rows.length){ host.innerHTML = '<p class="muted">Only one aggregator per model so far.</p>'; return; }
+    const W = Math.max(700, Math.min(1140, host.clientWidth||1000)), L = 230, R = 110, T = 8, B = 30, RH = 30;
+    const H = T + rows.length*RH + B;
+    const lo = Math.min(...rows.map(r=>r.c.per_min_720p))*0.8, hi = Math.max(...rows.map(r=>r.c.max_per_min_720p))*1.25;
+    const x = v => L + (Math.log(v)-Math.log(lo))/(Math.log(hi)-Math.log(lo))*(W-L-R);
+    const svg = el('svg', {viewBox:`0 0 ${W} ${H}`, role:'img', 'aria-label':'Cheapest versus priciest aggregator per model'}, host);
+    const ticks = [0.25,0.5,1,2,5,10,20,50].filter(t=>t>=lo && t<=hi);
+    ticks.forEach(t=>{ el('line',{x1:x(t),x2:x(t),y1:T,y2:T+rows.length*RH,class:'grid'},svg); txt(svg, x(t), H-8, '$'+t, null, {'text-anchor':'middle'}); });
+    const c1 = css.getPropertyValue('--blue-400').trim(), c2 = css.getPropertyValue('--blue-200').trim(), surf = css.getPropertyValue('--surface').trim();
+    rows.forEach((r,i)=>{
+      const y = T + i*RH + RH/2, xa = x(r.c.per_min_720p), xb = x(r.c.max_per_min_720p);
+      const g = el('g', {}, svg);
+      el('line',{x1:xa,x2:xb,y1:y,y2:y,stroke:'var(--baseline)','stroke-width':2,'stroke-linecap':'round'},g);
+      el('circle',{cx:xb,cy:y,r:6,fill:c2,stroke:surf,'stroke-width':2},g);
+      el('circle',{cx:xa,cy:y,r:6,fill:c1,stroke:surf,'stroke-width':2},g);
+      const lbl = txt(g, L-10, y+4, r.m.name, 'lbl', {'text-anchor':'end'}); if (r.m.name.length>26) lbl.textContent = r.m.name.slice(0,25)+'…';
+      const pct = Math.round(r.c.savings_pct_vs_max);
+      txt(g, xb+12, y+4, pct>0 ? `save ${pct}%` : 'same price', 'val');
+      const hit = el('rect',{x:0,y:T+i*RH,width:W,height:RH,class:'hit',tabindex:0,'aria-label':`${r.m.name}: ${money(r.c.per_min_720p)} at ${AGG[r.c.aggregator_id].name} versus ${money(r.c.max_per_min_720p)} at ${AGG[r.c.max_aggregator_id].name}`},g);
+      const html = `<div><b>${money(r.c.per_min_720p)}</b> <span class="m">at ${escT(AGG[r.c.aggregator_id].name)}</span></div><div><b>${money(r.c.max_per_min_720p)}</b> <span class="m">at ${escT(AGG[r.c.max_aggregator_id].name)}</span></div><div class="m">${escT(r.m.name)} · ${r.c.n_quotes} aggregators quote it · ${Math.round(r.c.savings_pct_vs_max)}% cheaper at the winner</div>`;
+      hit.addEventListener('pointerenter', e=>tip.show(e, html)); hit.addEventListener('pointermove', e=>tip.move(e)); hit.addEventListener('pointerleave', ()=>tip.hide());
+      hit.addEventListener('focus', e=>{ const b=host.getBoundingClientRect(); tip.show({clientX:b.left+xb+20, clientY:b.top+y}, html); }); hit.addEventListener('blur', ()=>tip.hide());
+    });
+  })();
+
+  // ---- Chart 4: history small multiples ----
+  (function history(){
+    const host = document.getElementById('chart-history');
+    if (!HIST || HIST.length < 2){ host.innerHTML = `<p class="muted">${HIST && HIST.length===1 ? 'First snapshot taken '+escT(HIST[0].date)+'. ' : ''}Sparklines appear after the second daily check. Snapshots live in <code>data/history/</code>.</p>`; return; }
+    const grid = document.createElement('div'); grid.className='smalls'; host.appendChild(grid);
+    const c1 = css.getPropertyValue('--blue-400').trim(), surf = css.getPropertyValue('--surface-2').trim();
+    ranked.forEach(r=>{
+      const series = HIST.map(h=>({d:h.date, v:h.cheapest[r.m.id] ? h.cheapest[r.m.id].per_min_720p : null})).filter(p=>p.v!=null);
+      if (series.length < 2) return;
+      const card = document.createElement('div'); card.className='small'; grid.appendChild(card);
+      const first = series[0].v, last = series[series.length-1].v, delta = first ? ((last-first)/first*100) : 0;
+      card.innerHTML = `<div class="n" title="${escT(r.m.name)}">${escT(r.m.name)}</div><div class="v">${money(last)} <span class="muted" style="font-size:12px;font-weight:500">${delta>0.5?'▲':delta<-0.5?'▼':'•'} ${Math.abs(delta).toFixed(0)}% since ${escT(series[0].d)}</span></div>`;
+      const W = 180, H = 44, P = 4; const vs = series.map(p=>p.v); const lo = Math.min(...vs), hi = Math.max(...vs);
+      const x = i => P + i/(series.length-1)*(W-2*P), y = v => hi>lo ? H-P-(v-lo)/(hi-lo)*(H-2*P) : H/2;
+      const svg = el('svg', {viewBox:`0 0 ${W} ${H}`, preserveAspectRatio:'none', role:'img','aria-label':`${r.m.name} price history`}, card);
+      el('path', {d: series.map((p,i)=>(i?'L':'M')+x(i)+','+y(p.v)).join(' ') + ` L${x(series.length-1)},${H} L${x(0)},${H} Z`, fill:c1, opacity:0.10}, svg);
+      el('path', {d: series.map((p,i)=>(i?'L':'M')+x(i)+','+y(p.v)).join(' '), fill:'none', stroke:c1, 'stroke-width':2, 'stroke-linejoin':'round', 'stroke-linecap':'round'}, svg);
+      el('circle', {cx:x(series.length-1), cy:y(last), r:4, fill:c1, stroke:surf, 'stroke-width':2}, svg);
+    });
+  })();
+
+  // ---- deals countdown badges + model ids ----
+  (function extras(){
+    document.getElementById('model-ids').textContent = DATA.models.filter(m=>DATA.cheapest[m.id]).map(m=>`${m.id} = ${m.name}`).join(' · ');
+  })();
+})();
+</script>
+</body>
+</html>

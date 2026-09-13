@@ -1,0 +1,551 @@
+{
+  "schema_version": 1,
+  "site": {
+    "name": "Discount Aggregator Aggregator",
+    "url": "https://bennygoldstein.github.io/discount-aggregator/",
+    "owner": "Benny Goldstein"
+  },
+  "generated_at": "2026-09-13T19:27:55Z",
+  "checked_at": "2026-09-13T15:50:00Z",
+  "unit": "USD per minute of generated video (accumulated footage) at the 720p column basis",
+  "how_to_use": "Look up your model by id or name, then call the aggregator listed under `aggregator` using `endpoint_id` at `api_base_url`. Prices are USD per minute of generated footage at the 720p column basis; multiply by clip_seconds/60 for a clip estimate. Re-fetch daily; check `promo.ends_at`.",
+  "models": {
+    "h3turbo": {
+      "model": "MiniMax H3 Max Turbo",
+      "vendor": "MiniMax",
+      "cheapest_aggregator": "fal.ai",
+      "aggregator": {
+        "id": "fal",
+        "name": "fal.ai",
+        "url": "https://fal.ai/",
+        "api_base_url": "https://queue.fal.run",
+        "api_docs_url": "https://docs.fal.ai/"
+      },
+      "endpoint_id": "",
+      "model_page_url": "https://fal.ai/minimax-h3-max",
+      "usd_per_min_720p": 0.6,
+      "usd_per_min_480p": 0.375,
+      "resolution_basis": "768p",
+      "audio": "Included",
+      "max_clip_seconds": 15,
+      "promo": {
+        "label": "75% launch sale",
+        "ends_at": "2026-09-14"
+      },
+      "runner_up": {
+        "aggregator": "Atlas Cloud",
+        "usd_per_min_720p": 2.28
+      },
+      "most_expensive_usd_per_min_720p": 2.4,
+      "savings_pct_vs_most_expensive": 75,
+      "quotes_compared": 3,
+      "checked_at": "2026-09-13",
+      "confidence": "high"
+    },
+    "vidu": {
+      "model": "Vidu Q2 Pro Fast",
+      "vendor": "Vidu (Shengshu)",
+      "cheapest_aggregator": "Atlas Cloud",
+      "aggregator": {
+        "id": "atlas",
+        "name": "Atlas Cloud",
+        "url": "https://www.atlascloud.ai/",
+        "api_base_url": "https://api.atlascloud.ai/api/v1",
+        "api_docs_url": "https://www.atlascloud.ai/docs"
+      },
+      "endpoint_id": "",
+      "model_page_url": "https://www.atlascloud.ai/pricing/models",
+      "usd_per_min_720p": 0.663,
+      "usd_per_min_480p": null,
+      "resolution_basis": "720p",
+      "audio": "Silent",
+      "max_clip_seconds": 10,
+      "promo": {
+        "label": "15% vs official",
+        "ends_at": ""
+      },
+      "runner_up": null,
+      "most_expensive_usd_per_min_720p": 0.663,
+      "savings_pct_vs_most_expensive": 0,
+      "quotes_compared": 1,
+      "checked_at": "2026-09-12",
+      "confidence": "high"
+    },
+    "seed15": {
+      "model": "Seedance 1.5 Pro Fast",
+      "vendor": "ByteDance",
+      "cheapest_aggregator": "Atlas Cloud",
+      "aggregator": {
+        "id": "atlas",
+        "name": "Atlas Cloud",
+        "url": "https://www.atlascloud.ai/",
+        "api_base_url": "https://api.atlascloud.ai/api/v1",
+        "api_docs_url": "https://www.atlascloud.ai/docs"
+      },
+      "endpoint_id": "",
+      "model_page_url": "https://www.atlascloud.ai/pricing/models",
+      "usd_per_min_720p": 1.08,
+      "usd_per_min_480p": 0.4985,
+      "resolution_basis": "720p",
+      "audio": "Check setting",
+      "max_clip_seconds": 12,
+      "promo": {
+        "label": "10% vs official",
+        "ends_at": ""
+      },
+      "runner_up": null,
+      "most_expensive_usd_per_min_720p": 1.08,
+      "savings_pct_vs_most_expensive": 0,
+      "quotes_compared": 1,
+      "checked_at": "2026-09-12",
+      "confidence": "medium"
+    },
+    "kielite": {
+      "model": "Veo 3.1 — Kie Lite mode",
+      "vendor": "Google (Kie.ai tier)",
+      "cheapest_aggregator": "Kie.ai",
+      "aggregator": {
+        "id": "kie",
+        "name": "Kie.ai",
+        "url": "https://kie.ai/",
+        "api_base_url": "https://api.kie.ai",
+        "api_docs_url": "https://docs.kie.ai/"
+      },
+      "endpoint_id": "",
+      "model_page_url": "https://kie.ai/veo-3-1",
+      "usd_per_min_720p": 1.125,
+      "usd_per_min_480p": null,
+      "resolution_basis": "720p",
+      "audio": "May vary",
+      "max_clip_seconds": 8,
+      "promo": null,
+      "runner_up": null,
+      "most_expensive_usd_per_min_720p": 1.125,
+      "savings_pct_vs_most_expensive": 0,
+      "quotes_compared": 1,
+      "checked_at": "2026-09-12",
+      "confidence": "high"
+    },
+    "h3max": {
+      "model": "MiniMax H3 Max",
+      "vendor": "MiniMax",
+      "cheapest_aggregator": "fal.ai",
+      "aggregator": {
+        "id": "fal",
+        "name": "fal.ai",
+        "url": "https://fal.ai/",
+        "api_base_url": "https://queue.fal.run",
+        "api_docs_url": "https://docs.fal.ai/"
+      },
+      "endpoint_id": "",
+      "model_page_url": "https://fal.ai/minimax-h3-max",
+      "usd_per_min_720p": 1.2,
+      "usd_per_min_480p": 0.75,
+      "resolution_basis": "768p",
+      "audio": "Included",
+      "max_clip_seconds": 15,
+      "promo": {
+        "label": "75% launch sale",
+        "ends_at": "2026-09-14"
+      },
+      "runner_up": null,
+      "most_expensive_usd_per_min_720p": 1.2,
+      "savings_pct_vs_most_expensive": 0,
+      "quotes_compared": 1,
+      "checked_at": "2026-09-13",
+      "confidence": "high"
+    },
+    "mini": {
+      "model": "Seedance 2.0 Mini",
+      "vendor": "ByteDance",
+      "cheapest_aggregator": "Atlas Cloud",
+      "aggregator": {
+        "id": "atlas",
+        "name": "Atlas Cloud",
+        "url": "https://www.atlascloud.ai/",
+        "api_base_url": "https://api.atlascloud.ai/api/v1",
+        "api_docs_url": "https://www.atlascloud.ai/docs"
+      },
+      "endpoint_id": "",
+      "model_page_url": "https://www.atlascloud.ai/models/explore/seedance-2-lowest-price",
+      "usd_per_min_720p": 1.452,
+      "usd_per_min_480p": 0.675,
+      "resolution_basis": "720p",
+      "audio": "Included",
+      "max_clip_seconds": 15,
+      "promo": {
+        "label": "80% off Atlas list; 68% below official",
+        "ends_at": ""
+      },
+      "runner_up": {
+        "aggregator": "Kie.ai",
+        "usd_per_min_720p": 2.46
+      },
+      "most_expensive_usd_per_min_720p": 9.282,
+      "savings_pct_vs_most_expensive": 84.4,
+      "quotes_compared": 6,
+      "checked_at": "2026-09-13",
+      "confidence": "medium"
+    },
+    "wansilent": {
+      "model": "Wan 2.6 Flash (silent)",
+      "vendor": "Alibaba",
+      "cheapest_aggregator": "Runware",
+      "aggregator": {
+        "id": "runware",
+        "name": "Runware",
+        "url": "https://runware.ai/",
+        "api_base_url": "https://api.runware.ai/v1",
+        "api_docs_url": "https://runware.ai/docs"
+      },
+      "endpoint_id": "",
+      "model_page_url": "https://runware.ai/docs/models/alibaba-wan2-6-flash",
+      "usd_per_min_720p": 1.5,
+      "usd_per_min_480p": null,
+      "resolution_basis": "720p",
+      "audio": "Off",
+      "max_clip_seconds": 15,
+      "promo": null,
+      "runner_up": null,
+      "most_expensive_usd_per_min_720p": 1.5,
+      "savings_pct_vs_most_expensive": 0,
+      "quotes_compared": 1,
+      "checked_at": "2026-09-12",
+      "confidence": "high"
+    },
+    "wanflash": {
+      "model": "Wan 2.6 Flash",
+      "vendor": "Alibaba",
+      "cheapest_aggregator": "Atlas Cloud",
+      "aggregator": {
+        "id": "atlas",
+        "name": "Atlas Cloud",
+        "url": "https://www.atlascloud.ai/",
+        "api_base_url": "https://api.atlascloud.ai/api/v1",
+        "api_docs_url": "https://www.atlascloud.ai/docs"
+      },
+      "endpoint_id": "",
+      "model_page_url": "https://www.atlascloud.ai/pricing/models",
+      "usd_per_min_720p": 2.1,
+      "usd_per_min_480p": null,
+      "resolution_basis": "720p",
+      "audio": "Included",
+      "max_clip_seconds": 15,
+      "promo": {
+        "label": "30% vs official",
+        "ends_at": ""
+      },
+      "runner_up": {
+        "aggregator": "Runware",
+        "usd_per_min_720p": 3
+      },
+      "most_expensive_usd_per_min_720p": 3,
+      "savings_pct_vs_most_expensive": 30,
+      "quotes_compared": 2,
+      "checked_at": "2026-09-12",
+      "confidence": "high"
+    },
+    "pixsilent": {
+      "model": "PixVerse V6 (silent)",
+      "vendor": "PixVerse",
+      "cheapest_aggregator": "Kie.ai",
+      "aggregator": {
+        "id": "kie",
+        "name": "Kie.ai",
+        "url": "https://kie.ai/",
+        "api_base_url": "https://api.kie.ai",
+        "api_docs_url": "https://docs.kie.ai/"
+      },
+      "endpoint_id": "",
+      "model_page_url": "https://kie.ai/pixverse-v6",
+      "usd_per_min_720p": 2.16,
+      "usd_per_min_480p": null,
+      "resolution_basis": "720p",
+      "audio": "Off",
+      "max_clip_seconds": 15,
+      "promo": {
+        "label": "20% vs official",
+        "ends_at": ""
+      },
+      "runner_up": {
+        "aggregator": "Runware",
+        "usd_per_min_720p": 2.7
+      },
+      "most_expensive_usd_per_min_720p": 2.7,
+      "savings_pct_vs_most_expensive": 20,
+      "quotes_compared": 2,
+      "checked_at": "2026-09-12",
+      "confidence": "high"
+    },
+    "veofast": {
+      "model": "Veo 3.1 Fast",
+      "vendor": "Google",
+      "cheapest_aggregator": "Kie.ai",
+      "aggregator": {
+        "id": "kie",
+        "name": "Kie.ai",
+        "url": "https://kie.ai/",
+        "api_base_url": "https://api.kie.ai",
+        "api_docs_url": "https://docs.kie.ai/"
+      },
+      "endpoint_id": "",
+      "model_page_url": "https://kie.ai/veo-3-1",
+      "usd_per_min_720p": 2.25,
+      "usd_per_min_480p": null,
+      "resolution_basis": "720p",
+      "audio": "May vary",
+      "max_clip_seconds": 8,
+      "promo": null,
+      "runner_up": {
+        "aggregator": "Atlas Cloud",
+        "usd_per_min_720p": 5.76
+      },
+      "most_expensive_usd_per_min_720p": 5.76,
+      "savings_pct_vs_most_expensive": 60.9,
+      "quotes_compared": 2,
+      "checked_at": "2026-09-12",
+      "confidence": "high"
+    },
+    "pix": {
+      "model": "PixVerse V6",
+      "vendor": "PixVerse",
+      "cheapest_aggregator": "Kie.ai",
+      "aggregator": {
+        "id": "kie",
+        "name": "Kie.ai",
+        "url": "https://kie.ai/",
+        "api_base_url": "https://api.kie.ai",
+        "api_docs_url": "https://docs.kie.ai/"
+      },
+      "endpoint_id": "",
+      "model_page_url": "https://kie.ai/pixverse-v6",
+      "usd_per_min_720p": 2.88,
+      "usd_per_min_480p": null,
+      "resolution_basis": "720p",
+      "audio": "Included",
+      "max_clip_seconds": 15,
+      "promo": {
+        "label": "20% vs official",
+        "ends_at": ""
+      },
+      "runner_up": {
+        "aggregator": "Atlas Cloud",
+        "usd_per_min_720p": 3.6
+      },
+      "most_expensive_usd_per_min_720p": 3.6,
+      "savings_pct_vs_most_expensive": 20,
+      "quotes_compared": 3,
+      "checked_at": "2026-09-12",
+      "confidence": "high"
+    },
+    "grok": {
+      "model": "Grok Imagine 1.5 Developer",
+      "vendor": "xAI (Atlas Developer tier)",
+      "cheapest_aggregator": "Atlas Cloud",
+      "aggregator": {
+        "id": "atlas",
+        "name": "Atlas Cloud",
+        "url": "https://www.atlascloud.ai/",
+        "api_base_url": "https://api.atlascloud.ai/api/v1",
+        "api_docs_url": "https://www.atlascloud.ai/docs"
+      },
+      "endpoint_id": "",
+      "model_page_url": "https://www.atlascloud.ai/pricing/models",
+      "usd_per_min_720p": 2.94,
+      "usd_per_min_480p": 1.68,
+      "resolution_basis": "720p",
+      "audio": "Check setting",
+      "max_clip_seconds": 15,
+      "promo": {
+        "label": "65% vs official",
+        "ends_at": ""
+      },
+      "runner_up": null,
+      "most_expensive_usd_per_min_720p": 2.94,
+      "savings_pct_vs_most_expensive": 0,
+      "quotes_compared": 1,
+      "checked_at": "2026-09-12",
+      "confidence": "high"
+    },
+    "veolite": {
+      "model": "Veo 3.1 Lite",
+      "vendor": "Google",
+      "cheapest_aggregator": "Atlas Cloud",
+      "aggregator": {
+        "id": "atlas",
+        "name": "Atlas Cloud",
+        "url": "https://www.atlascloud.ai/",
+        "api_base_url": "https://api.atlascloud.ai/api/v1",
+        "api_docs_url": "https://www.atlascloud.ai/docs"
+      },
+      "endpoint_id": "",
+      "model_page_url": "https://www.atlascloud.ai/pricing/models",
+      "usd_per_min_720p": 3,
+      "usd_per_min_480p": null,
+      "resolution_basis": "720p",
+      "audio": "Included",
+      "max_clip_seconds": 8,
+      "promo": null,
+      "runner_up": {
+        "aggregator": "Runware",
+        "usd_per_min_720p": 3
+      },
+      "most_expensive_usd_per_min_720p": 3,
+      "savings_pct_vs_most_expensive": 0,
+      "quotes_compared": 2,
+      "checked_at": "2026-09-12",
+      "confidence": "high"
+    },
+    "fast": {
+      "model": "Seedance 2.0 Fast",
+      "vendor": "ByteDance",
+      "cheapest_aggregator": "Atlas Cloud",
+      "aggregator": {
+        "id": "atlas",
+        "name": "Atlas Cloud",
+        "url": "https://www.atlascloud.ai/",
+        "api_base_url": "https://api.atlascloud.ai/api/v1",
+        "api_docs_url": "https://www.atlascloud.ai/docs"
+      },
+      "endpoint_id": "",
+      "model_page_url": "https://www.atlascloud.ai/models/explore/seedance-2-lowest-price",
+      "usd_per_min_720p": 3.486,
+      "usd_per_min_480p": 1.6199,
+      "resolution_basis": "720p",
+      "audio": "Included",
+      "max_clip_seconds": 15,
+      "promo": {
+        "label": "70% off Atlas list; 52% below official",
+        "ends_at": ""
+      },
+      "runner_up": {
+        "aggregator": "Kie.ai",
+        "usd_per_min_720p": 7.44
+      },
+      "most_expensive_usd_per_min_720p": 14.514,
+      "savings_pct_vs_most_expensive": 76,
+      "quotes_compared": 5,
+      "checked_at": "2026-09-13",
+      "confidence": "medium"
+    },
+    "wan3": {
+      "model": "Wan 3.0",
+      "vendor": "Alibaba",
+      "cheapest_aggregator": "Atlas Cloud",
+      "aggregator": {
+        "id": "atlas",
+        "name": "Atlas Cloud",
+        "url": "https://www.atlascloud.ai/",
+        "api_base_url": "https://api.atlascloud.ai/api/v1",
+        "api_docs_url": "https://www.atlascloud.ai/docs"
+      },
+      "endpoint_id": "",
+      "model_page_url": "https://www.atlascloud.ai/pricing/models",
+      "usd_per_min_720p": 4.8,
+      "usd_per_min_480p": 2.4,
+      "resolution_basis": "720p",
+      "audio": "Check setting",
+      "max_clip_seconds": 30,
+      "promo": {
+        "label": "20% vs official",
+        "ends_at": ""
+      },
+      "runner_up": null,
+      "most_expensive_usd_per_min_720p": 4.8,
+      "savings_pct_vs_most_expensive": 0,
+      "quotes_compared": 1,
+      "checked_at": "2026-09-12",
+      "confidence": "high"
+    },
+    "kling": {
+      "model": "Kling 3.0 Turbo",
+      "vendor": "Kuaishou",
+      "cheapest_aggregator": "Atlas Cloud",
+      "aggregator": {
+        "id": "atlas",
+        "name": "Atlas Cloud",
+        "url": "https://www.atlascloud.ai/",
+        "api_base_url": "https://api.atlascloud.ai/api/v1",
+        "api_docs_url": "https://www.atlascloud.ai/docs"
+      },
+      "endpoint_id": "",
+      "model_page_url": "https://www.atlascloud.ai/pricing/models",
+      "usd_per_min_720p": 5.712,
+      "usd_per_min_480p": null,
+      "resolution_basis": "720p",
+      "audio": "Check setting",
+      "max_clip_seconds": 15,
+      "promo": {
+        "label": "15% vs official",
+        "ends_at": ""
+      },
+      "runner_up": {
+        "aggregator": "Runware",
+        "usd_per_min_720p": 6.72
+      },
+      "most_expensive_usd_per_min_720p": 6.72,
+      "savings_pct_vs_most_expensive": 15,
+      "quotes_compared": 2,
+      "checked_at": "2026-09-12",
+      "confidence": "high"
+    },
+    "wan27": {
+      "model": "Wan 2.7",
+      "vendor": "Alibaba",
+      "cheapest_aggregator": "Atlas Cloud",
+      "aggregator": {
+        "id": "atlas",
+        "name": "Atlas Cloud",
+        "url": "https://www.atlascloud.ai/",
+        "api_base_url": "https://api.atlascloud.ai/api/v1",
+        "api_docs_url": "https://www.atlascloud.ai/docs"
+      },
+      "endpoint_id": "",
+      "model_page_url": "https://www.atlascloud.ai/pricing/models",
+      "usd_per_min_720p": 6,
+      "usd_per_min_480p": null,
+      "resolution_basis": "720p",
+      "audio": "Included",
+      "max_clip_seconds": 15,
+      "promo": null,
+      "runner_up": {
+        "aggregator": "Novita AI",
+        "usd_per_min_720p": 6
+      },
+      "most_expensive_usd_per_min_720p": 6,
+      "savings_pct_vs_most_expensive": 0,
+      "quotes_compared": 2,
+      "checked_at": "2026-09-12",
+      "confidence": "high"
+    },
+    "s25": {
+      "model": "Seedance 2.5",
+      "vendor": "ByteDance",
+      "cheapest_aggregator": "Runware",
+      "aggregator": {
+        "id": "runware",
+        "name": "Runware",
+        "url": "https://runware.ai/",
+        "api_base_url": "https://api.runware.ai/v1",
+        "api_docs_url": "https://runware.ai/docs"
+      },
+      "endpoint_id": "",
+      "model_page_url": "https://runware.ai/seedance-2-5",
+      "usd_per_min_720p": 13.824,
+      "usd_per_min_480p": 6.15,
+      "resolution_basis": "720p",
+      "audio": "Included",
+      "max_clip_seconds": 30,
+      "promo": null,
+      "runner_up": {
+        "aggregator": "OpenRouter",
+        "usd_per_min_720p": 13.866
+      },
+      "most_expensive_usd_per_min_720p": 28.38,
+      "savings_pct_vs_most_expensive": 51.3,
+      "quotes_compared": 7,
+      "checked_at": "2026-09-13",
+      "confidence": "medium"
+    }
+  }
+}
