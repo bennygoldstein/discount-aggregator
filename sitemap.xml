@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://bennygoldstein.github.io/discount-aggregator/</loc><lastmod>2026-09-13</lastmod><changefreq>daily</changefreq></url>
-  <url><loc>https://bennygoldstein.github.io/discount-aggregator/data/cheapest.json</loc><changefreq>daily</changefreq></url>
-  <url><loc>https://bennygoldstein.github.io/discount-aggregator/data/prices.json</loc><changefreq>daily</changefreq></url>
-  <url><loc>https://bennygoldstein.github.io/discount-aggregator/llms.txt</loc></url>
+  <url><loc>https://bennygoldstein.github.io/discount-aggregator/data/cheapest.json</loc><lastmod>2026-09-13</lastmod><changefreq>daily</changefreq></url>
+  <url><loc>https://bennygoldstein.github.io/discount-aggregator/data/prices.json</loc><lastmod>2026-09-13</lastmod><changefreq>daily</changefreq></url>
+  <url><loc>https://bennygoldstein.github.io/discount-aggregator/data/cheapest.csv</loc><lastmod>2026-09-13</lastmod><changefreq>daily</changefreq></url>
+  <url><loc>https://bennygoldstein.github.io/discount-aggregator/data/prices.csv</loc><lastmod>2026-09-13</lastmod><changefreq>daily</changefreq></url>
+  <url><loc>https://bennygoldstein.github.io/discount-aggregator/data/discount-aggregator-aggregator.xlsx</loc><lastmod>2026-09-13</lastmod><changefreq>daily</changefreq></url>
+  <url><loc>https://bennygoldstein.github.io/discount-aggregator/data/changes.json</loc><lastmod>2026-09-13</lastmod><changefreq>daily</changefreq></url>
+  <url><loc>https://bennygoldstein.github.io/discount-aggregator/llms.txt</loc><lastmod>2026-09-13</lastmod><changefreq>daily</changefreq></url>
 </urlset>

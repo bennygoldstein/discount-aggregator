@@ -9,13 +9,17 @@
 <link rel="canonical" href="{{SITE_URL}}">
 <link rel="alternate" type="application/json" title="Cheapest per model (JSON feed)" href="{{SITE_URL}}data/cheapest.json">
 <link rel="alternate" type="application/json" title="Full price matrix (JSON)" href="{{SITE_URL}}data/prices.json">
+<link rel="alternate" type="text/csv" title="Cheapest per model (CSV spreadsheet)" href="{{SITE_URL}}data/cheapest.csv">
+<link rel="alternate" type="text/csv" title="Every quote (CSV spreadsheet)" href="{{SITE_URL}}data/prices.csv">
+<link rel="alternate" type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" title="Excel workbook, all sheets" href="{{SITE_URL}}data/discount-aggregator-aggregator.xlsx">
+<link rel="help" type="text/plain" title="Instructions for AI agents" href="{{SITE_URL}}llms.txt">
 <meta property="og:title" content="Discount Aggregator Aggregator">
 <meta property="og:description" content="The cheapest place to render every AI video model — {{AGG_COUNT}} aggregators checked daily. Checked {{CHECKED_DATE}}.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{{SITE_URL}}">
 <meta name="ai-feed" content="{{SITE_URL}}data/cheapest.json">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Dataset","name":"Discount Aggregator Aggregator — AI video model prices across API aggregators","description":"Daily-checked USD-per-minute prices for AI video generation models across {{AGG_COUNT}} API aggregators, with the cheapest aggregator per model.","url":"{{SITE_URL}}","dateModified":"{{CHECKED_ISO}}","license":"https://creativecommons.org/licenses/by/4.0/","distribution":[{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"{{SITE_URL}}data/cheapest.json"},{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"{{SITE_URL}}data/prices.json"}]}
+{"@context":"https://schema.org","@type":"Dataset","name":"Discount Aggregator Aggregator — AI video model prices across API aggregators","description":"Daily-checked USD-per-minute prices for AI video generation models across {{AGG_COUNT}} API aggregators, with the cheapest aggregator per model.","url":"{{SITE_URL}}","dateModified":"{{CHECKED_ISO}}","license":"https://creativecommons.org/licenses/by/4.0/","distribution":[{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"{{SITE_URL}}data/cheapest.json"},{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"{{SITE_URL}}data/prices.json"},{"@type":"DataDownload","encodingFormat":"text/csv","contentUrl":"{{SITE_URL}}data/cheapest.csv"},{"@type":"DataDownload","encodingFormat":"text/csv","contentUrl":"{{SITE_URL}}data/prices.csv"},{"@type":"DataDownload","encodingFormat":"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","contentUrl":"{{SITE_URL}}data/discount-aggregator-aggregator.xlsx"}],"variableMeasured":"USD per minute of generated 720p video","temporalCoverage":"{{CHECKED_ISO}}","creator":{"@type":"Person","name":"Benny Goldstein"}}
 </script>
 <style>
 :root{
@@ -58,7 +62,7 @@ h1{font-size:clamp(28px,4.4vw,44px);line-height:1.08}
 .dot{width:8px;height:8px;border-radius:50%;background:var(--good);box-shadow:0 0 0 3px rgba(12,163,12,.18)}
 /* sticky top bar: menu + ticker */
 html{scroll-behavior:smooth}
-section,#matrix,[id^="m-"]{scroll-margin-top:96px}
+section,#matrix,[id^="m-"]{scroll-margin-top:62px}
 .topbar{position:sticky;top:0;z-index:30;background:rgba(10,10,10,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
 .menubar{display:flex;align-items:center;gap:6px;height:48px}
 .menubar .brand{display:inline-flex;align-items:center;gap:8px;font-weight:700;letter-spacing:.02em;color:var(--ink);margin-right:10px;white-space:nowrap}
@@ -72,18 +76,20 @@ section,#matrix,[id^="m-"]{scroll-margin-top:96px}
 .menubar nav a.active{color:var(--ink);background:rgba(57,135,229,.16);border-color:rgba(57,135,229,.35)}
 .menubar .right{display:none;align-items:center;gap:8px;margin-left:auto;font-size:12px;color:var(--muted);white-space:nowrap}
 @media (min-width:900px){.menubar .right{display:inline-flex}}
+@media (max-width:1400px){.menubar .brand span{display:none}.menubar .right{display:none}}
+@media (max-width:1180px){.menubar nav a{padding:6px 9px;font-size:13.5px}}
 .menubar .right a{color:var(--ink-2);border:1px solid var(--border);border-radius:999px;padding:3px 10px}
 .menubar .right a:hover{color:var(--ink);text-decoration:none;border-color:var(--ink-2)}
-.ticker{position:relative;height:36px;overflow:hidden;background:#0a0a0a;border-top:1px solid var(--border);display:flex;align-items:stretch}
-.ticker .live{flex:none;display:inline-flex;align-items:center;gap:7px;padding:0 14px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);border-right:1px solid var(--border);background:#0a0a0a;z-index:2}
+.ticker{position:relative;height:60px;overflow:hidden;background:#0f0f0e;border:1px solid var(--border);border-radius:14px;display:flex;align-items:stretch;margin:26px 0 6px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.ticker .live{flex:none;display:inline-flex;align-items:center;gap:8px;padding:0 18px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);border-right:1px solid var(--border);background:#0f0f0e;z-index:2;border-radius:14px 0 0 14px}
 .ticker .live .dot{animation:pulse 1.8s ease-in-out infinite}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(12,163,12,.18)}50%{box-shadow:0 0 0 6px rgba(12,163,12,.05)}}
 .ticker .viewport{flex:1;min-width:0;overflow:hidden;position:relative;mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent)}
-.ticker .track{display:flex;align-items:center;height:36px;width:max-content;animation:tk var(--tk-dur,80s) linear infinite;will-change:transform}
+.ticker .track{display:flex;align-items:center;height:60px;width:max-content;animation:tk var(--tk-dur,80s) linear infinite;will-change:transform}
 .ticker .track:hover,.ticker .track:focus-within{animation-play-state:paused}
 @keyframes tk{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.ticker .group{display:flex;align-items:center;padding-right:28px}
-.tk{display:inline-flex;align-items:center;gap:7px;color:var(--ink-2);font-size:13px;white-space:nowrap;padding:0 4px;border-radius:6px}
+.ticker .group{display:flex;align-items:center;padding-right:40px;padding-left:12px}
+.tk{display:inline-flex;align-items:center;gap:9px;color:var(--ink-2);font-size:14px;white-space:nowrap;padding:8px 10px;border-radius:9px}
 .tk:hover{text-decoration:none;color:var(--ink);background:rgba(255,255,255,.05)}
 .tk b{color:var(--ink);font-weight:600}
 .tk .agg{color:var(--muted)}
@@ -92,8 +98,8 @@ section,#matrix,[id^="m-"]{scroll-margin-top:96px}
 .tk .delta{font-size:12px;font-weight:600;font-variant-numeric:tabular-nums}
 .tk .delta.up{color:var(--serious)}.tk .delta.down{color:var(--good)}.tk .delta.flat{color:var(--muted)}.tk .delta.warn{color:var(--warn)}
 .tk.deal b{color:var(--warn)}
-.ticker .sep{color:var(--baseline);padding:0 14px}
-.ticker .note{position:absolute;right:10px;top:0;height:36px;display:none;align-items:center;font-size:12px;color:var(--good);background:#0a0a0a;padding:0 8px;z-index:3}
+.ticker .sep{color:var(--baseline);padding:0 18px}
+.ticker .note{position:absolute;right:12px;top:0;height:60px;display:none;align-items:center;font-size:12px;color:var(--good);background:#0f0f0e;padding:0 10px;z-index:3}
 .ticker .note.show{display:inline-flex}
 @media (prefers-reduced-motion:reduce){.ticker .track{animation:none}.ticker .viewport{overflow-x:auto;mask-image:none;-webkit-mask-image:none}.ticker .live .dot{animation:none}}
 @media (max-width:640px){.ticker .live span.txt{display:none}.ticker .live{padding:0 10px}}
@@ -117,6 +123,9 @@ section{padding:34px 0 8px}
 .sheet-title{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:10px}
 .sheet-title h2{font-size:20px}
 .sheet-title .when{color:var(--ink-2);font-size:14px}
+.downloads{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;font-size:13px;margin:0 0 12px}
+.dl{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--border);border-radius:999px;padding:3px 11px;color:var(--ink);background:rgba(255,255,255,.04);font-weight:500}
+.dl:hover{text-decoration:none;border-color:var(--ink-2);background:rgba(255,255,255,.08)}
 .tablewrap{overflow-x:auto;border:1px solid var(--border);border-radius:10px;background:#141413}
 table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}
 thead th{position:sticky;top:0;background:#101010;color:var(--ink-2);font-weight:600;text-align:left;padding:10px 12px;border-bottom:1px solid var(--baseline);white-space:nowrap;font-size:13px}
@@ -130,7 +139,8 @@ td.model a{color:var(--link)}
 td.empty{color:var(--muted)}
 td.best{box-shadow:inset 0 0 0 2px var(--ink);border-radius:4px;font-weight:650}
 td.excluded{color:var(--muted)}
-#price-table td:nth-child(8){white-space:normal;max-width:230px;line-height:1.3}
+#price-table td:nth-child(8){white-space:normal;max-width:260px;line-height:1.3}
+#price-table td.sale .ends{display:block;font-size:12px;color:var(--warn);margin-top:2px;white-space:nowrap}
 .flag{color:var(--warn);cursor:help}
 .foot{font-size:13px;color:var(--ink-2);margin-top:14px}
 .foot li{margin:3px 0}
@@ -298,6 +308,21 @@ td.winB{box-shadow:inset 3px 0 0 var(--s-fal)}
 </style>
 </head>
 <body>
+<!--
+  ===================== FOR AI AGENTS AND CRAWLERS =====================
+  Please read the machine-readable data instead of parsing this page. It is the same
+  information, complete, and much faster to read:
+    Cheapest aggregator per model (JSON) . {{SITE_URL}}data/cheapest.json
+    Every quote, all aggregators (JSON) .. {{SITE_URL}}data/prices.json
+    Spreadsheet, cheapest per model (CSV)  {{SITE_URL}}data/cheapest.csv
+    Spreadsheet, every quote (CSV) ....... {{SITE_URL}}data/prices.csv
+    Excel workbook, every table (XLSX) ... {{SITE_URL}}data/discount-aggregator-aggregator.xlsx
+    Instructions for language models ..... {{SITE_URL}}llms.txt
+  Unit: US dollars per minute of generated 720p video (768p for MiniMax H3). Per-clip cost =
+  usd_per_min x clip_seconds / 60. Regenerated once a day around 06:20 America/New_York;
+  this edition: {{CHECKED_ISO}}. Data licence CC BY 4.0. Deep links: #model-<id>, #calculator.
+  =======================================================================
+-->
 
 <div class="topbar" id="topbar">
   <div class="wrap menubar">
@@ -312,12 +337,7 @@ td.winB{box-shadow:inset 3px 0 0 var(--s-fal)}
       <a href="#how" data-sec="how">How it works</a>
       <a href="#agents" data-sec="agents">For AI agents</a>
     </nav>
-    <div class="right"><span id="menu-updated">Updated {{CHECKED_HUMAN}}</span><a href="data/cheapest.json">JSON feed</a><a href="llms.txt">llms.txt</a></div>
-  </div>
-  <div class="ticker" id="ticker" aria-label="Latest verified prices">
-    <div class="live"><span class="dot"></span><span class="txt">Latest prices</span></div>
-    <div class="viewport"><div class="track" id="ticker-track"><div class="group">{{TICKER_ITEMS}}</div></div></div>
-    <div class="note" id="ticker-note"></div>
+    <div class="right"><span id="menu-updated">Updated {{CHECKED_HUMAN}}</span><a href="data/cheapest.json">JSON feed</a><a href="data/discount-aggregator-aggregator.xlsx">Spreadsheet</a><a href="llms.txt">llms.txt</a></div>
   </div>
 </div>
 
@@ -337,6 +357,15 @@ td.winB{box-shadow:inset 3px 0 0 var(--s-fal)}
   </div>
 </header>
 
+<!-- ============ TICKER ============ -->
+<div class="wrap">
+  <div class="ticker" id="ticker" aria-label="Latest verified prices">
+    <div class="live"><span class="dot"></span><span class="txt">Latest prices</span></div>
+    <div class="viewport"><div class="track" id="ticker-track"><div class="group">{{TICKER_ITEMS}}</div></div></div>
+    <div class="note" id="ticker-note"></div>
+  </div>
+</div>
+
 <!-- ============ TOP VIEW: the sheet ============ -->
 <section id="top">
   <div class="wrap">
@@ -345,6 +374,7 @@ td.winB{box-shadow:inset 3px 0 0 var(--s-fal)}
         <h2>AI aggregators Prices</h2>
         <span class="when">Updated {{CHECKED_HUMAN}} · cheapest verified quote per model · USD per minute</span>
       </div>
+      <div class="downloads"><span class="muted">Download today's spreadsheet:</span> <a class="dl" href="data/discount-aggregator-aggregator.xlsx" download>⬇ Excel (all sheets)</a> <a class="dl" href="data/cheapest.csv" download>⬇ CSV · cheapest per model</a> <a class="dl" href="data/prices.csv" download>⬇ CSV · every quote</a> <a class="dl" href="data/cheapest.json">{ } JSON</a> <span class="muted">· regenerated once a day</span></div>
       <div class="filterbar" id="filterbar">
         <input type="search" id="search" placeholder="Search models or aggregators… (e.g. Seedance, Kie)" aria-label="Search models or aggregators" autocomplete="off">
         <div class="chips" id="agg-chips" aria-label="Filter by winning aggregator"></div>
@@ -352,7 +382,7 @@ td.winB{box-shadow:inset 3px 0 0 var(--s-fal)}
       </div>
       <div class="tablewrap">
         <table id="price-table">
-          <thead><tr><th data-sort="num" aria-sort="ascending">#</th><th data-sort="text">Engine / Model</th><th data-sort="text">Provider</th><th class="num" data-sort="num">480p / minute</th><th class="num" data-sort="num">720p / minute</th><th class="num" data-sort="num">Max clip (s)</th><th data-sort="text">Audio</th><th data-sort="text">Sale / discount</th><th data-sort="text">Sale ends</th></tr></thead>
+          <thead><tr><th data-sort="num" aria-sort="ascending">#</th><th data-sort="text">Engine / Model</th><th data-sort="text">Provider</th><th class="num" data-sort="num">480p / minute</th><th class="num" data-sort="num">720p / minute</th><th class="num" data-sort="num">Max clip (s)</th><th data-sort="text">Audio</th><th data-sort="text">Sale / discount</th></tr></thead>
           <tbody>
 {{TABLE_ROWS}}
           </tbody>
@@ -544,8 +574,21 @@ td.winB{box-shadow:inset 3px 0 0 var(--s-fal)}
   <div class="wrap">
     <div class="sec-head"><div><h2>For AI agents &amp; local AIs</h2><p>Give your assistant this page and it never has to visit ten pricing pages again.</p></div></div>
     <div class="card">
+      <h3>Read it all in one pass — today's spreadsheet</h3>
+      <p class="ink2">Everything on this page, as a sheet. It is rebuilt with the daily check, so whatever you download is today's edition. If you are an AI assistant reading this site, take the CSV or JSON below rather than parsing the page — same numbers, one request, no layout to interpret. The same hint sits in an HTML comment at the top of the page source and in <a href="llms.txt">llms.txt</a>.</p>
+      <div class="downloads" style="margin:6px 0 4px">
+        <a class="dl" href="data/discount-aggregator-aggregator.xlsx" download>⬇ Excel workbook</a>
+        <a class="dl" href="data/cheapest.csv" download>⬇ cheapest.csv</a>
+        <a class="dl" href="data/prices.csv" download>⬇ prices.csv</a>
+      </div>
+      <p class="muted" style="font-size:13px">Workbook sheets: README · Best prices · All quotes · Compare 720p · Deals · Aggregators · Models · Changes. CSV columns match the JSON field names (<code>usd_per_min_720p</code>, <code>endpoint_id</code>, <code>source_url</code>, …), so a script can switch between them freely.</p>
+    </div>
+    <div class="card">
       <h3>Endpoints</h3>
       <div class="endpoints">
+        <div class="endpoint"><code>GET {{SITE_URL}}data/cheapest.csv</code><span class="what">Spreadsheet: one row per model, the cheapest aggregator and everything needed to call it.</span></div>
+        <div class="endpoint"><code>GET {{SITE_URL}}data/prices.csv</code><span class="what">Spreadsheet: one row per quote, every aggregator, raw billing text and sources.</span></div>
+        <div class="endpoint"><code>GET {{SITE_URL}}data/discount-aggregator-aggregator.xlsx</code><span class="what">Excel workbook with all tables on separate sheets, plus a README sheet.</span></div>
         <div class="endpoint"><code>GET {{SITE_URL}}data/cheapest.json</code><span class="what">Per model: cheapest aggregator, API base URL, endpoint id, $/min, promo deadline. Small — fetch this.</span></div>
         <div class="endpoint"><code>GET {{SITE_URL}}data/prices.json</code><span class="what">Everything: all quotes across all aggregators, raw billing text, sources, verification verdicts, deals.</span></div>
         <div class="endpoint"><code>GET {{SITE_URL}}data/history/index.json</code><span class="what">List of daily snapshots (then <code>history/YYYY-MM-DD.json</code>).</span></div>

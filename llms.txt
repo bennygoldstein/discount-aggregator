@@ -7,7 +7,10 @@
 
 ## What an AI agent should do here
 
-1. Fetch `data/cheapest.json` (small). Do not scrape the HTML.
+0. Fastest complete read: `data/prices.csv` (every quote, one row each) or the Excel workbook
+   `data/discount-aggregator-aggregator.xlsx` (every table on its own sheet, README sheet first).
+   Both are regenerated with the daily check, so they always equal the page.
+1. Fetch `data/cheapest.json` (small) for routing. Do not scrape the HTML.
 2. Find the requested model under `models` by its `model` name or key (e.g. `mini` = Seedance 2.0 Mini,
    `kling` = Kling 3.0 Turbo, `s25` = Seedance 2.5, `h3turbo` = MiniMax H3 Max Turbo, `veofast` = Veo 3.1 Fast).
 3. Route the generation request to `aggregator.api_base_url` using `endpoint_id`, following `aggregator.api_docs_url`.
@@ -24,6 +27,9 @@
   source URLs, verification verdicts, `cheapest{}`, `deals[]`, `changes` and footnotes.
 - `data/history/index.json` then `data/history/YYYY-MM-DD.json`: daily snapshots.
 - `data/changes.json`: dated log of price changes, new winners and expired sales.
+- `data/cheapest.csv` / `data/prices.csv`: spreadsheet twins of the two JSON files (same column names).
+- `data/discount-aggregator-aggregator.xlsx`: Excel workbook — README, Best prices, All quotes, Compare 720p,
+  Deals, Aggregators, Models, Changes.
 - `index.html#model-<id>`: one "answer card" per model in plain HTML (sentence: cheapest verified rate, aggregator,
   per-clip cost, range across aggregators, every quote held). `#calculator?model=<id>&res=720p&secs=15&clips=100`
   opens the cost calculator pre-filled.

@@ -8,6 +8,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { computeCheapest, computeDeals, buildCheapestFeed, col720, col480, daysUntil } from "./lib/normalize.mjs";
+import { writeSpreadsheets } from "./lib/spreadsheet.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(here, "..");
@@ -83,8 +84,7 @@ const tableRows = ranked
   <td class="num strong" data-v="${c.per_min_720p}">${money(c.per_min_720p)}${c.resolution_basis === "768p" ? '<sup title="768p, not exact 720p">768p</sup>' : ""}</td>
   <td class="num" data-v="${c.max_clip_s ?? ""}">${c.max_clip_s ?? ""}</td>
   <td title="${esc(c.audio || "")}" data-v="${esc(audioLabel(c.audio))}">${esc(audioLabel(c.audio))}</td>
-  <td data-v="${esc(saleText(q))}" title="${esc(saleText(q))}">${esc(saleText(q).length > 42 ? saleText(q).slice(0, 40).trimEnd() + "…" : saleText(q))}</td>
-  <td data-v="${esc(promoEnds(c))}">${esc(promoEnds(c))}</td>
+  <td class="sale" data-v="${esc(saleText(q))}" title="${esc(saleText(q))}${promoEnds(c) ? " — ends " + esc(promoEnds(c)) : ""}">${esc(saleText(q).length > 42 ? saleText(q).slice(0, 40).trimEnd() + "…" : saleText(q))}${promoEnds(c) ? `<span class="ends">Sale ends ${esc(promoEnds(c))}</span>` : ""}</td>
 </tr>`;
   })
   .join("\n");
@@ -315,9 +315,15 @@ const fill = {
 html = html.replace(/\{\{([A-Z_]+)\}\}/g, (m, k) => (k in fill ? fill[k] : m));
 fs.writeFileSync(path.join(ROOT, "index.html"), html);
 
+// spreadsheets (CSV + XLSX) — regenerated on every build so the download is always today's data
+const sheets = await writeSpreadsheets({ data, ranked, aggs, models, DATA, SITE_URL, checkedHuman, changes: readJson(path.join(DATA, "changes.json"), []) });
+console.log(`Spreadsheets: ${path.basename(sheets.xlsx)} (${sheets.models} models, ${sheets.quotes} quotes), prices.csv, cheapest.csv`);
+
 // sitemap
+const lastmod = (data.checked_at || data.generated_at).slice(0, 10);
+const urls = ["", "data/cheapest.json", "data/prices.json", "data/cheapest.csv", "data/prices.csv", "data/discount-aggregator-aggregator.xlsx", "data/changes.json", "llms.txt"];
 fs.writeFileSync(
   path.join(ROOT, "sitemap.xml"),
-  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>${SITE_URL}</loc><lastmod>${(data.checked_at || data.generated_at).slice(0, 10)}</lastmod><changefreq>daily</changefreq></url>\n  <url><loc>${SITE_URL}data/cheapest.json</loc><changefreq>daily</changefreq></url>\n  <url><loc>${SITE_URL}data/prices.json</loc><changefreq>daily</changefreq></url>\n  <url><loc>${SITE_URL}llms.txt</loc></url>\n</urlset>\n`
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `  <url><loc>${SITE_URL}${u}</loc><lastmod>${lastmod}</lastmod><changefreq>daily</changefreq></url>`).join("\n")}\n</urlset>\n`
 );
 console.log(`Built index.html (${(html.length / 1024).toFixed(0)} KB), ${ranked.length} models, ${data.quotes.length} quotes, ${history.length} history days.`);

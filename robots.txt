@@ -5,5 +5,7 @@ Allow: /
 # Machine-readable feeds (JSON) for agents:
 #   /data/cheapest.json   – per model: cheapest aggregator + endpoint
 #   /data/prices.json     – full matrix, promos, sources, verification
+#   /data/prices.csv, /data/cheapest.csv – spreadsheet twins (one row per quote / per model)
+#   /data/discount-aggregator-aggregator.xlsx – Excel workbook, every table on its own sheet
 #   /llms.txt             – how to use this site from an AI agent
 Sitemap: https://bennygoldstein.github.io/discount-aggregator/sitemap.xml
